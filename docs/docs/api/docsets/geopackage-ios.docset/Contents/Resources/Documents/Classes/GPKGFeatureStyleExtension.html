@@ -17,7 +17,7 @@
     <a title="GPKGFeatureStyleExtension Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.3.0 Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CLRColor.html">CLRColor</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/CRSAbridgedCoordinateTransformation.html">CRSAbridgedCoordinateTransformation</a>
               </li>
@@ -284,15 +287,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColor.html">GPKGColor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/c:objc(cs)GPKGColorConstants">GPKGColorConstants</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColorUtils.html">GPKGColorUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
@@ -608,6 +602,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryColumnsDao.html">GPKGGeometryColumnsDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGGeometryCrop.html">GPKGGeometryCrop</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryData.html">GPKGGeometryData</a>
@@ -1280,6 +1277,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryCollection.html">SFGeometryCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)SFGeometryConstants">SFGeometryConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a>
@@ -2131,54 +2131,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CI_TABLE_NAME">GPKG_CI_TABLE_NAME</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLACK">GPKG_COLOR_BLACK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLUE">GPKG_COLOR_BLUE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BROWN">GPKG_COLOR_BROWN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_CYAN">GPKG_COLOR_CYAN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_DKGRAY">GPKG_COLOR_DKGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GRAY">GPKG_COLOR_GRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GREEN">GPKG_COLOR_GREEN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_LTGRAY">GPKG_COLOR_LTGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_MAGENTA">GPKG_COLOR_MAGENTA</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_ORANGE">GPKG_COLOR_ORANGE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PINK">GPKG_COLOR_PINK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PURPLE">GPKG_COLOR_PURPLE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_RED">GPKG_COLOR_RED</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_VIOLET">GPKG_COLOR_VIOLET</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_WHITE">GPKG_COLOR_WHITE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_YELLOW">GPKG_COLOR_YELLOW</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CONSTRAINT">GPKG_CONSTRAINT</a>
@@ -3741,6 +3693,18 @@
                 <a href="../Constants.html#/c:@SFG_TYPE_FEATURE_COLLECTION">SFG_TYPE_FEATURE_COLLECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_EAST">SF_BEARING_EAST</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_NORTH">SF_BEARING_NORTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_SOUTH">SF_BEARING_SOUTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_WEST">SF_BEARING_WEST</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CIRCULARSTRING_NAME">SF_CIRCULARSTRING_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3751,6 +3715,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CURVE_NAME">SF_CURVE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_EQUAL_EPSILON">SF_DEFAULT_EQUAL_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_LINE_EPSILON">SF_DEFAULT_LINE_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_METERS_MIN_LAT">SF_DEGREES_TO_METERS_MIN_LAT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
@@ -3789,6 +3765,9 @@
                 <a href="../Constants.html#/c:@SF_POLYHEDRALSURFACE_NAME">SF_POLYHEDRALSURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_RADIANS_TO_DEGREES">SF_RADIANS_TO_DEGREES</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_SURFACE_NAME">SF_SURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3796,6 +3775,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_TRIANGLE_NAME">SF_TRIANGLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_HALF_WORLD_WIDTH">SF_WEB_MERCATOR_HALF_WORLD_WIDTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MAX_LAT_RANGE">SF_WEB_MERCATOR_MAX_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MIN_LAT_RANGE">SF_WEB_MERCATOR_MIN_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LAT_HEIGHT">SF_WGS84_HALF_WORLD_LAT_HEIGHT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LON_WIDTH">SF_WGS84_HALF_WORLD_LON_WIDTH</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_BYTE_ORDER_BIG_ENDIAN">TIFF_BYTE_ORDER_BIG_ENDIAN</a>
@@ -4741,7 +4735,7 @@
 <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html"><a href="http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</a></a></p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L47-L2006">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L47-L2006">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4800,7 +4794,7 @@
                         <p>new feature style extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L56">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4839,7 +4833,7 @@
                         <p>list of feature table names</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L63">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L63">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4878,7 +4872,7 @@
                         <p>extension name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L70">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4917,7 +4911,7 @@
                         <p>true if has extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L77">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4975,7 +4969,7 @@
                         <p>extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L86">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5033,7 +5027,7 @@
                         <p>true if has extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L95">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5072,7 +5066,7 @@
                         <p>related tables extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L102">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5111,7 +5105,7 @@
                         <p>contents id extension</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L109">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L109">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5150,7 +5144,7 @@
                         <p>true if created, false if the table already existed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L116">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5189,7 +5183,7 @@
                         <p>true if created, false if the table already existed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L123">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5244,7 +5238,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L132">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L132">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5303,7 +5297,7 @@
                         <p>true if has a relationship</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L142">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L142">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5357,7 +5351,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L150">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L150">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5415,7 +5409,7 @@
                         <p>true if relationship exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L159">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5469,7 +5463,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L167">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L167">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5527,7 +5521,7 @@
                         <p>true if relationship exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L176">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L176">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5581,7 +5575,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L184">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L184">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5639,7 +5633,7 @@
                         <p>true if relationship exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L193">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L193">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5693,7 +5687,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L201">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5751,7 +5745,7 @@
                         <p>true if relationship exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L210">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5822,7 +5816,7 @@
                         <p>mapping table name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L221">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L221">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5861,7 +5855,7 @@
                         <p>extended relations</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L228">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L228">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5900,7 +5894,7 @@
                         <p>true if has style table relations</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L235">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5939,7 +5933,7 @@
                         <p>extended relations</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L242">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L242">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5978,7 +5972,7 @@
                         <p>true if has icon table relations</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L249">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L249">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6014,7 +6008,7 @@ tables</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L255">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L255">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6069,7 +6063,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L264">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L264">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6123,7 +6117,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L272">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L272">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6177,7 +6171,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L280">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L280">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6231,7 +6225,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L288">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L288">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6285,7 +6279,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L296">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L296">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6320,7 +6314,7 @@ tables</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L301">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6378,7 +6372,7 @@ tables</p>
                         <p>style mapping DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L309">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L309">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6436,7 +6430,7 @@ tables</p>
                         <p>table style mapping DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L317">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L317">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6494,7 +6488,7 @@ tables</p>
                         <p>icon mapping DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L325">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L325">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6552,7 +6546,7 @@ tables</p>
                         <p>table icon mapping DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L333">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L333">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6591,7 +6585,7 @@ tables</p>
                         <p>style DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L340">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L340">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6630,7 +6624,7 @@ tables</p>
                         <p>icon DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L347">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L347">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6689,7 +6683,7 @@ tables</p>
                         <p>table feature styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L355">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L355">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6747,7 +6741,7 @@ tables</p>
                         <p>table feature styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L363">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L363">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6805,7 +6799,7 @@ tables</p>
                         <p>table styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L371">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L371">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6863,7 +6857,7 @@ tables</p>
                         <p>table styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L379">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L379">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6934,7 +6928,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L388">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L388">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6992,7 +6986,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L396">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L396">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7050,7 +7044,7 @@ tables</p>
                         <p>table icons or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L404">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L404">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7108,7 +7102,7 @@ tables</p>
                         <p>table icons or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L412">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L412">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7166,7 +7160,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L420">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L420">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7237,7 +7231,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L429">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L429">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7296,7 +7290,7 @@ tables</p>
                         <p>style rows mapped by ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L437">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L437">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7355,7 +7349,7 @@ tables</p>
                         <p>style rows mapped by ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L445">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L445">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7414,7 +7408,7 @@ tables</p>
                         <p>icon rows mapped by ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L453">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L453">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7473,7 +7467,7 @@ tables</p>
                         <p>icon rows mapped by ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L461">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L461">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7531,7 +7525,7 @@ tables</p>
                         <p>feature styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L469">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L469">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7602,7 +7596,7 @@ tables</p>
                         <p>feature styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L478">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L478">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7673,7 +7667,7 @@ tables</p>
                         <p>feature styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L487">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L487">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7733,7 +7727,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L497">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L497">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7807,7 +7801,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L509">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L509">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7868,7 +7862,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L519">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L519">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7955,7 +7949,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L531">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L531">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8042,7 +8036,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L543">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L543">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8115,7 +8109,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L554">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L554">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8188,7 +8182,7 @@ tables</p>
                         <p>feature style</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L565">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L565">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8246,7 +8240,7 @@ tables</p>
                         <p>styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L573">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L573">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8317,7 +8311,7 @@ tables</p>
                         <p>styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L582">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L582">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8388,7 +8382,7 @@ tables</p>
                         <p>styles or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L591">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L591">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8448,7 +8442,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L601">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L601">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8521,7 +8515,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L612">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L612">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8580,7 +8574,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L621">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L621">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8666,7 +8660,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L633">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L633">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8752,7 +8746,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L645">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L645">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8824,7 +8818,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L655">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L655">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8896,7 +8890,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L665">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L665">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8996,7 +8990,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L679">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L679">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9096,7 +9090,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L693">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L693">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9182,7 +9176,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L705">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L705">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9268,7 +9262,7 @@ tables</p>
                         <p>style row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L717">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L717">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9326,7 +9320,7 @@ tables</p>
                         <p>icons or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L725">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L725">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9396,7 +9390,7 @@ tables</p>
                         <p>icons or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L734">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L734">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9467,7 +9461,7 @@ tables</p>
                         <p>icons or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L743">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L743">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9527,7 +9521,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L753">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L753">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9600,7 +9594,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L764">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L764">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9659,7 +9653,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L773">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L773">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9744,7 +9738,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L784">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L784">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9829,7 +9823,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L795">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L795">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9901,7 +9895,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L805">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L805">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9973,7 +9967,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L815">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L815">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10073,7 +10067,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L829">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L829">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10173,7 +10167,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L843">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L843">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10259,7 +10253,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L855">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L855">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10345,7 +10339,7 @@ tables</p>
                         <p>icon row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L867">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L867">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10412,7 +10406,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L875">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L875">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10479,7 +10473,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L883">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L883">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10546,7 +10540,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L891">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L891">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10613,7 +10607,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L899">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L899">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10680,7 +10674,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L907">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L907">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10747,7 +10741,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L915">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L915">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10827,7 +10821,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L924">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L924">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10907,7 +10901,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L933">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L933">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10974,7 +10968,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L941">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L941">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11041,7 +11035,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L949">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L949">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11108,7 +11102,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L957">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L957">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11175,7 +11169,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L965">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L965">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11255,7 +11249,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L974">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L974">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11335,7 +11329,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L983">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L983">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11402,7 +11396,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L991">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L991">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11482,7 +11476,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1000">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1000">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11562,7 +11556,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1009">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1009">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11629,7 +11623,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1017">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1017">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11710,7 +11704,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1027">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1027">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11777,7 +11771,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1035">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1035">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11870,7 +11864,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1045">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1045">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11963,7 +11957,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1055">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1055">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12043,7 +12037,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1064">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1064">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12123,7 +12117,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1073">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1073">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12190,7 +12184,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1081">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1081">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12270,7 +12264,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1090">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1090">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12350,7 +12344,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1099">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1099">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12417,7 +12411,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1107">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1107">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12497,7 +12491,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1116">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12564,7 +12558,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1124">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12657,7 +12651,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1134">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1134">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12750,7 +12744,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1144">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1144">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12830,7 +12824,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1153">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12910,7 +12904,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1162">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1162">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12977,7 +12971,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1170">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1170">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13057,7 +13051,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1179">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1179">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13137,7 +13131,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1188">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1188">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13204,7 +13198,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1196">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13284,7 +13278,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1205">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13351,7 +13345,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1213">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1213">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13445,7 +13439,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1224">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1224">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13539,7 +13533,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1235">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13619,7 +13613,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1244">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1244">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13699,7 +13693,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1253">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1253">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13754,7 +13748,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1261">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1261">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13809,7 +13803,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1269">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1269">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13863,7 +13857,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1276">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1276">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13917,7 +13911,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1283">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1283">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13971,7 +13965,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1290">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1290">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14025,7 +14019,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1297">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1297">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14079,7 +14073,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1304">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1304">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14133,7 +14127,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1311">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1311">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14187,7 +14181,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1318">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1318">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14241,7 +14235,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1325">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1325">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14295,7 +14289,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1332">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1332">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14349,7 +14343,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1339">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1339">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14416,7 +14410,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1347">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1347">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14483,7 +14477,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1355">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1355">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14537,7 +14531,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1362">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1362">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14591,7 +14585,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1369">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1369">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14645,7 +14639,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1376">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1376">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14699,7 +14693,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1383">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1383">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14766,7 +14760,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1391">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1391">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14833,7 +14827,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1399">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1399">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14887,7 +14881,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1406">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1406">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14941,7 +14935,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1413">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1413">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14995,7 +14989,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1420">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1420">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15049,7 +15043,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1427">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1427">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15103,7 +15097,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1434">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1434">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15169,7 +15163,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1442">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1442">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15236,7 +15230,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1450">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1450">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15290,7 +15284,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1457">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1457">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15357,7 +15351,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1465">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1465">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15424,7 +15418,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1473">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1473">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15478,7 +15472,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1480">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1480">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15545,7 +15539,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1488">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1488">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15625,7 +15619,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1497">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1497">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15705,7 +15699,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1506">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1506">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15759,7 +15753,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1513">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1513">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15813,7 +15807,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1520">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1520">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15867,7 +15861,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1527">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1527">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15933,7 +15927,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1535">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1535">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16000,7 +15994,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1543">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1543">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16054,7 +16048,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1550">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1550">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16121,7 +16115,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1558">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1558">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16188,7 +16182,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1566">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1566">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16242,7 +16236,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1573">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1573">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16309,7 +16303,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1581">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1581">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16389,7 +16383,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1590">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1590">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16469,7 +16463,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1599">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1599">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16527,7 +16521,7 @@ tables</p>
                         <p>mappings count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1607">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1607">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16585,7 +16579,7 @@ tables</p>
                         <p>mappings count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1615">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1615">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16643,7 +16637,7 @@ tables</p>
                         <p>true if mapping exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1623">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1623">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16701,7 +16695,7 @@ tables</p>
                         <p>true if mapping exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1631">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1631">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16759,7 +16753,7 @@ tables</p>
                         <p>number of mapping rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1639">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1639">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16817,7 +16811,7 @@ tables</p>
                         <p>number of mapping rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1647">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1647">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16875,7 +16869,7 @@ tables</p>
                         <p>number of rows deleted between the style and mapping tables</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1655">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1655">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16933,7 +16927,7 @@ tables</p>
                         <p>number of style rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1663">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1663">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16991,7 +16985,7 @@ tables</p>
                         <p>number of rows deleted between the style and mapping tables</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1671">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1671">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17049,7 +17043,7 @@ tables</p>
                         <p>number of style rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1679">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1679">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17119,7 +17113,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1688">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1688">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17190,7 +17184,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1697">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1697">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17248,7 +17242,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1705">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1705">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17306,7 +17300,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1713">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1713">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17345,7 +17339,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1720">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1720">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17384,7 +17378,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1727">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1727">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17442,7 +17436,7 @@ tables</p>
                         <p>mappings count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1735">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1735">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17500,7 +17494,7 @@ tables</p>
                         <p>mappings count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1743">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1743">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17558,7 +17552,7 @@ tables</p>
                         <p>true if mapping exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1751">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1751">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17616,7 +17610,7 @@ tables</p>
                         <p>true if mapping exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1759">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1759">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17674,7 +17668,7 @@ tables</p>
                         <p>number of mapping rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1767">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1767">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17732,7 +17726,7 @@ tables</p>
                         <p>number of mapping rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1775">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1775">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17790,7 +17784,7 @@ tables</p>
                         <p>number of rows deleted between the icon and mapping tables</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1783">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1783">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17848,7 +17842,7 @@ tables</p>
                         <p>number of icon rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1791">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1791">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17906,7 +17900,7 @@ tables</p>
                         <p>number of rows deleted between the icon and mapping tables</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1799">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1799">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17964,7 +17958,7 @@ tables</p>
                         <p>number of icon rows deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1807">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1807">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18034,7 +18028,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1816">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1816">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18105,7 +18099,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1825">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1825">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18163,7 +18157,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1833">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1833">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18221,7 +18215,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1841">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1841">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18260,7 +18254,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1848">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1848">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18299,7 +18293,7 @@ tables</p>
                         <p>deleted count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1855">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1855">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18358,7 +18352,7 @@ tables</p>
                         <p>style row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1863">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1863">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18416,7 +18410,7 @@ tables</p>
                         <p>style row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1871">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1871">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18475,7 +18469,7 @@ tables</p>
                         <p>icon row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1879">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1879">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18533,7 +18527,7 @@ tables</p>
                         <p>icon row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1887">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1887">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18591,7 +18585,7 @@ tables</p>
                         <p>style row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1895">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1895">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18649,7 +18643,7 @@ tables</p>
                         <p>style row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1903">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1903">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18707,7 +18701,7 @@ tables</p>
                         <p>icon row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1911">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1911">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18765,7 +18759,7 @@ tables</p>
                         <p>icon row ids</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1919">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1919">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18823,7 +18817,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1927">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1927">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18894,7 +18888,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1936">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1936">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18952,7 +18946,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1944">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1944">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19023,7 +19017,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1953">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1953">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19090,7 +19084,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1961">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1961">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19170,7 +19164,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1970">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1970">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19228,7 +19222,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1978">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1978">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19299,7 +19293,7 @@ tables</p>
                         <p>pixel bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1987">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1987">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19366,7 +19360,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1995">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L1995">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19446,7 +19440,7 @@ tables</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L2004">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h#L2004">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19456,7 +19450,7 @@ tables</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-09-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

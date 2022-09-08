@@ -17,7 +17,7 @@
     <a title="SFGeometryEnvelope Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.3.0 Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CLRColor.html">CLRColor</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/CRSAbridgedCoordinateTransformation.html">CRSAbridgedCoordinateTransformation</a>
               </li>
@@ -284,15 +287,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColor.html">GPKGColor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/c:objc(cs)GPKGColorConstants">GPKGColorConstants</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColorUtils.html">GPKGColorUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
@@ -608,6 +602,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryColumnsDao.html">GPKGGeometryColumnsDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGGeometryCrop.html">GPKGGeometryCrop</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryData.html">GPKGGeometryData</a>
@@ -1280,6 +1277,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryCollection.html">SFGeometryCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)SFGeometryConstants">SFGeometryConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a>
@@ -2131,54 +2131,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CI_TABLE_NAME">GPKG_CI_TABLE_NAME</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLACK">GPKG_COLOR_BLACK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLUE">GPKG_COLOR_BLUE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BROWN">GPKG_COLOR_BROWN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_CYAN">GPKG_COLOR_CYAN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_DKGRAY">GPKG_COLOR_DKGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GRAY">GPKG_COLOR_GRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GREEN">GPKG_COLOR_GREEN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_LTGRAY">GPKG_COLOR_LTGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_MAGENTA">GPKG_COLOR_MAGENTA</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_ORANGE">GPKG_COLOR_ORANGE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PINK">GPKG_COLOR_PINK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PURPLE">GPKG_COLOR_PURPLE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_RED">GPKG_COLOR_RED</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_VIOLET">GPKG_COLOR_VIOLET</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_WHITE">GPKG_COLOR_WHITE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_YELLOW">GPKG_COLOR_YELLOW</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CONSTRAINT">GPKG_CONSTRAINT</a>
@@ -3741,6 +3693,18 @@
                 <a href="../Constants.html#/c:@SFG_TYPE_FEATURE_COLLECTION">SFG_TYPE_FEATURE_COLLECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_EAST">SF_BEARING_EAST</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_NORTH">SF_BEARING_NORTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_SOUTH">SF_BEARING_SOUTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_WEST">SF_BEARING_WEST</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CIRCULARSTRING_NAME">SF_CIRCULARSTRING_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3751,6 +3715,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CURVE_NAME">SF_CURVE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_EQUAL_EPSILON">SF_DEFAULT_EQUAL_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_LINE_EPSILON">SF_DEFAULT_LINE_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_METERS_MIN_LAT">SF_DEGREES_TO_METERS_MIN_LAT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
@@ -3789,6 +3765,9 @@
                 <a href="../Constants.html#/c:@SF_POLYHEDRALSURFACE_NAME">SF_POLYHEDRALSURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_RADIANS_TO_DEGREES">SF_RADIANS_TO_DEGREES</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_SURFACE_NAME">SF_SURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3796,6 +3775,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_TRIANGLE_NAME">SF_TRIANGLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_HALF_WORLD_WIDTH">SF_WEB_MERCATOR_HALF_WORLD_WIDTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MAX_LAT_RANGE">SF_WEB_MERCATOR_MAX_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MIN_LAT_RANGE">SF_WEB_MERCATOR_MIN_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LAT_HEIGHT">SF_WGS84_HALF_WORLD_LAT_HEIGHT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LON_WIDTH">SF_WGS84_HALF_WORLD_LON_WIDTH</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_BYTE_ORDER_BIG_ENDIAN">TIFF_BYTE_ORDER_BIG_ENDIAN</a>
@@ -4727,19 +4721,19 @@
               <div class="declaration">
                 <div class="language">
                   <p class="aside-title">Objective-C</p>
-                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SFGeometryEnvelope</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSMutableCopying</span><span class="p">,</span> <span class="n">NSCoding</span><span class="o">&gt;</span></code></pre>
+                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SFGeometryEnvelope</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSMutableCopying</span><span class="p">,</span> <span class="n">NSSecureCoding</span><span class="o">&gt;</span></code></pre>
 
                 </div>
                 <div class="language">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SFGeometryEnvelope</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSMutableCopying</span><span class="p">,</span> <span class="kt">NSCoding</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SFGeometryEnvelope</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSMutableCopying</span><span class="p">,</span> <span class="kt">NSSecureCoding</span></code></pre>
 
                 </div>
               </div>
             <p>Geometry envelope containing x and y range with optional z and m range</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L14-L238">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L18-L635">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4775,7 +4769,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L19">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4810,7 +4804,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L20">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4845,7 +4839,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4880,7 +4874,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4915,7 +4909,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L31">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4950,7 +4944,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L32">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4985,7 +4979,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L33">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5020,7 +5014,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L38">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5055,7 +5049,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L39">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5090,7 +5084,868 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L40">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L44">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelope"></a>
+                    <a name="//apple_ref/objc/Method/+envelope" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelope">+envelope</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with no z or m</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="n">envelope</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L51">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithHasZ:andHasM:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithHasZ:andHasM:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithHasZ:andHasM:">+envelopeWithHasZ:<wbr>andHasM:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with the has z and m values</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithHasZ</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">hasZ</span> <span class="nf">andHasM</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">hasM</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hasZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry has z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hasM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry has m</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMaxX:andMaxY:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinX:andMinY:andMaxX:andMaxY:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMaxX:andMaxY:">+envelopeWithMinX:<wbr>andMinY:<wbr>andMaxX:<wbr>andMaxY:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with number range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMaxX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxY</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L73-L76">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:">+envelopeWithMinXValue:<wbr>andMinYValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with double range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L88-L91">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMinZ:andMaxX:andMaxY:andMaxZ:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinX:andMinY:andMinZ:andMaxX:andMaxY:andMaxZ:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMinZ:andMaxX:andMaxY:andMaxZ:">+envelopeWithMinX:<wbr>andMinY:<wbr>andMinZ:<wbr>andMaxX:<wbr>andMaxY:<wbr>andMaxZ:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with number range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMinZ</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minZ</span>
+                                 <span class="nf">andMaxX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxY</span>
+                                 <span class="nf">andMaxZ</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxZ</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L105-L110">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:">+envelopeWithMinXValue:<wbr>andMinYValue:<wbr>andMinZValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr>andMaxZValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with double range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMinZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minZ</span>
+                                 <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span>
+                                 <span class="nf">andMaxZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxZ</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L124-L129">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMinZ:andMinM:andMaxX:andMaxY:andMaxZ:andMaxM:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinX:andMinY:andMinZ:andMinM:andMaxX:andMaxY:andMaxZ:andMaxM:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinX:andMinY:andMinZ:andMinM:andMaxX:andMaxY:andMaxZ:andMaxM:">+envelopeWithMinX:<wbr>andMinY:<wbr>andMinZ:<wbr>andMinM:<wbr>andMaxX:<wbr>andMaxY:<wbr>andMaxZ:<wbr>andMaxM:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with number range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMinZ</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minZ</span>
+                                 <span class="nf">andMinM</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">minM</span>
+                                 <span class="nf">andMaxX</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxY</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxY</span>
+                                 <span class="nf">andMaxZ</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxZ</span>
+                                 <span class="nf">andMaxM</span><span class="p">:(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">maxM</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L145-L152">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:"></a>
+                    <a name="//apple_ref/objc/Method/+envelopeWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)envelopeWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:">+envelopeWithMinXValue:<wbr>andMinYValue:<wbr>andMinZValue:<wbr>andMinMValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr>andMaxZValue:<wbr>andMaxMValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create with double range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">envelopeWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                                 <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                                 <span class="nf">andMinZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minZ</span>
+                                 <span class="nf">andMinMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minM</span>
+                                 <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                                 <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span>
+                                 <span class="nf">andMaxZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxZ</span>
+                                 <span class="nf">andMaxMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxM</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L168-L175">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(cm)geometryEnvelopeWithGeometryEnvelope:"></a>
+                    <a name="//apple_ref/objc/Method/+geometryEnvelopeWithGeometryEnvelope:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(cm)geometryEnvelopeWithGeometryEnvelope:">+geometryEnvelopeWithGeometryEnvelope:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nf">geometryEnvelopeWithGeometryEnvelope</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nv">geometryEnvelope</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geometryEnvelope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry envelope</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L184">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5126,10 +5981,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>new instance</p>
+                        <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L47">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L191">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5199,7 +6054,7 @@
                         <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L57">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5296,7 +6151,7 @@
                         <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L69-L72">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L213-L216">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5304,9 +6159,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)SFGeometryEnvelope(im)initWithMinXDouble:andMinYDouble:andMaxXDouble:andMaxYDouble:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithMinXDouble:andMinYDouble:andMaxXDouble:andMaxYDouble:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)initWithMinXDouble:andMinYDouble:andMaxXDouble:andMaxYDouble:">-initWithMinXDouble:<wbr>andMinYDouble:<wbr>andMaxXDouble:<wbr>andMaxYDouble:<wbr></a>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMaxXValue:andMaxYValue:">-initWithMinXValue:<wbr>andMinYValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr></a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5321,15 +6176,15 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinXDouble</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
-                     <span class="nf">andMinYDouble</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
-                     <span class="nf">andMaxXDouble</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
-                     <span class="nf">andMaxYDouble</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span><span class="p">;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                     <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                     <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                     <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">minXDouble</span> <span class="nv">minX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinYDouble</span> <span class="nv">minY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxXDouble</span> <span class="nv">maxX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxYDouble</span> <span class="nv">maxY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">minXValue</span> <span class="nv">minX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinYValue</span> <span class="nv">minY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxXValue</span> <span class="nv">maxX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxYValue</span> <span class="nv">maxY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -5393,7 +6248,7 @@
                         <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L84-L87">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L228-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5516,7 +6371,130 @@
                         <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L101-L106">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L245-L250">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMinZValue:andMaxXValue:andMaxYValue:andMaxZValue:">-initWithMinXValue:<wbr>andMinYValue:<wbr>andMinZValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr>andMaxZValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize with double range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                     <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                     <span class="nf">andMinZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minZ</span>
+                     <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                     <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span>
+                     <span class="nf">andMaxZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxZ</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">minXValue</span> <span class="nv">minX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinYValue</span> <span class="nv">minY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinZValue</span> <span class="nv">minZ</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxXValue</span> <span class="nv">maxX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxYValue</span> <span class="nv">maxY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxZValue</span> <span class="nv">maxZ</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L264-L269">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5665,7 +6643,646 @@
                         <p>new geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L122-L129">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L285-L292">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)initWithMinXValue:andMinYValue:andMinZValue:andMinMValue:andMaxXValue:andMaxYValue:andMaxZValue:andMaxMValue:">-initWithMinXValue:<wbr>andMinYValue:<wbr>andMinZValue:<wbr>andMinMValue:<wbr>andMaxXValue:<wbr>andMaxYValue:<wbr>andMaxZValue:<wbr>andMaxMValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize with double range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minX</span>
+                     <span class="nf">andMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minY</span>
+                     <span class="nf">andMinZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minZ</span>
+                     <span class="nf">andMinMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">minM</span>
+                     <span class="nf">andMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxX</span>
+                     <span class="nf">andMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxY</span>
+                     <span class="nf">andMaxZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxZ</span>
+                     <span class="nf">andMaxMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxM</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">minXValue</span> <span class="nv">minX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinYValue</span> <span class="nv">minY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinZValue</span> <span class="nv">minZ</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMinMValue</span> <span class="nv">minM</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxXValue</span> <span class="nv">maxX</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxYValue</span> <span class="nv">maxY</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxZValue</span> <span class="nv">maxZ</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMaxMValue</span> <span class="nv">maxM</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>minM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>minimum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxX</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum x</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxY</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum y</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum z</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>maximum m</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L308-L315">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)initWithGeometryEnvelope:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithGeometryEnvelope:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)initWithGeometryEnvelope:">-initWithGeometryEnvelope:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithGeometryEnvelope</span><span class="p">:(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nv">geometryEnvelope</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">geometryEnvelope</span><span class="p">:</span> <span class="kt">SFGeometryEnvelope</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geometryEnvelope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry envelope</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L324">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMinXValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMinXValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMinXValue:">-setMinXValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the min x value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMinXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">x</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMinXValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>x</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>x coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L331">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMaxXValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMaxXValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMaxXValue:">-setMaxXValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the max x value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMaxXValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">x</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMaxXValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>x</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>x coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L338">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMinYValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMinYValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMinYValue:">-setMinYValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the min y value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMinYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">y</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMinYValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>y</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>y coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L345">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMaxYValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMaxYValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMaxYValue:">-setMaxYValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the max y value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMaxYValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">y</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMaxYValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>y</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>y coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L352">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMinZValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMinZValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMinZValue:">-setMinZValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the min z value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMinZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">z</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMinZValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">z</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>z</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>z coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L359">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMaxZValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMaxZValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMaxZValue:">-setMaxZValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the max z value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMaxZValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">z</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMaxZValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">z</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>z</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>z coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L366">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMinMValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMinMValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMinMValue:">-setMinMValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the min m value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMinMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">m</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMinMValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">m</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>m</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>m coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L373">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)setMaxMValue:"></a>
+                    <a name="//apple_ref/objc/Method/-setMaxMValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)setMaxMValue:">-setMaxMValue:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the max m value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setMaxMValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">m</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setMaxMValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">m</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>m</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>m coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L380">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5704,7 +7321,7 @@
                         <p>has z</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L136">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L387">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5743,7 +7360,7 @@
                         <p>has m</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L143">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L394">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5782,7 +7399,7 @@
                         <p>x range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L150">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L401">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5821,7 +7438,7 @@
                         <p>y range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L157">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L408">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5860,7 +7477,7 @@
                         <p>z range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L164">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L415">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5899,7 +7516,7 @@
                         <p>m range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L171">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L422">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5938,7 +7555,475 @@
                         <p>true if a single point bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L178">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L429">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)topLeft"></a>
+                    <a name="//apple_ref/objc/Method/-topLeft" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)topLeft">-topLeft</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the top left point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">topLeft</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">topLeft</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>top left point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L436">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)bottomLeft"></a>
+                    <a name="//apple_ref/objc/Method/-bottomLeft" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)bottomLeft">-bottomLeft</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bottom left point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">bottomLeft</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">bottomLeft</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bottom left point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L443">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)bottomRight"></a>
+                    <a name="//apple_ref/objc/Method/-bottomRight" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)bottomRight">-bottomRight</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bottom right point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">bottomRight</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">bottomRight</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bottom right point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L450">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)topRight"></a>
+                    <a name="//apple_ref/objc/Method/-topRight" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)topRight">-topRight</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the top right point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">topRight</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">topRight</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>top right point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L457">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)left"></a>
+                    <a name="//apple_ref/objc/Method/-left" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)left">-left</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the left line</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFLine.html">SFLine</a></span> <span class="o">*</span><span class="p">)</span><span class="n">left</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">left</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFLine.html">SFLine</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>left line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L464">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)bottom"></a>
+                    <a name="//apple_ref/objc/Method/-bottom" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)bottom">-bottom</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bottom line</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFLine.html">SFLine</a></span> <span class="o">*</span><span class="p">)</span><span class="n">bottom</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">bottom</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFLine.html">SFLine</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bottom line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L471">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)right"></a>
+                    <a name="//apple_ref/objc/Method/-right" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)right">-right</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the right line</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFLine.html">SFLine</a></span> <span class="o">*</span><span class="p">)</span><span class="n">right</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">right</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFLine.html">SFLine</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>right line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L478">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)top"></a>
+                    <a name="//apple_ref/objc/Method/-top" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)top">-top</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the top line</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFLine.html">SFLine</a></span> <span class="o">*</span><span class="p">)</span><span class="n">top</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">top</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFLine.html">SFLine</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>top line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L485">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)midX"></a>
+                    <a name="//apple_ref/objc/Method/-midX" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)midX">-midX</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the envelope mid x</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">midX</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">midX</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>mid x</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L492">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)midY"></a>
+                    <a name="//apple_ref/objc/Method/-midY" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)midY">-midY</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the envelope mid y</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">midY</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">midY</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>mid y</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L499">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)centroid"></a>
+                    <a name="//apple_ref/objc/Method/-centroid" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)centroid">-centroid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the envelope centroid point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">centroid</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">centroid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L506">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)isEmpty"></a>
+                    <a name="//apple_ref/objc/Method/-isEmpty" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)isEmpty">-isEmpty</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if the envelope is empty</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isEmpty</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isEmpty</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if empty</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L513">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5996,7 +8081,7 @@
                         <p>true if intersects</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L187">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L522">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6067,7 +8152,7 @@
                         <p>true if intersects</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L198">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L533">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6125,7 +8210,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L207">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L542">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6196,7 +8281,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L218">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L553">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6254,7 +8339,287 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L227">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L562">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)containsPoint:"></a>
+                    <a name="//apple_ref/objc/Method/-containsPoint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)containsPoint:">-containsPoint:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if contains the point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="n">_</span> <span class="nv">point</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if contains</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L571">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)containsPoint:withEpsilon:"></a>
+                    <a name="//apple_ref/objc/Method/-containsPoint:withEpsilon:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)containsPoint:withEpsilon:">-containsPoint:<wbr>withEpsilon:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if contains the point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point</span> <span class="nf">withEpsilon</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">epsilon</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="n">_</span> <span class="nv">point</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">withEpsilon</span> <span class="nv">epsilon</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>epsilon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>epsilon equality tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if contains</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L582">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)containsX:andY:"></a>
+                    <a name="//apple_ref/objc/Method/-containsX:andY:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)containsX:andY:">-containsX:<wbr>andY:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if contains the coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsX</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">x</span> <span class="nf">andY</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">y</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containsX</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andY</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>x</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>x value</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>y</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>y value</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if contains</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L593">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)containsX:andY:withEpsilon:"></a>
+                    <a name="//apple_ref/objc/Method/-containsX:andY:withEpsilon:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)containsX:andY:withEpsilon:">-containsX:<wbr>andY:<wbr>withEpsilon:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if contains the coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsX</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">x</span> <span class="nf">andY</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">y</span> <span class="nf">withEpsilon</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">epsilon</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containsX</span><span class="p">(</span><span class="n">_</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andY</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">withEpsilon</span> <span class="nv">epsilon</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>x</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>x value</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>y</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>y value</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>epsilon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>epsilon equality tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if contains</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L606">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6312,7 +8677,117 @@
                         <p>true if contains</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L236">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L615">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)containsEnvelope:withEpsilon:"></a>
+                    <a name="//apple_ref/objc/Method/-containsEnvelope:withEpsilon:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)containsEnvelope:withEpsilon:">-containsEnvelope:<wbr>withEpsilon:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if inclusively contains the provided envelope</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsEnvelope</span><span class="p">:(</span><span class="n">SFGeometryEnvelope</span> <span class="o">*</span><span class="p">)</span><span class="nv">envelope</span>
+             <span class="nf">withEpsilon</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">epsilon</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="n">_</span> <span class="nv">envelope</span><span class="p">:</span> <span class="kt">SFGeometryEnvelope</span><span class="o">!</span><span class="p">,</span> <span class="n">withEpsilon</span> <span class="nv">epsilon</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>envelope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry envelope</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>epsilon</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>epsilon equality tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if contains</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L626">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryEnvelope(im)buildGeometry"></a>
+                    <a name="//apple_ref/objc/Method/-buildGeometry" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryEnvelope(im)buildGeometry">-buildGeometry</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a geometry representation of the geometry envelope</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFGeometry.html">SFGeometry</a></span> <span class="o">*</span><span class="p">)</span><span class="n">buildGeometry</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildGeometry</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFGeometry.html">SFGeometry</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry, polygon or point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h#L633">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6322,7 +8797,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-09-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

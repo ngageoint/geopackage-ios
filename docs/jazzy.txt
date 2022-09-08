@@ -3,8 +3,8 @@ jazzy \
   --author NGA \
   --author_url https://www.nga.mil \
   --github_url https://github.com/ngageoint/geopackage-ios \
-  --github-file-prefix https://github.com/ngageoint/geopackage-ios/tree/7.2.1 \
-  --module-version 7.2.1 \
+  --github-file-prefix https://github.com/ngageoint/geopackage-ios/tree/7.3.0 \
+  --module-version 7.3.0 \
   --umbrella-header geopackage-ios/geopackage-ios-Bridging-Header.h \
   --framework-root . \
   --module geopackage-ios \

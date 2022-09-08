@@ -17,7 +17,7 @@
     <a title="CRSCoordinateSystemType Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.3.0 Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CLRColor.html">CLRColor</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/CRSAbridgedCoordinateTransformation.html">CRSAbridgedCoordinateTransformation</a>
               </li>
@@ -284,15 +287,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColor.html">GPKGColor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/c:objc(cs)GPKGColorConstants">GPKGColorConstants</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColorUtils.html">GPKGColorUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
@@ -608,6 +602,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryColumnsDao.html">GPKGGeometryColumnsDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGGeometryCrop.html">GPKGGeometryCrop</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryData.html">GPKGGeometryData</a>
@@ -1280,6 +1277,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryCollection.html">SFGeometryCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)SFGeometryConstants">SFGeometryConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a>
@@ -2131,54 +2131,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CI_TABLE_NAME">GPKG_CI_TABLE_NAME</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLACK">GPKG_COLOR_BLACK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLUE">GPKG_COLOR_BLUE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BROWN">GPKG_COLOR_BROWN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_CYAN">GPKG_COLOR_CYAN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_DKGRAY">GPKG_COLOR_DKGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GRAY">GPKG_COLOR_GRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GREEN">GPKG_COLOR_GREEN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_LTGRAY">GPKG_COLOR_LTGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_MAGENTA">GPKG_COLOR_MAGENTA</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_ORANGE">GPKG_COLOR_ORANGE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PINK">GPKG_COLOR_PINK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PURPLE">GPKG_COLOR_PURPLE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_RED">GPKG_COLOR_RED</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_VIOLET">GPKG_COLOR_VIOLET</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_WHITE">GPKG_COLOR_WHITE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_YELLOW">GPKG_COLOR_YELLOW</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CONSTRAINT">GPKG_CONSTRAINT</a>
@@ -3741,6 +3693,18 @@
                 <a href="../Constants.html#/c:@SFG_TYPE_FEATURE_COLLECTION">SFG_TYPE_FEATURE_COLLECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_EAST">SF_BEARING_EAST</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_NORTH">SF_BEARING_NORTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_SOUTH">SF_BEARING_SOUTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_WEST">SF_BEARING_WEST</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CIRCULARSTRING_NAME">SF_CIRCULARSTRING_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3751,6 +3715,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CURVE_NAME">SF_CURVE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_EQUAL_EPSILON">SF_DEFAULT_EQUAL_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_LINE_EPSILON">SF_DEFAULT_LINE_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_METERS_MIN_LAT">SF_DEGREES_TO_METERS_MIN_LAT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
@@ -3789,6 +3765,9 @@
                 <a href="../Constants.html#/c:@SF_POLYHEDRALSURFACE_NAME">SF_POLYHEDRALSURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_RADIANS_TO_DEGREES">SF_RADIANS_TO_DEGREES</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_SURFACE_NAME">SF_SURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3796,6 +3775,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_TRIANGLE_NAME">SF_TRIANGLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_HALF_WORLD_WIDTH">SF_WEB_MERCATOR_HALF_WORLD_WIDTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MAX_LAT_RANGE">SF_WEB_MERCATOR_MAX_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MIN_LAT_RANGE">SF_WEB_MERCATOR_MIN_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LAT_HEIGHT">SF_WGS84_HALF_WORLD_LAT_HEIGHT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LON_WIDTH">SF_WGS84_HALF_WORLD_LON_WIDTH</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_BYTE_ORDER_BIG_ENDIAN">TIFF_BYTE_ORDER_BIG_ENDIAN</a>
@@ -4739,7 +4733,7 @@
             <p>Coordinate System Type</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L14-L28">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L14-L28">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4770,7 +4764,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L15">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L15">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4800,7 +4794,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L16">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L16">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4830,7 +4824,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L17">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L17">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4860,7 +4854,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L18">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L18">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4890,7 +4884,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L19">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4920,7 +4914,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L20">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L20">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4950,7 +4944,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L21">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L21">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4980,7 +4974,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L22">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5010,7 +5004,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L23">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5040,7 +5034,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L24">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5070,7 +5064,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5100,7 +5094,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5130,7 +5124,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L27">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/crs-ios/crs-ios/common/CRSCoordinateSystemTypes.h#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5140,7 +5134,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-09-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

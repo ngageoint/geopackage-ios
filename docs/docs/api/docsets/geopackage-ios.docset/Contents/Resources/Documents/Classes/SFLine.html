@@ -17,7 +17,7 @@
     <a title="SFLine Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.3.0 Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CLRColor.html">CLRColor</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/CRSAbridgedCoordinateTransformation.html">CRSAbridgedCoordinateTransformation</a>
               </li>
@@ -284,15 +287,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColor.html">GPKGColor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/c:objc(cs)GPKGColorConstants">GPKGColorConstants</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColorUtils.html">GPKGColorUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
@@ -608,6 +602,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryColumnsDao.html">GPKGGeometryColumnsDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGGeometryCrop.html">GPKGGeometryCrop</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryData.html">GPKGGeometryData</a>
@@ -1280,6 +1277,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryCollection.html">SFGeometryCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)SFGeometryConstants">SFGeometryConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a>
@@ -2131,54 +2131,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CI_TABLE_NAME">GPKG_CI_TABLE_NAME</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLACK">GPKG_COLOR_BLACK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLUE">GPKG_COLOR_BLUE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BROWN">GPKG_COLOR_BROWN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_CYAN">GPKG_COLOR_CYAN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_DKGRAY">GPKG_COLOR_DKGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GRAY">GPKG_COLOR_GRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GREEN">GPKG_COLOR_GREEN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_LTGRAY">GPKG_COLOR_LTGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_MAGENTA">GPKG_COLOR_MAGENTA</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_ORANGE">GPKG_COLOR_ORANGE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PINK">GPKG_COLOR_PINK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PURPLE">GPKG_COLOR_PURPLE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_RED">GPKG_COLOR_RED</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_VIOLET">GPKG_COLOR_VIOLET</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_WHITE">GPKG_COLOR_WHITE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_YELLOW">GPKG_COLOR_YELLOW</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CONSTRAINT">GPKG_CONSTRAINT</a>
@@ -3741,6 +3693,18 @@
                 <a href="../Constants.html#/c:@SFG_TYPE_FEATURE_COLLECTION">SFG_TYPE_FEATURE_COLLECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_EAST">SF_BEARING_EAST</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_NORTH">SF_BEARING_NORTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_SOUTH">SF_BEARING_SOUTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_WEST">SF_BEARING_WEST</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CIRCULARSTRING_NAME">SF_CIRCULARSTRING_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3751,6 +3715,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CURVE_NAME">SF_CURVE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_EQUAL_EPSILON">SF_DEFAULT_EQUAL_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_LINE_EPSILON">SF_DEFAULT_LINE_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_METERS_MIN_LAT">SF_DEGREES_TO_METERS_MIN_LAT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
@@ -3789,6 +3765,9 @@
                 <a href="../Constants.html#/c:@SF_POLYHEDRALSURFACE_NAME">SF_POLYHEDRALSURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_RADIANS_TO_DEGREES">SF_RADIANS_TO_DEGREES</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_SURFACE_NAME">SF_SURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3796,6 +3775,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_TRIANGLE_NAME">SF_TRIANGLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_HALF_WORLD_WIDTH">SF_WEB_MERCATOR_HALF_WORLD_WIDTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MAX_LAT_RANGE">SF_WEB_MERCATOR_MAX_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MIN_LAT_RANGE">SF_WEB_MERCATOR_MIN_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LAT_HEIGHT">SF_WGS84_HALF_WORLD_LAT_HEIGHT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LON_WIDTH">SF_WGS84_HALF_WORLD_LON_WIDTH</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_BYTE_ORDER_BIG_ENDIAN">TIFF_BYTE_ORDER_BIG_ENDIAN</a>
@@ -4739,12 +4733,282 @@
             <p>A LineString with exactly 2 Points.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFLine.h#L14-L43">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L14-L108">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(cm)line"></a>
+                    <a name="//apple_ref/objc/Method/+line" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(cm)line">+line</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="n">line</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L21">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(cm)lineWithHasZ:andHasM:"></a>
+                    <a name="//apple_ref/objc/Method/+lineWithHasZ:andHasM:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(cm)lineWithHasZ:andHasM:">+lineWithHasZ:<wbr>andHasM:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nf">lineWithHasZ</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">hasZ</span> <span class="nf">andHasM</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">hasM</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hasZ</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>has z values</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hasM</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>has m values</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L31">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(cm)lineWithPoints:"></a>
+                    <a name="//apple_ref/objc/Method/+lineWithPoints:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(cm)lineWithPoints:">+lineWithPoints:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nf">lineWithPoints</span><span class="p">:(</span><span class="n">NSMutableArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">points</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>points</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>list of points</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L41">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(cm)lineWithPoint1:andPoint2:"></a>
+                    <a name="//apple_ref/objc/Method/+lineWithPoint1:andPoint2:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(cm)lineWithPoint1:andPoint2:">+lineWithPoint1:<wbr>andPoint2:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nf">lineWithPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span> <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>first point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>second point</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L51">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(cm)lineWithLine:"></a>
+                    <a name="//apple_ref/objc/Method/+lineWithLine:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(cm)lineWithLine:">+lineWithLine:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nf">lineWithLine</span><span class="p">:(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nv">line</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>line</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>line</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L60">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -4776,10 +5040,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>new linear ring</p>
+                        <p>new line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFLine.h#L21">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4846,10 +5110,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>new linear ring</p>
+                        <p>new line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFLine.h#L31">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4904,10 +5168,138 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>new linear ring</p>
+                        <p>new line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/Pods/sf-ios/sf-ios/SFLine.h#L41">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L87">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(im)initWithPoint1:andPoint2:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithPoint1:andPoint2:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(im)initWithPoint1:andPoint2:">-initWithPoint1:<wbr>andPoint2:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span> <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">point1</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andPoint2</span> <span class="nv">point2</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>first point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>second point</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L97">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFLine(im)initWithLine:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithLine:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFLine(im)initWithLine:">-initWithLine:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLine</span><span class="p">:(</span><span class="n">SFLine</span> <span class="o">*</span><span class="p">)</span><span class="nv">line</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">line</span><span class="p">:</span> <span class="kt">SFLine</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>line</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>line</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new line</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/Pods/sf-ios/sf-ios/SFLine.h#L106">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4917,7 +5309,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-09-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

@@ -17,7 +17,7 @@
     <a title="GPKGConnection Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.3.0 Docs</a> (85% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CLRColor.html">CLRColor</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/CRSAbridgedCoordinateTransformation.html">CRSAbridgedCoordinateTransformation</a>
               </li>
@@ -284,15 +287,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColor.html">GPKGColor</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/c:objc(cs)GPKGColorConstants">GPKGColorConstants</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GPKGColorUtils.html">GPKGColorUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
@@ -608,6 +602,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryColumnsDao.html">GPKGGeometryColumnsDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGGeometryCrop.html">GPKGGeometryCrop</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGGeometryData.html">GPKGGeometryData</a>
@@ -1280,6 +1277,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryCollection.html">SFGeometryCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)SFGeometryConstants">SFGeometryConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a>
@@ -2131,54 +2131,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CI_TABLE_NAME">GPKG_CI_TABLE_NAME</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLACK">GPKG_COLOR_BLACK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BLUE">GPKG_COLOR_BLUE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_BROWN">GPKG_COLOR_BROWN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_CYAN">GPKG_COLOR_CYAN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_DKGRAY">GPKG_COLOR_DKGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GRAY">GPKG_COLOR_GRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_GREEN">GPKG_COLOR_GREEN</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_LTGRAY">GPKG_COLOR_LTGRAY</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_MAGENTA">GPKG_COLOR_MAGENTA</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_ORANGE">GPKG_COLOR_ORANGE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PINK">GPKG_COLOR_PINK</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_PURPLE">GPKG_COLOR_PURPLE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_RED">GPKG_COLOR_RED</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_VIOLET">GPKG_COLOR_VIOLET</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_WHITE">GPKG_COLOR_WHITE</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@GPKG_COLOR_YELLOW">GPKG_COLOR_YELLOW</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_CONSTRAINT">GPKG_CONSTRAINT</a>
@@ -3741,6 +3693,18 @@
                 <a href="../Constants.html#/c:@SFG_TYPE_FEATURE_COLLECTION">SFG_TYPE_FEATURE_COLLECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_EAST">SF_BEARING_EAST</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_NORTH">SF_BEARING_NORTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_SOUTH">SF_BEARING_SOUTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_BEARING_WEST">SF_BEARING_WEST</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CIRCULARSTRING_NAME">SF_CIRCULARSTRING_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3751,6 +3715,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_CURVE_NAME">SF_CURVE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_EQUAL_EPSILON">SF_DEFAULT_EQUAL_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEFAULT_LINE_EPSILON">SF_DEFAULT_LINE_EPSILON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_METERS_MIN_LAT">SF_DEGREES_TO_METERS_MIN_LAT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
@@ -3789,6 +3765,9 @@
                 <a href="../Constants.html#/c:@SF_POLYHEDRALSURFACE_NAME">SF_POLYHEDRALSURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_RADIANS_TO_DEGREES">SF_RADIANS_TO_DEGREES</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_SURFACE_NAME">SF_SURFACE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -3796,6 +3775,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_TRIANGLE_NAME">SF_TRIANGLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_HALF_WORLD_WIDTH">SF_WEB_MERCATOR_HALF_WORLD_WIDTH</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MAX_LAT_RANGE">SF_WEB_MERCATOR_MAX_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WEB_MERCATOR_MIN_LAT_RANGE">SF_WEB_MERCATOR_MIN_LAT_RANGE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LAT_HEIGHT">SF_WGS84_HALF_WORLD_LAT_HEIGHT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_WGS84_HALF_WORLD_LON_WIDTH">SF_WGS84_HALF_WORLD_LON_WIDTH</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_BYTE_ORDER_BIG_ENDIAN">TIFF_BYTE_ORDER_BIG_ENDIAN</a>
@@ -4739,7 +4733,7 @@
             <p>GeoPackage database connection</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L17-L956">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L17-L956">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4775,7 +4769,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L22">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4810,7 +4804,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L27">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4868,7 +4862,7 @@
                         <p>new connection</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L36">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4939,7 +4933,7 @@
                         <p>new connection</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L46">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4974,7 +4968,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L51">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5032,7 +5026,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L60">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5102,7 +5096,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L70">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5238,7 +5232,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L85-L91">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L85-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5387,7 +5381,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L107-L114">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L107-L114">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5536,7 +5530,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L130-L137">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L130-L137">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5698,7 +5692,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L154-L162">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L154-L162">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5821,7 +5815,7 @@
                         <p>SQL</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L176-L181">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L176-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5957,7 +5951,7 @@
                         <p>SQL</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L196-L202">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L196-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6093,7 +6087,7 @@
                         <p>SQL</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L217-L223">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L217-L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6242,7 +6236,7 @@
                         <p>SQL</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L239-L246">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L239-L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6300,7 +6294,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L255">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L255">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6370,7 +6364,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L265">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L265">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6428,7 +6422,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L275">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6498,7 +6492,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L285">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L285">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6582,7 +6576,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L296">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L296">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6652,7 +6646,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L307">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6736,7 +6730,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L320">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L320">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6833,7 +6827,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L335">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L335">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6943,7 +6937,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L352">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L352">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7013,7 +7007,7 @@
                         <p>min or nil</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L362">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L362">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7110,7 +7104,7 @@
                         <p>min or nil</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L374">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L374">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7180,7 +7174,7 @@
                         <p>max or nil</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L384">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L384">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7277,7 +7271,7 @@
                         <p>max or nil</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L396">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L396">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7312,7 +7306,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L401">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L401">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7347,7 +7341,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L406">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L406">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7382,7 +7376,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L411">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L411">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7417,7 +7411,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L416">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L416">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7456,7 +7450,7 @@
                         <p>true if in transaction</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L423">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L423">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7497,7 +7491,7 @@
      violations and not enabled</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L432">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L432">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7536,7 +7530,7 @@
                         <p>true if enabled, false if disabled</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L439">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L439">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7594,7 +7588,7 @@
                         <p>previous foreign keys value</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L448">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L448">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7634,7 +7628,7 @@
      violation. see SQLite PRAGMA foreign_key_check</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L456">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L456">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7693,7 +7687,7 @@
      violation. see SQLite PRAGMA foreign_key_check</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L466">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L466">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7751,7 +7745,7 @@
                         <p>insertion id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L475">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L475">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7809,7 +7803,7 @@
                         <p>updated rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L484">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L484">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7893,7 +7887,7 @@
                         <p>updated rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L495">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L495">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7990,7 +7984,7 @@
                         <p>updated rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L507">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L507">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8061,7 +8055,7 @@
                         <p>insertion id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L517">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L517">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8119,7 +8113,7 @@
                         <p>deleted rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L526">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L526">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8189,7 +8183,7 @@
                         <p>deleted rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L536">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L536">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8273,7 +8267,7 @@
                         <p>deleted rows</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L547">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L547">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8327,7 +8321,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L554">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L554">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8381,7 +8375,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L561">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L561">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8435,7 +8429,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L568">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L568">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8502,7 +8496,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L576">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L576">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8560,7 +8554,7 @@
                         <p>removed statement or nil if not found</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L585">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L585">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8618,7 +8612,7 @@
                         <p>true if exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L594">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L594">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8676,7 +8670,7 @@
                         <p>true if exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L603">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L603">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8734,7 +8728,7 @@
                         <p>true if exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L612">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L612">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8805,7 +8799,7 @@
                         <p>true if column exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L622">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L622">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8885,7 +8879,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L631">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L631">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8955,7 +8949,7 @@
                         <p>single result object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L641">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L641">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9040,7 +9034,7 @@
                         <p>single result object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L655">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L655">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9124,7 +9118,7 @@
                         <p>result, null if no result</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L668">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L668">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9221,7 +9215,7 @@
                         <p>result, null if no result</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L683">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L683">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9292,7 +9286,7 @@
                         <p>single column result strings</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L693">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L693">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9377,7 +9371,7 @@
                         <p>single column results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L706">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L706">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9461,7 +9455,7 @@
                         <p>single column results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L719">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L719">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9559,7 +9553,7 @@
                         <p>single column results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L734">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L734">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9656,7 +9650,7 @@
                         <p>single column results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L749">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L749">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9767,7 +9761,7 @@
                         <p>single column results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L766">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L766">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9838,7 +9832,7 @@
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L777">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L777">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9922,7 +9916,7 @@
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L790">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L790">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9993,7 +9987,7 @@
                         <p>single row results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L801">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L801">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10077,7 +10071,7 @@
                         <p>single row results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L814">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L814">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10161,7 +10155,7 @@
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L827">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L827">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10258,7 +10252,7 @@
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L842">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L842">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10293,7 +10287,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L847">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L847">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10347,7 +10341,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L854">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L854">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10386,7 +10380,7 @@
                         <p>application id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L861">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L861">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10425,7 +10419,7 @@
                         <p>application id integer</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L868">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L868">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10464,7 +10458,7 @@
                         <p>application id hex string</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L875">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L875">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10522,7 +10516,7 @@
                         <p>application id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L884">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L884">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10557,7 +10551,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L889">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L889">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10611,7 +10605,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L896">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L896">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10650,7 +10644,7 @@
                         <p>user version</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L903">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L903">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10689,7 +10683,7 @@
                         <p>user version major</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L910">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L910">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10728,7 +10722,7 @@
                         <p>user version minor</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L917">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L917">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10767,7 +10761,7 @@
                         <p>user version patch</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L924">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L924">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10821,7 +10815,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L931">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L931">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10901,7 +10895,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L940">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L940">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10955,7 +10949,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L947">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L947">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11009,7 +11003,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/db/GPKGConnection.h#L954">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.3.0/geopackage-ios/db/GPKGConnection.h#L954">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11019,7 +11013,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-09-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

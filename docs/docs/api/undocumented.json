@@ -8626,42 +8626,42 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 20,
+      "line": 24,
       "symbol": "SFGeometryEnvelope.maxX",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 26,
+      "line": 30,
       "symbol": "SFGeometryEnvelope.maxY",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 32,
+      "line": 36,
       "symbol": "SFGeometryEnvelope.minZ",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 33,
+      "line": 37,
       "symbol": "SFGeometryEnvelope.maxZ",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 39,
+      "line": 43,
       "symbol": "SFGeometryEnvelope.minM",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryEnvelope.h",
-      "line": 40,
+      "line": 44,
       "symbol": "SFGeometryEnvelope.maxM",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
@@ -8929,6 +8929,13 @@
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/SFGeometryTypes.h",
       "line": 59,
       "symbol": "SFGeometryTypes",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/SFGeometryConstants.h",
+      "line": 81,
+      "symbol": "SFGeometryConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
@@ -12374,125 +12381,6 @@
       "line": 24,
       "symbol": "GPKG_SRS_COLUMN_DEFINITION_12_063",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 11,
-      "symbol": "GPKG_COLOR_BLACK",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 12,
-      "symbol": "GPKG_COLOR_BLUE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 13,
-      "symbol": "GPKG_COLOR_BROWN",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 14,
-      "symbol": "GPKG_COLOR_CYAN",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 15,
-      "symbol": "GPKG_COLOR_DKGRAY",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 16,
-      "symbol": "GPKG_COLOR_GRAY",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 17,
-      "symbol": "GPKG_COLOR_GREEN",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 18,
-      "symbol": "GPKG_COLOR_LTGRAY",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 19,
-      "symbol": "GPKG_COLOR_MAGENTA",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 20,
-      "symbol": "GPKG_COLOR_ORANGE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 21,
-      "symbol": "GPKG_COLOR_PINK",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 22,
-      "symbol": "GPKG_COLOR_PURPLE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 23,
-      "symbol": "GPKG_COLOR_RED",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 24,
-      "symbol": "GPKG_COLOR_VIOLET",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 25,
-      "symbol": "GPKG_COLOR_WHITE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 26,
-      "symbol": "GPKG_COLOR_YELLOW",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/style/GPKGColorConstants.h",
-      "line": 28,
-      "symbol": "GPKGColorConstants",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
