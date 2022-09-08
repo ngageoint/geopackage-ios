@@ -683,6 +683,9 @@
 		04B6477D2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */; };
 		04B647872566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */; };
 		04B6478C2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */; };
+		04C4F27728CA0D9F00432EAC /* GPKGGeometryCrop.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C4F27528CA0D9F00432EAC /* GPKGGeometryCrop.h */; };
+		04C4F27828CA0D9F00432EAC /* GPKGGeometryCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C4F27628CA0D9F00432EAC /* GPKGGeometryCrop.m */; };
+		04C4F27B28CA16C000432EAC /* GPKGGeometryCropTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C4F27A28CA16C000432EAC /* GPKGGeometryCropTestCase.m */; };
 		04C5032220113B9600862DA9 /* GPKGRTreeIndexExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C5032020113B9600862DA9 /* GPKGRTreeIndexExtension.h */; };
 		04C5032320113B9600862DA9 /* GPKGRTreeIndexExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */; };
 		04C5032620114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */; };
@@ -1548,6 +1551,10 @@
 		04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionCreateTestCase.m; sourceTree = "<group>"; };
 		04B6478A2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionImportTestCase.h; sourceTree = "<group>"; };
 		04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionImportTestCase.m; sourceTree = "<group>"; };
+		04C4F27528CA0D9F00432EAC /* GPKGGeometryCrop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGeometryCrop.h; sourceTree = "<group>"; };
+		04C4F27628CA0D9F00432EAC /* GPKGGeometryCrop.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGGeometryCrop.m; sourceTree = "<group>"; };
+		04C4F27928CA16C000432EAC /* GPKGGeometryCropTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGeometryCropTestCase.h; sourceTree = "<group>"; };
+		04C4F27A28CA16C000432EAC /* GPKGGeometryCropTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGGeometryCropTestCase.m; sourceTree = "<group>"; };
 		04C5032020113B9600862DA9 /* GPKGRTreeIndexExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGRTreeIndexExtension.h; sourceTree = "<group>"; };
 		04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRTreeIndexExtension.m; sourceTree = "<group>"; };
 		04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGriddedCoverageEncodingTypes.h; sourceTree = "<group>"; };
@@ -2479,6 +2486,8 @@
 		042FC74D1B964D8C00549A4B /* geom */ = {
 			isa = PBXGroup;
 			children = (
+				04C4F27528CA0D9F00432EAC /* GPKGGeometryCrop.h */,
+				04C4F27628CA0D9F00432EAC /* GPKGGeometryCrop.m */,
 				042FC74E1B964D8C00549A4B /* GPKGGeometryData.h */,
 				042FC74F1B964D8C00549A4B /* GPKGGeometryData.m */,
 				0445CB3B1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h */,
@@ -2802,6 +2811,8 @@
 		042FC8CB1B964DA200549A4B /* geom */ = {
 			isa = PBXGroup;
 			children = (
+				04C4F27928CA16C000432EAC /* GPKGGeometryCropTestCase.h */,
+				04C4F27A28CA16C000432EAC /* GPKGGeometryCropTestCase.m */,
 				042FC8CC1B964DA200549A4B /* GPKGGeoPackageGeometryDataCreateTest.h */,
 				042FC8CD1B964DA200549A4B /* GPKGGeoPackageGeometryDataCreateTest.m */,
 				042FC8CE1B964DA200549A4B /* GPKGGeoPackageGeometryDataImportTest.h */,
@@ -3493,6 +3504,7 @@
 				042FC88B1B964D8C00549A4B /* GPKGFeatureTileGenerator.h in Headers */,
 				0447FA0A1CD8F66100418104 /* GPKGCrsWktExtension.h in Headers */,
 				042FC87E1B964D8C00549A4B /* GPKGProperties.h in Headers */,
+				04C4F27728CA0D9F00432EAC /* GPKGGeometryCrop.h in Headers */,
 				0413B11B1F72D99A0075916A /* GPKGUserRowSync.h in Headers */,
 				0491561A230D97C100B92B3F /* GPKGAlterTable.h in Headers */,
 				042FC85A1B964D8C00549A4B /* GPKGGeoPackage.h in Headers */,
@@ -3937,6 +3949,7 @@
 				042FC8BA1B964D8C00549A4B /* GPKGUserDao.m in Sources */,
 				04915607230739EB00B92B3F /* GPKGConstraint.m in Sources */,
 				043CB86523EB6522007EC2C2 /* GPKGFeatureIndexLocation.m in Sources */,
+				04C4F27828CA0D9F00432EAC /* GPKGGeometryCrop.m in Sources */,
 				046417E91BCC1424007624D4 /* GPKGFeatureIndexTypes.m in Sources */,
 				04DD10AA1BDEBFDC00CC59A0 /* GPKGDbConnection.m in Sources */,
 				042FC8BC1B964D8C00549A4B /* GPKGUserRow.m in Sources */,
@@ -4272,6 +4285,7 @@
 				042FC8EF1B964DA200549A4B /* GPKGImportGeoPackageTestCase.m in Sources */,
 				0418DCD2205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m in Sources */,
 				04711AF5220DDD4C007DC3A4 /* GPKGRelatedTilesUtils.m in Sources */,
+				04C4F27B28CA16C000432EAC /* GPKGGeometryCropTestCase.m in Sources */,
 				0458213021515A380047EA54 /* GPKGRTreeIndexExtensionUtils.m in Sources */,
 				045BC9FB1BFA6EE00080B967 /* GPKGCreateTestCase.m in Sources */,
 				048EC17C1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m in Sources */,
