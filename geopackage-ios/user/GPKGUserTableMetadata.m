@@ -35,6 +35,10 @@ NSString * const GPKG_UTM_DEFAULT_ID_COLUMN_NAME = @"id";
     return _dataType != nil ? _dataType : [self defaultDataType];
 }
 
+-(NSString *) identifier{
+    return _identifier != nil ? _identifier : [self tableName];
+}
+
 -(NSString *) idColumnName{
     return _idColumnName != nil ? _idColumnName : GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
 }

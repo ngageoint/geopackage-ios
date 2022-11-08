@@ -329,8 +329,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  */
 -(NSArray *) reprojectValues: (NSArray *) values withWidth: (int) requestedWidth andHeight: (int) requestedHeight andRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andProjectionTransform: (PROJProjectionTransform *) transformRequestToCoverage andCoverageBoundingBox: (GPKGBoundingBox *) coverageBoundingBox{
     
-    double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedWidth;
-    double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedHeight;
+    double requestedWidthUnitsPerPixel = [requestBoundingBox longitudeRangeValue] / requestedWidth;
+    double requestedHeightUnitsPerPixel = [requestBoundingBox latitudeRangeValue] / requestedHeight;
     
     double tilesDistanceWidth = [coverageBoundingBox.maxLongitude doubleValue] - [coverageBoundingBox.minLongitude doubleValue];
     double tilesDistanceHeight = [coverageBoundingBox.maxLatitude doubleValue] - [coverageBoundingBox.minLatitude doubleValue];
@@ -2158,8 +2158,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         
         // Get the tile distance
         GPKGBoundingBox *projectedBoundingBox = request.projectedBoundingBox;
-        double distanceWidth = [projectedBoundingBox.maxLongitude doubleValue] - [projectedBoundingBox.minLongitude doubleValue];
-        double distanceHeight = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];
+        double distanceWidth = [projectedBoundingBox longitudeRangeValue];
+        double distanceHeight = [projectedBoundingBox latitudeRangeValue];
         
         // Get the zoom level to request based upon the tile size
         NSNumber *zoomLevel = [self.tileDao closestZoomLevelWithWidth:distanceWidth andHeight:distanceHeight];

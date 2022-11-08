@@ -44,7 +44,11 @@
 }
 
 -(BOOL) hasDefinition_12_063{
-    return self.crsWktExt != nil && [self.crsWktExt has];
+    return self.crsWktExt != nil && [self.crsWktExt hasMinimum:GPKG_CRS_WKT_V_1];
+}
+
+-(BOOL) hasEpoch{
+    return self.crsWktExt != nil && [self.crsWktExt hasMinimum:GPKG_CRS_WKT_V_1_1];
 }
 
 -(NSObject *) createObject{
@@ -132,7 +136,7 @@
     [self create:srs];
     if([self hasDefinition_12_063]){
         [srs setDefinition_12_063:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-        [self.crsWktExt updateDefinitionWithSrsId:srs.srsId andDefinition:srs.definition_12_063];
+        [self.crsWktExt updateDefinition:srs.definition_12_063 withSrsId:srs.srsId];
     }
     
     return srs;
@@ -150,7 +154,7 @@
     [self create:srs];
     if([self hasDefinition_12_063]){
         [srs setDefinition_12_063:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-        [self.crsWktExt updateDefinitionWithSrsId:srs.srsId andDefinition:srs.definition_12_063];
+        [self.crsWktExt updateDefinition:srs.definition_12_063 withSrsId:srs.srsId];
     }
     
     return srs;
@@ -168,7 +172,7 @@
     [self create:srs];
     if([self hasDefinition_12_063]){
         [srs setDefinition_12_063:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-        [self.crsWktExt updateDefinitionWithSrsId:srs.srsId andDefinition:srs.definition_12_063];
+        [self.crsWktExt updateDefinition:srs.definition_12_063 withSrsId:srs.srsId];
     }
     
     return srs;
@@ -186,7 +190,7 @@
     [self create:srs];
     if([self hasDefinition_12_063]){
         [srs setDefinition_12_063:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-        [self.crsWktExt updateDefinitionWithSrsId:srs.srsId andDefinition:srs.definition_12_063];
+        [self.crsWktExt updateDefinition:srs.definition_12_063 withSrsId:srs.srsId];
     }
     
     return srs;
@@ -204,7 +208,7 @@
     [self create:srs];
     if([self hasDefinition_12_063]){
         [srs setDefinition_12_063:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84_3D andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-        [self.crsWktExt updateDefinitionWithSrsId:srs.srsId andDefinition:srs.definition_12_063];
+        [self.crsWktExt updateDefinition:srs.definition_12_063 withSrsId:srs.srsId];
     }
     
     return srs;
@@ -218,95 +222,116 @@
     return definition;
 }
 
--(void) setDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs{
+-(NSDecimalNumber *) epochWithSrsId: (NSNumber *) srsId{
+    NSDecimalNumber *epoch = nil;
+    if([self hasEpoch]){
+        epoch = [self.crsWktExt epochWithSrsId:srsId];
+    }
+    return epoch;
+}
+
+-(void) setExtensionWithSrs: (GPKGSpatialReferenceSystem *) srs{
     if(srs != nil){
-        NSString *definition = [self definition_12_063WithSrsId:srs.srsId];
+        NSNumber *srsId = srs.srsId;
+        NSString *definition = [self definition_12_063WithSrsId:srsId];
         if(definition != nil){
             [srs setDefinition_12_063:definition];
         }
-    }
-}
-
--(void) setDefinition_12_063WithSrsArray: (NSArray *) srsArray{
-    for(GPKGSpatialReferenceSystem *srs in srsArray){
-        [self setDefinition_12_063WithSrs:srs];
-    }
-}
-
--(void) updateDefinition_12_063WithSrsId: (NSNumber *) srsId andDefinition: (NSString *) definition{
-    if([self hasDefinition_12_063]){
-        [self.crsWktExt updateDefinitionWithSrsId:srsId andDefinition:definition];
-    }
-}
-
--(void) updateDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs{
-    if(srs != nil){
-        NSString *definition = srs.definition_12_063;
-        if(definition != nil){
-            [self updateDefinition_12_063WithSrsId:srs.srsId andDefinition: definition];
+        NSDecimalNumber *epoch = [self epochWithSrsId:srsId];
+        if(epoch != nil){
+            [srs setEpoch:epoch];
         }
+    }
+}
+
+-(void) setExtensionWithSrsArray: (NSArray *) srsArray{
+    for(GPKGSpatialReferenceSystem *srs in srsArray){
+        [self setExtensionWithSrs:srs];
+    }
+}
+
+-(void) updateDefinition_12_063: (NSString *) definition withSrsId: (NSNumber *) srsId{
+    if([self hasDefinition_12_063]){
+        if(definition == nil){
+            definition = @"";
+        }
+        [self.crsWktExt updateDefinition:definition withSrsId:srsId];
+    }
+}
+
+-(void) updateEpoch: (NSDecimalNumber *) epoch withSrsId: (NSNumber *) srsId{
+    if([self hasEpoch]){
+        [self.crsWktExt updateEpoch:epoch withSrsId:srsId];
+    }
+}
+
+-(void) updateExtensionWithSrs: (GPKGSpatialReferenceSystem *) srs{
+    if(srs != nil){
+        NSNumber *srsId = srs.srsId;
+        [self updateDefinition_12_063:srs.definition_12_063 withSrsId:srsId];
+        [self updateEpoch:srs.epoch withSrsId:srsId];
     }
 }
 
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
     NSObject *result = [super queryForIdObject:idValue];
-    [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
+    [self setExtensionWithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) queryForMultiIdObject: (NSArray *) idValues{
     NSObject *result = [super queryForMultiIdObject:idValues];
-    [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
+    [self setExtensionWithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) object: (GPKGResultSet *) results{
     NSObject *result = [super object:results];
-    [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
+    [self setExtensionWithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) firstObject: (GPKGResultSet *)results{
     NSObject *result = [super firstObject:results];
-    [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
+    [self setExtensionWithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) queryForSameId: (NSObject *) object{
     NSObject *result = [super queryForSameId:object];
-    [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
+    [self setExtensionWithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(int) update: (NSObject *) object{
     int result = [super update:object];
-    [self updateDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) object];
+    [self updateExtensionWithSrs:(GPKGSpatialReferenceSystem *) object];
     return result;
 }
 
 -(long long) create: (NSObject *) object{
     long long result = [super create:object];
-    [self updateDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) object];
+    [self updateExtensionWithSrs:(GPKGSpatialReferenceSystem *) object];
     return result;
 }
 
 -(long long) insert: (NSObject *) object{
     long long result = [super insert:object];
-    [self updateDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) object];
+    [self updateExtensionWithSrs:(GPKGSpatialReferenceSystem *) object];
     return result;
 }
 
 -(long long) createIfNotExists: (NSObject *) object{
     long long result = [super createIfNotExists:object];
     if(result != -1){
-        [self updateDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) object];
+        [self updateExtensionWithSrs:(GPKGSpatialReferenceSystem *) object];
     }
     return result;
 }
 
 -(long long) createOrUpdate: (NSObject *) object{
     long long result = [super createOrUpdate:object];
-    [self updateDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) object];
+    [self updateExtensionWithSrs:(GPKGSpatialReferenceSystem *) object];
     return result;
 }
 
@@ -385,7 +410,7 @@
         }
         
     }else{
-        [self setDefinition_12_063WithSrs:srs];
+        [self setExtensionWithSrs:srs];
     }
     
     return srs;

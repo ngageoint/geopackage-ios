@@ -51,6 +51,13 @@ struct GPKGBoundingBoxSize{
 +(GPKGBoundingBox *) worldWebMercator;
 
 /**
+ * Create a new WGS84 bounding box bounded by Web Mercator limits
+ *
+ * @return new bounding box
+ */
++(GPKGBoundingBox *) worldWGS84WithWebMercatorLimits;
+
+/**
  *  Initialize with degrees representing the entire world
  *
  *  @return new bounding box

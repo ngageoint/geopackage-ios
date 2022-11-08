@@ -25,6 +25,13 @@
                                           andMaxLatitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
 }
 
++(GPKGBoundingBox *) worldWGS84WithWebMercatorLimits{
+    return [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH
+                                          andMinLatitudeDouble:-PROJ_WEB_MERCATOR_MIN_LAT_RANGE
+                                         andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH
+                                          andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
+}
+
 -(instancetype) init{
     self = [self initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH
                        andMinLatitudeDouble:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT
@@ -434,6 +441,10 @@
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
     return [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+}
+
+-(NSString *) description{
+    return [NSString stringWithFormat:@"%f,%f,%f,%f", [_minLongitude doubleValue], [_minLatitude doubleValue], [_maxLongitude doubleValue], [_maxLatitude doubleValue]];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "GPKGBaseExtension.h"
 #import "GPKGGeoPackage.h"
+#import "GPKGCrsWktExtensionVersions.h"
 
 extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 
@@ -24,19 +25,34 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 @property (nonatomic, strong) NSString *extensionName;
 
 /**
- *  Extension definition URL
+ *  Extension version 1 definition URL
  */
-@property (nonatomic, strong) NSString *definition;
+@property (nonatomic, strong) NSString *definitionV1;
 
 /**
- *  Extension name
+ *  Extension version 1.1 definition URL
  */
-@property (nonatomic, strong) NSString *columnName;
+@property (nonatomic, strong) NSString *definitionV1_1;
 
 /**
- *  Extension definition URL
+ *  Extension definition column name
  */
-@property (nonatomic, strong) NSString *columnDef;
+@property (nonatomic, strong) NSString *definitionColumnName;
+
+/**
+ *  Extension definition column definition
+ */
+@property (nonatomic, strong) NSString *definitionColumnDef;
+
+/**
+ *  Extension epoch column name
+ */
+@property (nonatomic, strong) NSString *epochColumnName;
+
+/**
+ *  Extension epoch column definition
+ */
+@property (nonatomic, strong) NSString *epochColumnDef;
 
 /**
  *  Initialize
@@ -48,26 +64,62 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
- *  Get or create the extension
+ *  Get or create the latest version of the extension
  *
  *  @return extension
  */
--(GPKGExtensions *) extensionCreate;
+-(NSArray<GPKGExtensions *> *) extensionCreate;
 
 /**
- *  Determine if the GeoPackage has the extension
+ *  Get or create the version of the extension
+ *
+ *  @param version extension version
+ *  @return extension
+ */
+-(NSArray<GPKGExtensions *> *) extensionCreateVersion: (enum GPKGCrsWktExtensionVersion) version;
+
+/**
+ *  Determine if the GeoPackage has any version of the extension
  *
  *  @return true if has extension
  */
 -(BOOL) has;
 
 /**
+ * Determine if the GeoPackage has at least the minimum version of the
+ * extension
+ *
+ * @param version
+ *            extension version
+ * @return true if has extension minimum
+ */
+-(BOOL) hasMinimum: (enum GPKGCrsWktExtensionVersion) version;
+
+/**
+ * Determine if the GeoPackage has the version of the extension
+ *
+ * @param version
+ *            extension version
+ * @return true if has extension
+ */
+-(BOOL) hasVersion: (enum GPKGCrsWktExtensionVersion) version;
+
+/**
+ * Get the extension name for the version
+ *
+ * @param version
+ *            extension version
+ * @return extension name
+ */
+-(NSString *) extensionName: (enum GPKGCrsWktExtensionVersion) version;
+
+/**
  *  Update the extension definition
  *
- *  @param srsId      srs id
  *  @param definition definition
+ *  @param srsId      srs id
  */
--(void) updateDefinitionWithSrsId:(NSNumber *) srsId andDefinition:(NSString *) definition;
+-(void) updateDefinition: (NSString *) definition withSrsId: (NSNumber *) srsId;
 
 /**
  *  Get the extension definition
@@ -79,8 +131,46 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 -(NSString *) definitionWithSrsId:(NSNumber *) srsId;
 
 /**
+ *  Update the extension epoch
+ *
+ *  @param epoch   epoch
+ *  @param srsId      srs id
+ */
+-(void) updateEpoch: (NSDecimalNumber *) epoch withSrsId: (NSNumber *) srsId;
+
+/**
+ *  Get the extension epoch
+ *
+ *  @param srsId srs id
+ *
+ *  @return epoch
+ */
+-(NSDecimalNumber *) epochWithSrsId: (NSNumber *) srsId;
+
+/**
+ *  Determine if the GeoPackage SRS table has the extension definition column
+ *
+ *  @return true if has column
+ */
+-(BOOL) hasDefinitionColumn;
+
+/**
+ *  Determine if the GeoPackage SRS table has the extension epoch column
+ *
+ *  @return true if has column
+ */
+-(BOOL) hasEpochColumn;
+
+/**
  * Remove the extension. Leaves the column and values.
  */
 -(void) removeExtension;
+
+/**
+ * Remove the extension. Leaves the column and values.
+ *
+ * @param version extension version
+ */
+-(void) removeExtension: (enum GPKGCrsWktExtensionVersion) version;
 
 @end

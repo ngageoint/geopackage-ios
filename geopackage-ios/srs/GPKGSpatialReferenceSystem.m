@@ -8,6 +8,7 @@
 
 #import "GPKGSpatialReferenceSystem.h"
 #import "PROJProjectionFactory.h"
+#import "GPKGGeoPackageConstants.h"
 
 NSString * const GPKG_SRS_TABLE_NAME = @"gpkg_spatial_ref_sys";
 NSString * const GPKG_SRS_COLUMN_PK = @"srs_id";
@@ -17,7 +18,6 @@ NSString * const GPKG_SRS_COLUMN_ORGANIZATION = @"organization";
 NSString * const GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID = @"organization_coordsys_id";
 NSString * const GPKG_SRS_COLUMN_DEFINITION = @"definition";
 NSString * const GPKG_SRS_COLUMN_DESCRIPTION = @"description";
-NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
 
 @implementation GPKGSpatialReferenceSystem
 
@@ -35,11 +35,25 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
 -(NSString *) projectionDefinition{
     
     NSString *definition = self.definition_12_063;
-    if(definition == nil){
+    if([self emptyDefinition:definition]){
+        
         definition = self.definition;
+        
+        if([self emptyDefinition:definition]){
+            definition = nil;
+        }
     }
     
     return definition;
+}
+
+-(BOOL) emptyDefinition: (NSString *) definition{
+    BOOL empty = definition == nil;
+    if(!empty){
+        NSString *trim = [definition stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        empty = trim.length == 0 || [trim caseInsensitiveCompare:GPKG_UNDEFINED_DEFINITION] == NSOrderedSame;
+    }
+    return empty;
 }
 
 -(SFPGeometryTransform *) transformationFromProjection: (PROJProjection *) projection{
@@ -56,6 +70,7 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
     srs.definition = _definition;
     srs.theDescription = _theDescription;
     srs.definition_12_063 = _definition_12_063;
+    srs.epoch = _epoch;
     return srs;
 }
 

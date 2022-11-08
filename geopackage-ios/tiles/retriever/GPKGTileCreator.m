@@ -352,11 +352,11 @@
 
 -(UIImage *) reprojectTileWithImage: (UIImage *) tile andWidth: (int) requestedTileWidth andHeight: (int) requestedTileHeight andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTransform: (PROJProjectionTransform *) transformRequestToTiles andBoundingBox: (GPKGBoundingBox *) tilesBoundingBox{
     
-    double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedTileWidth;
-    double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedTileHeight;
+    double requestedWidthUnitsPerPixel = [requestBoundingBox longitudeRangeValue] / requestedTileWidth;
+    double requestedHeightUnitsPerPixel = [requestBoundingBox latitudeRangeValue] / requestedTileHeight;
     
-    double tilesDistanceWidth = [tilesBoundingBox.maxLongitude doubleValue] - [tilesBoundingBox.minLongitude doubleValue];
-    double tilesDistanceHeight = [tilesBoundingBox.maxLatitude doubleValue] - [tilesBoundingBox.minLatitude doubleValue];
+    double tilesDistanceWidth = [tilesBoundingBox longitudeRangeValue];
+    double tilesDistanceHeight = [tilesBoundingBox latitudeRangeValue];
     
     int width = tile.size.width;
     int height = tile.size.height;
@@ -425,10 +425,8 @@
     if(self.tileDao.tileMatrices.count > 0 && [projectedRequestBoundingBox intersects:self.tileSetBoundingBox]){
         
         // Get the tile distance
-        double distanceWidth = [projectedRequestBoundingBox.maxLongitude doubleValue]
-            - [projectedRequestBoundingBox.minLongitude doubleValue];
-        double distanceHeight = [projectedRequestBoundingBox.maxLatitude doubleValue]
-            - [projectedRequestBoundingBox.minLatitude doubleValue];
+        double distanceWidth = [projectedRequestBoundingBox longitudeRangeValue];
+        double distanceHeight = [projectedRequestBoundingBox latitudeRangeValue];
         
         // Get the zoom level to request based upon the tile size
         NSNumber *requestZoomLevel = nil;

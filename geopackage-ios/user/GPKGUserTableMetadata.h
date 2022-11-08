@@ -30,6 +30,16 @@ extern NSString * const GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
 @property (nonatomic, strong) NSString *dataType;
 
 /**
+ *  Identifier
+ */
+@property (nonatomic, strong) NSString *identifier;
+
+/**
+ *  Description
+ */
+@property (nonatomic, strong) NSString *theDescription;
+
+/**
  *  ID column name
  */
 @property (nonatomic, strong) NSString *idColumnName;

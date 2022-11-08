@@ -183,6 +183,7 @@
     [GPKGTestUtils assertEqualWithValue:querySrs.definition andValue2:copySrs.definition];
     [GPKGTestUtils assertEqualWithValue:querySrs.theDescription andValue2:copySrs.theDescription];
     [GPKGTestUtils assertEqualWithValue:querySrs.definition_12_063 andValue2:copySrs.definition_12_063];
+    [GPKGTestUtils assertEqualWithValue:querySrs.epoch andValue2:copySrs.epoch];
     
     // Change pk
     NSNumber *copySrsId = [NSNumber numberWithInt:654321];
@@ -203,6 +204,7 @@
     [GPKGTestUtils assertEqualWithValue:querySrs.definition andValue2:queryCopiedSrs.definition];
     [GPKGTestUtils assertEqualWithValue:querySrs.theDescription andValue2:queryCopiedSrs.theDescription];
     [GPKGTestUtils assertEqualWithValue:querySrs.definition_12_063 andValue2:queryCopiedSrs.definition_12_063];
+    [GPKGTestUtils assertEqualWithValue:querySrs.epoch andValue2:queryCopiedSrs.epoch];
     
 }
 

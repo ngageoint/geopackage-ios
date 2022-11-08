@@ -50,6 +50,14 @@
 -(BOOL) hasDefinition_12_063;
 
 /**
+ * Determine if the SRS table contains the extension epoch column for CRS
+ * WKT
+ *
+ * @return true if has extension
+ */
+-(BOOL) hasEpoch;
+
+/**
  * Creates the required EPSG WGS84 Spatial Reference System (spec
  * Requirement 11)
  *
@@ -98,35 +106,50 @@
 -(NSString *) definition_12_063WithSrsId: (NSNumber *) srsId;
 
 /**
- *  Query and set the definition 12 063 in the srs object if the extension
- *  exists
+ * Query to get the epoch value if the extension exists
+ *
+ * @param srsId
+ *            srs id
+ * @return epoch or null
+ */
+-(NSDecimalNumber *) epochWithSrsId: (NSNumber *) srsId;
+
+/**
+ *  Query and set the values in the srs object if the extension exists
  *
  *  @param srs spatial reference system
  */
--(void) setDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs;
+-(void) setExtensionWithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 /**
- *  Query and set the definition 12 063 in the srs objects if the extension
- *  exists
+ *  Query and set the values in the srs objects if the extension exists
  *
  *  @param srsArray spatial reference system array
  */
--(void) setDefinition_12_063WithSrsArray: (NSArray *) srsArray;
+-(void) setExtensionWithSrsArray: (NSArray *) srsArray;
 
 /**
  *  Update the definition 12 063 in the database if the extension exists
  *
- *  @param srsId      srs id
  *  @param definition definition
+ *  @param srsId      srs id
  */
--(void) updateDefinition_12_063WithSrsId: (NSNumber *) srsId andDefinition: (NSString *) definition;
+-(void) updateDefinition_12_063: (NSString *) definition withSrsId: (NSNumber *) srsId;
 
 /**
- *  Update the definition 12 063 in the database if the extension exists
+ * Update the epoch in the database if the extension exists
+ *
+ * @param epoch epoch
+ * @param srsId srs id
+ */
+-(void) updateEpoch: (NSDecimalNumber *) epoch withSrsId: (NSNumber *) srsId;
+
+/**
+ *  Update the extension if exists
  *
  *  @param srs      spatial reference system
  */
--(void) updateDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs;
+-(void) updateExtensionWithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 /**
  *  Get or Create the Spatial Reference System for the provided epsg

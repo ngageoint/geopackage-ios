@@ -21,7 +21,6 @@ extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION;
 extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID;
 extern NSString * const GPKG_SRS_COLUMN_DEFINITION;
 extern NSString * const GPKG_SRS_COLUMN_DESCRIPTION;
-extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
 
 /**
  * Spatial Reference System object. The coordinate reference system definitions
@@ -52,7 +51,7 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
 @property (nonatomic, strong) NSNumber *organizationCoordsysId;
 
 /**
- *  Well-known Text [32] Representation of the Spatial Reference System
+ *  Well-known Text Representation of the Spatial Reference System
  */
 @property (nonatomic, strong) NSString *definition;
 
@@ -62,9 +61,14 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
 @property (nonatomic, strong) NSString *theDescription;
 
 /**
- *  Well-known Text [34] Representation of the Spatial Reference System
+ *  Well-known Text extension Representation of the Spatial Reference System
  */
 @property (nonatomic, strong) NSString *definition_12_063;
+
+/**
+ * Coordinate epoch
+ */
+@property (nonatomic, strong) NSDecimalNumber *epoch;
 
 /**
  * Get the projection for the Spatial Reference System

@@ -278,7 +278,7 @@
 
 -(void) adjustXYZBounds{
     // Set the tile matrix set bounding box to be the world
-    GPKGBoundingBox *standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
+    GPKGBoundingBox *standardWgs84Box = [GPKGBoundingBox worldWGS84WithWebMercatorLimits];
     SFPGeometryTransform *wgs84ToWebMercatorTransform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.tileGridBoundingBox = [standardWgs84Box transform:wgs84ToWebMercatorTransform];
 }

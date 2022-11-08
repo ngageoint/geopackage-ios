@@ -26,19 +26,19 @@
     GPKGSpatialReferenceSystem *wgs84Srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTestUtils assertNotNil:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
-    [srsDao setDefinition_12_063WithSrs:wgs84Srs];
+    [srsDao setExtensionWithSrs:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
     
     GPKGSpatialReferenceSystem *undefinedCartesianSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
-    [srsDao setDefinition_12_063WithSrs:undefinedCartesianSrs];
+    [srsDao setExtensionWithSrs:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
     
     GPKGSpatialReferenceSystem *undefinedGeographicSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs];
     [GPKGTestUtils assertNil:undefinedGeographicSrs.definition_12_063];
-    [srsDao setDefinition_12_063WithSrs:undefinedGeographicSrs];
+    [srsDao setExtensionWithSrs:undefinedGeographicSrs];
     [GPKGTestUtils assertNil:undefinedGeographicSrs.definition_12_063];
     
     // Create a new SRS
@@ -53,7 +53,7 @@
     newSrs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:newSrs.srsId];
     [GPKGTestUtils assertNotNil:newSrs];
     [GPKGTestUtils assertNil:newSrs.definition_12_063];
-    [srsDao setDefinition_12_063WithSrs:newSrs];
+    [srsDao setExtensionWithSrs:newSrs];
     [GPKGTestUtils assertNil:newSrs.definition_12_063];
     
     // Create the extension

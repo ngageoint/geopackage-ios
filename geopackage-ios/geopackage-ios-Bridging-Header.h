@@ -71,6 +71,7 @@
 #import "GPKGUniqueConstraint.h"
 #import "GPKGBaseExtension.h"
 #import "GPKGCrsWktExtension.h"
+#import "GPKGCrsWktExtensionVersions.h"
 #import "GPKGExtensions.h"
 #import "GPKGExtensionsDao.h"
 #import "GPKGFeatureIndexRTreeResults.h"

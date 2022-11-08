@@ -160,7 +160,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [GPKGTestUtils assertEqualBoolWithValue:has && METADATA andValue2:[[[GPKGMetadataExtension alloc] initWithGeoPackage:geoPackage] has]];
     [GPKGTestUtils assertEqualBoolWithValue:has && NON_LINEAR_GEOMETRY_TYPES andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGGeometryExtensions extensionName:SF_CIRCULARSTRING]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && WEBP andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_WEBP_EXTENSION_NAME]] > 0];
-    [GPKGTestUtils assertEqualBoolWithValue:has && CRS_WKT andValue2:[[[GPKGCrsWktExtension alloc] initWithGeoPackage:geoPackage] has]];
+    GPKGCrsWktExtension *crsWktExtension = [[GPKGCrsWktExtension alloc] initWithGeoPackage:geoPackage];
+    [GPKGTestUtils assertEqualBoolWithValue:has && CRS_WKT andValue2:[crsWktExtension hasVersion:GPKG_CRS_WKT_V_1] && [crsWktExtension hasVersion:GPKG_CRS_WKT_V_1_1] && [crsWktExtension hasVersion:[GPKGCrsWktExtensionVersions latest]] && [crsWktExtension hasMinimum:[GPKGCrsWktExtensionVersions latest]]];
     
 }
 
@@ -263,8 +264,9 @@ static NSString *DATETIME_COLUMN = @"datetime";
             [GPKGGeoPackageExample createTileScalingExtensionWithGeoPackage:geoPackage];
         }
         
-        NSLog(@"Related Tables Tiles Extension: %s", RELATED_TABLES_TILES ? "Yes" : "No");
-        if (RELATED_TABLES_TILES) {
+        BOOL relatedTablesTiles = RELATED_TABLES_TILES && FEATURES;
+        NSLog(@"Related Tables Tiles Extension: %s", relatedTablesTiles ? "Yes" : "No");
+        if (relatedTablesTiles) {
             [GPKGGeoPackageExample createRelatedTablesTilesExtensionWithGeoPackage:geoPackage];
         }
         
@@ -683,10 +685,10 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [geoPackage createTileMatrixTable];
     
     GPKGBoundingBox *bitsBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-11667347.997449303 andMinLatitudeDouble:4824705.2253603265 andMaxLongitudeDouble:-11666125.00499674 andMaxLatitudeDouble:4825928.217812888];
-    [self createTilesWithGeoPackage:geoPackage andName:@"bit_systems" andBoundingBox:bitsBoundingBox andMinZoom:15 andMaxZoom:17 andExtension:@"png"];
+    [self createTilesWithGeoPackage:geoPackage andName:@"bit_systems" andBoundingBox:bitsBoundingBox andMinZoom:15 andMaxZoom:17 andExtension:GPKG_CF_PNG_NAME];
     
     GPKGBoundingBox *ngaBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-8593967.964158937 andMinLatitudeDouble:4685284.085768163 andMaxLongitudeDouble:-8592744.971706374 andMaxLatitudeDouble:4687730.070673289];
-    [self createTilesWithGeoPackage:geoPackage andName:@"nga" andBoundingBox:ngaBoundingBox andMinZoom:15 andMaxZoom:16 andExtension:@"png"];
+    [self createTilesWithGeoPackage:geoPackage andName:@"nga" andBoundingBox:ngaBoundingBox andMinZoom:15 andMaxZoom:16 andExtension:GPKG_CF_PNG_NAME];
     
     [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_wgs84" inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"nga" toTable:@"nga_pc" andOptimize:[GPKGTileReprojectionOptimize platteCarre]];
@@ -1134,6 +1136,7 @@ static int dataColumnConstraintIndex = 0;
     [testSrs setDefinition:srs.definition];
     [testSrs setTheDescription:srs.theDescription];
     [testSrs setDefinition_12_063:srs.definition_12_063];
+    [testSrs setEpoch:srs.epoch];
     [srsDao create:testSrs];
     
     GPKGSpatialReferenceSystem *testSrs2 = [[GPKGSpatialReferenceSystem alloc] init];
@@ -1284,8 +1287,8 @@ static int dataColumnConstraintIndex = 0;
     [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
     [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
     [tileMatrix setTileWidth:[NSNumber numberWithInt:tileWidth]];
-    [tileMatrix setPixelXSizeValue:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth];
-    [tileMatrix setPixelYSizeValue:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight];
+    [tileMatrix setPixelXSizeValue:[bbox longitudeRangeValue] / width / tileWidth];
+    [tileMatrix setPixelYSizeValue:[bbox latitudeRangeValue] / height / tileHeight];
     [tileMatrix setZoomLevel:[NSNumber numberWithInt:15]];
     [tileMatrixDao create:tileMatrix];
     
@@ -1385,8 +1388,8 @@ static int dataColumnConstraintIndex = 0;
     [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
     [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
     [tileMatrix setTileWidth:[NSNumber numberWithInt:tileWidth]];
-    [tileMatrix setPixelXSizeValue:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth];
-    [tileMatrix setPixelYSizeValue:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight];
+    [tileMatrix setPixelXSizeValue:[bbox longitudeRangeValue] / width / tileWidth];
+    [tileMatrix setPixelYSizeValue:[bbox latitudeRangeValue] / height / tileHeight];
     [tileMatrix setZoomLevel:[NSNumber numberWithInt:15]];
     [tileMatrixDao create:tileMatrix];
     

@@ -24,10 +24,16 @@
 	<string>http://www.geopackage.org/spec/#extension_schema</string>
 	<key>geopackage.extensions.crs_wkt</key>
 	<string>http://www.geopackage.org/spec/#extension_crs_wkt</string>
-	<key>geopackage.extensions.crs_wkt.column_name</key>
+	<key>geopackage.extensions.crs_wkt_1_1</key>
+	<string>http://www.opengis.net/doc/IS/geopackage-crs-wkt/1.1</string>
+	<key>geopackage.extensions.crs_wkt.definition.column_name</key>
 	<string>definition_12_063</string>
-	<key>geopackage.extensions.crs_wkt.column_def</key>
+	<key>geopackage.extensions.crs_wkt.definition.column_def</key>
 	<string>TEXT NOT NULL DEFAULT &apos;&apos;</string>
+	<key>geopackage.extensions.crs_wkt.epoch.column_name</key>
+	<string>epoch</string>
+	<key>geopackage.extensions.crs_wkt.epoch.column_def</key>
+	<string>epoch DOUBLE</string>
 	<key>geopackage.extensions.rtree_index</key>
 	<string>http://www.geopackage.org/spec/#extension_rtree</string>
 	<key>geopackage.extensions.2d_gridded_coverage</key>

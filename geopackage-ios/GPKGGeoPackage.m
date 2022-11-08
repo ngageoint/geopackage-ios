@@ -474,7 +474,8 @@
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
         [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_FEATURES];
-        [contents setIdentifier:tableName];
+        [contents setIdentifier:metadata.identifier];
+        [contents setTheDescription:metadata.theDescription];
         // [contents setLastChange:[NSDate date]];
         GPKGBoundingBox *boundingBox = metadata.boundingBox;
         if(boundingBox != nil){
@@ -556,7 +557,8 @@
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
         [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_TILES];
-        [contents setIdentifier:tableName];
+        [contents setIdentifier:metadata.identifier];
+        [contents setTheDescription:metadata.theDescription];
         // [contents setLastChange:[NSDate date]];
         GPKGBoundingBox *contentsBoundingBox = [metadata contentsBoundingBox];
         [contents setMinX:contentsBoundingBox.minLongitude];
@@ -612,7 +614,8 @@
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
         [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_ATTRIBUTES];
-        [contents setIdentifier:tableName];
+        [contents setIdentifier:metadata.identifier];
+        [contents setTheDescription:metadata.theDescription];
         // [contents setLastChange:[NSDate date]];
         [[self contentsDao] create:contents];
         
