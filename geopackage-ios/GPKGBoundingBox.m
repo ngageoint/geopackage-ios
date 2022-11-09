@@ -27,7 +27,7 @@
 
 +(GPKGBoundingBox *) worldWGS84WithWebMercatorLimits{
     return [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH
-                                          andMinLatitudeDouble:-PROJ_WEB_MERCATOR_MIN_LAT_RANGE
+                                          andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE
                                          andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH
                                           andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
 }
