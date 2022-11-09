@@ -61,6 +61,10 @@ NSString * const GPKG_SRS_COLUMN_DESCRIPTION = @"description";
     return [SFPGeometryTransform transformFromProjection:projection andToProjection:projectionTo];
 }
 
+-(void) setEpochValue: (double) epoch{
+    _epoch = [[NSDecimalNumber alloc] initWithDouble:epoch];
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     srs.srsName = _srsName;

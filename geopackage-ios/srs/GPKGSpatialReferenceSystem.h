@@ -94,4 +94,12 @@ extern NSString * const GPKG_SRS_COLUMN_DESCRIPTION;
  */
 -(SFPGeometryTransform *) transformationFromProjection: (PROJProjection *) projection;
 
+/**
+ * Set the epoch value
+ *
+ * @param epoch
+ *            epoch value
+ */
+-(void) setEpochValue: (double) epoch;
+
 @end
