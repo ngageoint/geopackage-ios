@@ -1,0 +1,145 @@
+//
+//  GPKGDgiwgRequirements.h
+//  geopackage-ios
+//
+//  Created by Brian Osborn on 11/10/22.
+//  Copyright © 2022 NGA. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+/**
+ * DGIWG (Defence Geospatial Information Working Group) Requirements
+ */
+enum GPKGDgiwgRequirement{
+    GPKG_DGIWG_REQ_GEOPACKAGE_BASE,
+    GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS,
+    GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY,
+    GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL,
+    GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED,
+    GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL,
+    GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED,
+    GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET,
+    GPKG_DGIWG_REQ_CRS_2D_VECTOR,
+    GPKG_DGIWG_REQ_CRS_3D_VECTOR,
+    GPKG_DGIWG_REQ_CRS_WKT,
+    GPKG_DGIWG_REQ_CRS_COMPOUND,
+    GPKG_DGIWG_REQ_CRS_COMPOUND_WKT,
+    GPKG_DGIWG_REQ_METADATA_DMF,
+    GPKG_DGIWG_REQ_METADATA_GPKG,
+    GPKG_DGIWG_REQ_METADATA_ROW,
+    GPKG_DGIWG_REQ_METADATA_USER,
+    GPKG_DGIWG_REQ_METADATA_PRODUCT,
+    GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL,
+    GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY,
+    GPKG_DGIWG_REQ_TILE_SIZE_MATRIX,
+    GPKG_DGIWG_REQ_TILE_SIZE_DATA,
+    GPKG_DGIWG_REQ_ZOOM_FACTOR,
+    GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE,
+    GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE,
+    GPKG_DGIWG_REQ_BBOX_CRS,
+    GPKG_DGIWG_REQ_METADATA_TILE,
+    GPKG_DGIWG_REQ_METADATA_FEATURE
+};
+
+extern NSString * const GPKG_DGIWG_REQ_GEOPACKAGE_BASE_NAME;
+extern NSString * const GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS_NAME;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY_NAME;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL_NAME;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED_NAME;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_2D_VECTOR_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_3D_VECTOR_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_WKT_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_COMPOUND_NAME;
+extern NSString * const GPKG_DGIWG_REQ_CRS_COMPOUND_WKT_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_DMF_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_GPKG_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_ROW_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_USER_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_PRODUCT_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL_NAME;
+extern NSString * const GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY_NAME;
+extern NSString * const GPKG_DGIWG_REQ_TILE_SIZE_MATRIX_NAME;
+extern NSString * const GPKG_DGIWG_REQ_TILE_SIZE_DATA_NAME;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_FACTOR_NAME;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE_NAME;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE_NAME;
+extern NSString * const GPKG_DGIWG_REQ_BBOX_CRS_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_TILE_NAME;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_FEATURE_NAME;
+
+extern NSString * const GPKG_DGIWG_REQ_GEOPACKAGE_BASE_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_2D_VECTOR_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_3D_VECTOR_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_WKT_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_COMPOUND_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_CRS_COMPOUND_WKT_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_DMF_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_GPKG_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_ROW_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_USER_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_PRODUCT_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_TILE_SIZE_MATRIX_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_TILE_SIZE_DATA_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_FACTOR_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_BBOX_CRS_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_TILE_IDENTIFIER;
+extern NSString * const GPKG_DGIWG_REQ_METADATA_FEATURE_IDENTIFIER;
+
+/**
+ * Identifier prefix
+ */
+extern NSString * const GPKG_DGIWG_REQ_IDENTIFIER_PREFIX;
+
+@interface GPKGDgiwgRequirements : NSObject
+
+/**
+ * Get the requirement number
+ *
+ * @return number
+ */
++(int) number: (enum GPKGDgiwgRequirement) requirement;
+
+/**
+ * Get the requirement name
+ *
+ * @return name
+ */
++(NSString *) name: (enum GPKGDgiwgRequirement) requirement;
+
+/**
+ * Get the requirement identifier
+ *
+ * @return identifier
+ */
++(NSString *) identifier: (enum GPKGDgiwgRequirement) requirement;
+
+/**
+ * Get the full requirement identifier with prefix
+ *
+ * @return identifier
+ */
++(NSString *) fullIdentifier: (enum GPKGDgiwgRequirement) requirement;
+
+/**
+ * Get the description
+ *
+ * @return description
+ */
++(NSString *) description: (enum GPKGDgiwgRequirement) requirement;
+
+@end
