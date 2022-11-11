@@ -25,10 +25,8 @@
 
 -(NSString *) description{
     NSMutableString *description = [NSMutableString alloc];
-    [description appendString:@"Key Column: "];
-    [description appendFormat:@"%@", self.column];
-    [description appendString:@", Value: "];
-    [description appendFormat:@"%@", self.value];
+    [description appendFormat:@"Key Column: %@", self.column];
+    [description appendFormat:@", Value: %@", self.value];
     return description;
 }
 

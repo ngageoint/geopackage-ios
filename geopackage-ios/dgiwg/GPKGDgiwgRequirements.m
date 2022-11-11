@@ -266,12 +266,9 @@ NSString * const GPKG_DGIWG_REQ_IDENTIFIER_PREFIX = @"/req/";
 
 +(NSString *) description: (enum GPKGDgiwgRequirement) requirement{
     NSMutableString *description = [NSMutableString alloc];
-    [description appendString:@"Number: "];
-    [description appendFormat:@"%d", [self number:requirement]];
-    [description appendString:@", Name: "];
-    [description appendFormat:@"%@", [self name:requirement]];
-    [description appendString:@", Identifier: "];
-    [description appendFormat:@"%@", [self fullIdentifier:requirement]];
+    [description appendFormat:@"Number: %d", [self number:requirement]];
+    [description appendFormat:@", Name: %@", [self name:requirement]];
+    [description appendFormat:@", Identifier: %@", [self fullIdentifier:requirement]];
     return description;
 }
 
