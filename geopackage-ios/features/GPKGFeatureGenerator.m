@@ -180,7 +180,7 @@ static PROJProjection *EPSG_WGS84 = nil;
             // Create the feature table
             self.geometryColumns = [[GPKGGeometryColumns alloc] init];
             [self.geometryColumns setTableName:self.tableName];
-            [self.geometryColumns setColumnName:@"geometry"];
+            [self.geometryColumns setColumnName:GPKG_FTM_DEFAULT_COLUMN_NAME];
             [self.geometryColumns setGeometryType:SF_GEOMETRY];
             [self.geometryColumns setZ:[NSNumber numberWithInt:0]];
             [self.geometryColumns setM:[NSNumber numberWithInt:0]];

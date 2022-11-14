@@ -9,11 +9,11 @@
 #import "GPKGFeatureTableMetadata.h"
 #import "GPKGContentsDataTypes.h"
 
+NSString * const GPKG_FTM_DEFAULT_COLUMN_NAME = @"geometry";
+
 @implementation GPKGFeatureTableMetadata
 
 static enum GPKGContentsDataType defaultDataType = GPKG_CDT_FEATURES;
-
-static NSString *defaultColumnName = @"geometry";
 
 static enum SFGeometryType defaultGeometryType = SF_GEOMETRY;
 
@@ -291,7 +291,7 @@ static enum SFGeometryType defaultGeometryType = SF_GEOMETRY;
         columnName = self.geometryColumns.columnName;
     }
     if (columnName == nil) {
-        columnName = defaultColumnName;
+        columnName = GPKG_FTM_DEFAULT_COLUMN_NAME;
         if (self.geometryColumns != nil) {
             [self.geometryColumns setColumnName:columnName];
         }

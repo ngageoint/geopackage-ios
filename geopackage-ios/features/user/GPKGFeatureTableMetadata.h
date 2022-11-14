@@ -12,6 +12,11 @@
 #import "GPKGFeatureTable.h"
 
 /**
+ * Default geometry column name
+ */
+extern NSString * const GPKG_FTM_DEFAULT_COLUMN_NAME;
+
+/**
  * Feature Table Metadata for defining table creation information
  */
 @interface GPKGFeatureTableMetadata : GPKGUserTableMetadata

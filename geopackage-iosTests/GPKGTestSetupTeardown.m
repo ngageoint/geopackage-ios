@@ -350,7 +350,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     // Create data columns table
     [[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] createDataColumnsTable];
     
-    NSString *geometryColumn = @"geometry";
+    NSString *geometryColumn = GPKG_FTM_DEFAULT_COLUMN_NAME;
     
     // Create the feature tables
     GPKGFeatureTable *point2dTable = [GPKGTestUtils createFeatureTableWithGeoPackage:geoPackage andContents:point2dContents andGeometryColumn:geometryColumn andGeometryType:SF_POINT];
