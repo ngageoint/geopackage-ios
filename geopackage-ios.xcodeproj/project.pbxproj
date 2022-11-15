@@ -686,6 +686,7 @@
 		04AC5F0F291EDF5B005CAB9D /* GPKGDgiwgGeoPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AC5F0D291EDF5B005CAB9D /* GPKGDgiwgGeoPackage.m */; };
 		04AC5F12291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AC5F10291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.h */; };
 		04AC5F13291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AC5F11291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.m */; };
+		04AC5F152923DE02005CAB9D /* dgiwg.wkt.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5F142923DE02005CAB9D /* dgiwg.wkt.plist */; };
 		04AFE2F325A8E73700B6CE41 /* GPKGNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AFE2F125A8E73700B6CE41 /* GPKGNetworkUtils.h */; };
 		04AFE2F425A8E73700B6CE41 /* GPKGNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AFE2F225A8E73700B6CE41 /* GPKGNetworkUtils.m */; };
 		04B285A02314742B00CBF9DD /* GPKGSQLiteMaster.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B2859E2314742B00CBF9DD /* GPKGSQLiteMaster.h */; };
@@ -1577,6 +1578,7 @@
 		04AC5F0D291EDF5B005CAB9D /* GPKGDgiwgGeoPackage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGDgiwgGeoPackage.m; sourceTree = "<group>"; };
 		04AC5F10291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGDgiwgGeoPackageManager.h; sourceTree = "<group>"; };
 		04AC5F11291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGDgiwgGeoPackageManager.m; sourceTree = "<group>"; };
+		04AC5F142923DE02005CAB9D /* dgiwg.wkt.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = dgiwg.wkt.plist; sourceTree = "<group>"; };
 		04AFE2F125A8E73700B6CE41 /* GPKGNetworkUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGNetworkUtils.h; sourceTree = "<group>"; };
 		04AFE2F225A8E73700B6CE41 /* GPKGNetworkUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGNetworkUtils.m; sourceTree = "<group>"; };
 		04B2859E2314742B00CBF9DD /* GPKGSQLiteMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGSQLiteMaster.h; sourceTree = "<group>"; };
@@ -3341,6 +3343,7 @@
 				04AC5EF1291EDC8A005CAB9D /* GPKGDgiwgWellKnownText.m */,
 				04AC5EEC291ECC23005CAB9D /* GPKGUTMZone.h */,
 				04AC5EED291ECC23005CAB9D /* GPKGUTMZone.m */,
+				04AC5F142923DE02005CAB9D /* dgiwg.wkt.plist */,
 			);
 			path = dgiwg;
 			sourceTree = "<group>";
@@ -3897,6 +3900,7 @@
 				04DA3468250FA87A0005AD20 /* geopackage.tables.metadata.plist in Resources */,
 				04DA3464250F9B920005AD20 /* geopackage.tables.nga.plist in Resources */,
 				042FC88A1B964D8C00549A4B /* geopackage.tables.plist in Resources */,
+				04AC5F152923DE02005CAB9D /* dgiwg.wkt.plist in Resources */,
 				04DA3466250F9D840005AD20 /* geopackage.tables.gpkg.plist in Resources */,
 				04C503292018F98700862DA9 /* geopackage.rtree_sql.plist in Resources */,
 			);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CRS_NAME</key>
+	<string>&lt;crs_name&gt;</string>
+	<key>CRS_TYPE</key>
+	<string>&lt;crs_type&gt;</string>
+	<key>BASE_NAME</key>
+	<string>&lt;base_name&gt;</string>
+	<key>REFERENCE_NAME</key>
+	<string>&lt;reference_name&gt;</string>
+	<key>ELLIPSOID_NAME</key>
+	<string>&lt;ellipsoid_name&gt;</string>
+	<key>SEMI_MAJOR_AXIS</key>
+	<string>&lt;semi_major_axis&gt;</string>
+	<key>INVERSE_FLATTENING</key>
+	<string>&lt;inverse_flattening&gt;</string>
+	<key>PRIME_MERIDIAN_NAME</key>
+	<string>&lt;prime_meridian_name&gt;</string>
+	<key>IRM_LONGITUDE</key>
+	<string>&lt;irm_longitude&gt;</string>
+	<key>LATITUDE_OF_ORIGIN</key>
+	<string>&lt;latitude_of_origin&gt;</string>
+	<key>CENTRAL_MERIDIAN</key>
+	<string>&lt;central_meridian&gt;</string>
+	<key>SCALE_FACTOR</key>
+	<string>&lt;scale_factor&gt;</string>
+	<key>FALSE_EASTING</key>
+	<string>&lt;false_easting&gt;</string>
+	<key>FALSE_NORTHING</key>
+	<string>&lt;false_northing&gt;</string>
+	<key>STANDARD_PARALLEL_1</key>
+	<string>&lt;standard_parallel_1&gt;</string>
+	<key>STANDARD_PARALLEL_2</key>
+	<string>&lt;standard_parallel_2&gt;</string>
+	<key>IDENTIFIER_UNIQUE_ID</key>
+	<string>&lt;identifier_id&gt;</string>
+	<key>ZONE</key>
+	<string>&lt;zone&gt;</string>
+	<key>DIRECTION</key>
+	<string>&lt;direction&gt;</string>
+	<key>EPSG_3035</key>
+	<string>PROJCS[&quot;ETRS89-extended / LAEA Europe&quot;,GEOGCS[&quot;ETRS89&quot;,DATUM[&quot;European_Terrestrial_Reference_System_1989&quot;,SPHEROID[&quot;GRS 1980&quot;,6378137,298.257222101,AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;6258&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4258&quot;]],PROJECTION[&quot;Lambert_Azimuthal_Equal_Area&quot;],PARAMETER[&quot;latitude_of_center&quot;,52],PARAMETER[&quot;longitude_of_center&quot;,10],PARAMETER[&quot;false_easting&quot;,4321000],PARAMETER[&quot;false_northing&quot;,3210000],UNIT[&quot;metre&quot;,1,AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;3035&quot;]]</string>
+	<key>EPSG_3395</key>
+	<string>PROJCRS[&quot;WGS 84 / World Mercator&quot;,BASEGEODCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563]]],CONVERSION[&quot;Mercator&quot;,METHOD[&quot;Mercator (variant A)&quot;,ID[&quot;EPSG&quot;,&quot;9804&quot;]],PARAMETER[&quot;Latitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Longitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Scale factor at natural origin&quot;,1,SCALEUNIT[&quot;unity&quot;,1.0]],PARAMETER[&quot;False easting&quot;,0,LENGTHUNIT[&quot;metre&quot;,1.0]],PARAMETER[&quot;False northing&quot;,0,LENGTHUNIT[&quot;metre&quot;,1.0]],ID[&quot;EPSG&quot;,&quot;19833&quot;]],CS[Cartesian,2],AXIS[&quot;Easting (E)&quot;,east,ORDER[1]],AXIS[&quot;Northing (N)&quot;,north,ORDER[2]],LENGTHUNIT[&quot;metre&quot;,1.0],ID[&quot;EPSG&quot;,&quot;3395&quot;]]</string>
+	<key>EPSG_3855</key>
+	<string>VERTCRS[&quot;EGM2008 geoid height&quot;,VDATUM[&quot;EGM2008 geoid&quot;,ANCHOR[&quot;WGS 84 ellipsoid&quot;]],CS[vertical,1],AXIS[&quot;Gravity-related height (H)&quot;,up],LENGTHUNIT[&quot;metre&quot;,1.0],ID[&quot;EPSG&quot;,&quot;3855&quot;]]</string>
+	<key>EPSG_3857</key>
+	<string>PROJCS[&quot;WGS 84 / Pseudo-Mercator&quot;,GEOGCS[&quot;WGS 84&quot;,DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,ID[&quot;EPSG&quot;,&quot;7030&quot;]],ID[&quot;EPSG&quot;,&quot;6326&quot;]],PRIMEM[&quot;Greenwich&quot;,0,ID[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,ID[&quot;EPSG&quot;,&quot;9122&quot;]],ID[&quot;EPSG&quot;,&quot;4326&quot;]],PROJECTION[&quot;Mercator_1SP&quot;],PARAMETER[&quot;central_meridian&quot;,0],PARAMETER[&quot;scale_factor&quot;,1],PARAMETER[&quot;false_easting&quot;,0],PARAMETER[&quot;false_northing&quot;,0],UNIT[&quot;metre&quot;,1,ID[&quot;EPSG&quot;,&quot;9001&quot;]],AXIS[&quot;X&quot;,EAST],AXIS[&quot;Y&quot;,NORTH],ID[&quot;EPSG&quot;,&quot;3857&quot;]]</string>
+	<key>EPSG_3978</key>
+	<string>PROJCS[&quot;NAD83 / Canada Atlas Lambert&quot;,GEOGCS[&quot;NAD83&quot;,DATUM[&quot;North_American_Datum_1983&quot;,SPHEROID[&quot;GRS 1980&quot;,6378137,298.257222101]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4269&quot;]],PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;],PARAMETER[&quot;latitude_of_origin&quot;,49],PARAMETER[&quot;central_meridian&quot;,-95],PARAMETER[&quot;standard_parallel_1&quot;,49],PARAMETER[&quot;standard_parallel_2&quot;,77],PARAMETER[&quot;false_easting&quot;,0],PARAMETER[&quot;false_northing&quot;,0],UNIT[&quot;metre&quot;,1,AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],AXIS[&quot;Easting&quot;,EAST],AXIS[&quot;Northing&quot;,NORTH],AUTHORITY[&quot;EPSG&quot;,&quot;3978&quot;]]</string>
+	<key>EPSG_4326</key>
+	<string>GEOCCS[&quot;WGS 84&quot;,DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS84&quot;,6378137,298.257223563]],PRIMEM[&quot;Greenwich&quot;,0],UNIT[&quot;degree&quot;,0.0174532925199433]]</string>
+	<key>EPSG_4979</key>
+	<string>GEODCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1.0]]],CS[ellipsoidal,3],AXIS[&quot;Geodetic latitude (Lat)&quot;,north,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],AXIS[&quot;Geodetic longitude (Long)&quot;,east,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],AXIS[&quot;Ellipsoidal height (h)&quot;,up,LENGTHUNIT[&quot;metre&quot;,1.0]],ID[&quot;EPSG&quot;,4979]]</string>
+	<key>EPSG_5041</key>
+	<string>PROJCRS[&quot;WGS 84 / UPS North (E,N)&quot;,BASEGEODCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1.0]]]],CONVERSION[&quot;Universal Polar Stereographic North&quot;,METHOD[&quot;Polar Stereographic (variant A)&quot;,ID[&quot;EPSG&quot;,&quot;9810&quot;]],PARAMETER[&quot;Latitude of natural origin&quot;,90,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Longitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.994,SCALEUNIT[&quot;unity&quot;,1.0]],PARAMETER[&quot;False easting&quot;,2000000,LENGTHUNIT[&quot;metre&quot;,1.0]],PARAMETER[&quot;False northing&quot;,2000000,LENGTHUNIT[&quot;metre&quot;,1.0]],ID[&quot;EPSG&quot;,&quot;16061&quot;]],CS[Cartesian,2],AXIS[&quot;Easting (E)&quot;,south,MERIDIAN[90,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],ORDER[1]],AXIS[&quot;Northing (N)&quot;,south,MERIDIAN[180,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],ORDER[2]],LENGTHUNIT[&quot;metre&quot;,1.0],ID[&quot;EPSG&quot;,&quot;5041&quot;]]</string>
+	<key>EPSG_5042</key>
+	<string>PROJCRS[&quot;WGS 84 / UPS South (E,N)&quot;,BASEGEODCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1.0]]]],CONVERSION[&quot;Universal Polar Stereographic North&quot;,METHOD[&quot;Polar Stereographic (variant A)&quot;,ID[&quot;EPSG&quot;,&quot;9810&quot;]],PARAMETER[&quot;Latitude of natural origin&quot;,-90,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Longitude of natural origin&quot;,0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],PARAMETER[&quot;Scale factor at natural origin&quot;,0.994,SCALEUNIT[&quot;unity&quot;,1.0]],PARAMETER[&quot;False easting&quot;,2000000,LENGTHUNIT[&quot;metre&quot;,1.0]],PARAMETER[&quot;False northing&quot;,2000000,LENGTHUNIT[&quot;metre&quot;,1.0]],ID[&quot;EPSG&quot;,&quot;16161&quot;]],CS[Cartesian,2],AXIS[&quot;Easting (E)&quot;,north,MERIDIAN[90,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],ORDER[1]],AXIS[&quot;Northing (N)&quot;,north,MERIDIAN[0,ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],ORDER[2]],LENGTHUNIT[&quot;metre&quot;,1.0],ID[&quot;EPSG&quot;,&quot;5042&quot;]]</string>
+	<key>EPSG_9518</key>
+	<string>COMPOUNDCRS[&quot;WGS84 Height EGM08&quot;,GEODCRS[&quot;WGS 84&quot;,DATUM[&quot;World Geodetic System 1984&quot;,ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,LENGTHUNIT[&quot;metre&quot;,1.0]]],CS[ellipsoidal,2],AXIS[&quot;Geodetic latitude (Lat)&quot;,north],AXIS[&quot;Geodetic longitude (Long)&quot;,east],ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],ID[&quot;EPSG&quot;,4326]],VERTCRS[&quot;EGM2008 geoid height&quot;,VDATUM[&quot;EGM2008 geoid&quot;,ANCHOR[&quot;WGS 84 ellipsoid&quot;]],CS[vertical,1],AXIS[&quot;Gravity-related height (H)&quot;,up],LENGTHUNIT[&quot;metre&quot;,1.0],ID[&quot;EPSG&quot;,&quot;3855&quot;]],ID[&quot;EPSG&quot;,&quot;9518&quot;]]</string>
+	<key>EPSG_UTM_ZONE</key>
+	<string>PROJCS[&quot;WGS 84 / UTM zone &lt;zone&gt;&lt;direction&gt;&quot;,GEOGCS[&quot;WGS 84&quot;,DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS84&quot;,6378137,298.257223563,ID[&quot;EPSG&quot;, &quot;7030&quot;]],ID[&quot;EPSG&quot;, &quot;6326&quot;]],PRIMEM[&quot;Greenwich&quot;,0,ID[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;, 0.0174532925199433,ID[&quot;EPSG&quot;,&quot;9122&quot;]],ID[&quot;EPSG&quot;,&quot;4326&quot;]],PROJECTION[&quot;Transverse_Mercator&quot;],PARAMETER[&quot;latitude_of_origin&quot;, 0],PARAMETER[&quot;central_meridian&quot;, &lt;central_meridian&gt;],PARAMETER[&quot;scale_factor&quot;,0.9996],PARAMETER[&quot;false_easting&quot;,500000],PARAMETER[&quot;false_northing&quot;,&lt;false_northing&gt;],UNIT[&quot;metre&quot;, 1,ID[&quot;EPSG&quot;,&quot;9001&quot;]],AXIS[&quot;Easting&quot;,EAST],AXIS[&quot;Northing&quot;,NORTH],ID[&quot;EPSG&quot;,&quot;&lt;identifier_id&gt;&quot;]]</string>
+	<key>EPSG_LAMBERT_CONFORMAL_CONIC_1SP</key>
+	<string>PROJCS[&quot;&lt;crs_name&gt;&quot;,&lt;crs_type&gt;[&quot;&lt;base_name&gt;&quot;,DATUM[&quot;&lt;reference_name&gt;&quot;,SPHEROID[&quot;&lt;ellipsoid_name&gt;&quot;,&lt;semi_major_axis&gt;,&lt;inverse_flattening&gt;]],PRIMEM[&quot;&lt;prime_meridian_name&gt;&quot;,&lt;irm_longitude&gt;],UNIT[&quot;degree&quot;,0.0174532925199433]],PROJECTION[&quot;Lambert_Conformal_Conic_1SP&quot;],PARAMETER[&quot;latitude_of_origin&quot;,&lt;latitude_of_origin&gt;],PARAMETER[&quot;central_meridian&quot;,&lt;central_meridian&gt;],PARAMETER[&quot;scale_factor&quot;,&lt;scale_factor&gt;],PARAMETER[&quot;false_easting&quot;,&lt;false_easting&gt;],PARAMETER[&quot;false_northing&quot;,&lt;false_northing&gt;],UNIT[&quot;Meter&quot;,1],AXIS[&quot;X&quot;,EAST],AXIS[&quot;Y&quot;,NORTH],AUTHORITY[&quot;EPSG&quot;,&quot;&lt;identifier_id&gt;&quot;]]</string>
+	<key>EPSG_LAMBERT_CONFORMAL_CONIC_2SP</key>
+	<string>PROJCS[&quot;&lt;crs_name&gt;&quot;,&lt;crs_type&gt;[&quot;&lt;base_name&gt;&quot;,DATUM[&quot;&lt;reference_name&gt;&quot;,SPHEROID[&quot;&lt;ellipsoid_name&gt;&quot;,&lt;semi_major_axis&gt;,&lt;inverse_flattening&gt;]],PRIMEM[&quot;&lt;prime_meridian_name&gt;&quot;,&lt;irm_longitude&gt;],UNIT[&quot;degree&quot;,0.01745329251994328]],PROJECTION[&quot;Lambert_Conformal_Conic_2SP&quot;],PARAMETER[&quot;standard_parallel_1&quot;,&lt;standard_parallel_1&gt;],PARAMETER[&quot;standard_parallel_2&quot;,&lt;standard_parallel_2&gt;],PARAMETER[&quot;latitude_of_origin&quot;,&lt;latitude_of_origin&gt;],PARAMETER[&quot;central_meridian&quot;,&lt;central_meridian&gt;],PARAMETER[&quot;false_easting&quot;,&lt;false_easting&gt;],PARAMETER[&quot;false_northing&quot;,&lt;false_northing&gt;],AXIS[&quot;X&quot;,EAST],AXIS[&quot;Y&quot;,NORTH],AUTHORITY[&quot;EPSG&quot;,&quot;&lt;identifier_id&gt;&quot;]]</string>
+</dict>
+</plist>

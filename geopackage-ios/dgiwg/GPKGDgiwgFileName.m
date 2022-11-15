@@ -8,6 +8,7 @@
 
 #import "GPKGDgiwgFileName.h"
 #import "GPKGGeoPackageConstants.h"
+#import "GPKGDateTimeUtils.h"
 
 NSString * const GPKG_DGIWG_FN_DELIMITER_ELEMENTS = @"_";
 NSString * const GPKG_DGIWG_FN_DELIMITER_WORDS = @"-";
@@ -208,11 +209,18 @@ NSString * const GPKG_DGIWG_FN_DATE_FORMAT = @"ddMMMyyyy";
 }
 
 -(void) setCreationDateText: (NSString *) creationDateText{
-    // TODO
+    _creationDateText = creationDateText;
+    NSDateFormatter *formatter = [self dateConverter];
+    _creationDate = [formatter dateFromString:creationDateText];
 }
 
 -(void) setCreationDate: (NSDate *) creationDate{
-    // TODO
+    _creationDate = creationDate;
+    NSDateFormatter *formatter = [self dateConverter];
+    _creationDateText = [formatter stringFromDate:creationDate];
+    if(_creationDateText != nil){
+        _creationDateText = [_creationDateText uppercaseString];
+    }
 }
 
 -(BOOL) hasAdditional{
@@ -260,11 +268,96 @@ NSString * const GPKG_DGIWG_FN_DATE_FORMAT = @"ddMMMyyyy";
     return integer;
 }
 
--(NSString *) description{
-    // TODO
-    return @"";
+/**
+ * Get a date converter
+ *
+ * @return date converter
+ */
+-(NSDateFormatter *) dateConverter{
+    return [GPKGDateTimeUtils createFormatterWithFormat:GPKG_DGIWG_FN_DATE_FORMAT];
 }
 
-// TODO
+/**
+ * Add a value to the description string
+ *
+ * @param value
+ *            string value
+ * @param description
+ *            description
+ */
+-(void) addValue: (NSString *) value toDescription: (NSMutableString *) description{
+    if(value != nil){
+        [self addDelimiter:description];
+        value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        value = [value stringByReplacingOccurrencesOfString:@" " withString:GPKG_DGIWG_FN_DELIMITER_WORDS];
+        [description appendString:value];
+    }
+}
+
+/**
+ * Add an element delimiter
+ *
+ * @param builder
+ *            string builder
+ */
+-(void) addDelimiter: (NSMutableString *) description{
+    if(description.length > 0){
+        [description appendString:GPKG_DGIWG_FN_DELIMITER_ELEMENTS];
+    }
+}
+
+-(NSString *) description{
+    NSMutableString *description = [NSMutableString string];
+    [self addValue:_producer toDescription:description];
+    [self addValue:_dataProduct toDescription:description];
+    [self addValue:_geographicCoverageArea toDescription:description];
+    if(_zoomLevel1 != nil){
+        [self addDelimiter:description];
+        [description appendFormat:@"%@", _zoomLevel1];
+        if(_zoomLevel2 != nil){
+            [description appendString:GPKG_DGIWG_FN_DELIMITER_WORDS];
+            [description appendFormat:@"%@", _zoomLevel2];
+        }
+    }else{
+        [self addValue:_zoomLevels toDescription:description];
+    }
+    if(_majorVersion != nil){
+        [self addDelimiter:description];
+        [description appendString:GPKG_DGIWG_FN_VERSION_PREFIX];
+        [description appendFormat:@"%@", _majorVersion];
+        if(_minorVersion != nil){
+            [description appendString:GPKG_DGIWG_FN_DELIMITER_WORDS];
+            [description appendFormat:@"%@", _minorVersion];
+        }
+    }else{
+        [self addValue:_version toDescription:description];
+    }
+    [self addValue:_creationDateText toDescription:description];
+    if(_additional != nil){
+        for(NSString *value in _additional){
+            [self addValue:value toDescription:description];
+        }
+    }
+    return description;
+}
+
+- (BOOL) isEqual: (id) object{
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[GPKGDgiwgFileName class]]) {
+        return NO;
+    }
+    
+    return [[self description] isEqualToString:[((GPKGDgiwgFileName *)object) description]];
+}
+
+- (NSUInteger) hash{
+    NSUInteger prime = 31;
+    NSUInteger result = 1;
+    result = prime * result + [[self description] hash];
+    return result;
+}
 
 @end

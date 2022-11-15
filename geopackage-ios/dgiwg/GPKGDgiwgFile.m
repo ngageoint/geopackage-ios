@@ -10,6 +10,30 @@
 
 @implementation GPKGDgiwgFile
 
-// TODO
+-(instancetype) initWithFile: (NSString *) file{
+    self = [super init];
+    if(self != nil){
+        [self setFile:file];
+        [self setFileNameFromFile:file];
+    }
+    return self;
+}
+
+-(instancetype) initWithFile: (NSString *) file andFileName: (GPKGDgiwgFileName *) fileName{
+    self = [super init];
+    if(self != nil){
+        [self setFile:file];
+        [self setFileName:fileName];
+    }
+    return self;
+}
+
+-(NSString *) name{
+    return _fileName != nil ? [_fileName name] : nil;
+}
+
+-(void) setFileNameFromFile: (NSString *) file{
+    _fileName = file != nil ? [[GPKGDgiwgFileName alloc] initWithName:file] : nil;
+}
 
 @end
