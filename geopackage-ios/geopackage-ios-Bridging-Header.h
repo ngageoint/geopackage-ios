@@ -310,7 +310,7 @@
 #import "GPKGPixelBounds.h"
 #import "GPKGGeometryCrop.h"
 #import "GPKGDgiwgConstants.h"
-#import "GPKGDgiwgCoordinateReferenceSystem.h"
+#import "GPKGDgiwgCoordinateReferenceSystems.h"
 #import "GPKGDgiwgDataTypes.h"
 #import "GPKGDgiwgGeoPackage.h"
 #import "GPKGDgiwgGeoPackageManager.h"
