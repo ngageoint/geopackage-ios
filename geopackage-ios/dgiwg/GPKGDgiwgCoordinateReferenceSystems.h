@@ -10,6 +10,8 @@
 #import "CRSTypes.h"
 #import "GPKGDgiwgDataTypes.h"
 #import "GPKGBoundingBox.h"
+#import "GPKGSpatialReferenceSystem.h"
+#import "CRSGeoDatums.h"
 
 /**
  * DGIWG (Defence Geospatial Information Working Group) Coordinate Reference
@@ -147,8 +149,286 @@ enum GPKGDgiwgCoordinateReferenceSystem{
     GPKG_DGIWG_CRS_EPSG_32760
 };
 
+/**
+ * Coordinate Reference Systems
+ */
 @interface GPKGDgiwgCoordinateReferenceSystems : NSObject
 
-// TODO
+/**
+ * Get a CRS by type
+ *
+ * @param type
+ *            CRS type
+ * @return CRS
+ */
++(GPKGDgiwgCoordinateReferenceSystems *) fromType: (enum GPKGDgiwgCoordinateReferenceSystem) type;
+
+/**
+ * Get the type
+ *
+ * @return type
+ */
+-(enum GPKGDgiwgCoordinateReferenceSystem) type;
+
+/**
+ * Get the authority
+ *
+ * @return authority
+ */
+-(NSString *) authority;
+
+/**
+ * Get the code
+ *
+ * @return code
+ */
+-(int) code;
+
+/**
+ * Get the authority and code
+ *
+ * @return authority:code
+ */
+-(NSString *) authorityAndCode;
+
+/**
+ * Get the name
+ *
+ * @return name
+ */
+-(NSString *) name;
+
+/**
+ * Get the CRS type
+ *
+ * @return CRS type
+ */
+-(enum CRSType) crsType;
+
+/**
+ * Get the dimension
+ *
+ * @return dimension
+ */
+-(int) dimension;
+
+/**
+ * Get the Well-Known Text
+ *
+ * @return well-known text
+ */
+-(NSString *) wkt;
+
+/**
+ * Get the description
+ *
+ * @return description
+ */
+-(NSString *) theDescription;
+
+/**
+ * Get the bounds
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) bounds;
+
+/**
+ * Get the WGS84 bounds extent
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) wgs84Bounds;
+
+/**
+ * Get the data types
+ *
+ * @return data types
+ */
+-(NSSet<NSNumber *> *) dataTypes;
+
+/**
+ * Is the CRS Type
+ *
+ * @param type
+ *            crs type
+ * @return true if type
+ */
+-(BOOL) isCRSType: (enum CRSType) type;
+
+/**
+ * Is valid for the Data Type
+ *
+ * @param dataType
+ *            data type
+ * @return true if valid for data type
+ */
+-(BOOL) isDataType: (enum GPKGDgiwgDataType) dataType;
+
+/**
+ * Get the contents data types
+ *
+ * @return contents data types
+ */
+-(NSDictionary<NSNumber *, NSSet<NSNumber *> *> *) contentsDataTypes;
+
+/**
+ * Get the tiles data types
+ *
+ * @return tiles data types
+ */
+-(NSSet<NSNumber *> *) tilesDataTypes;
+
+/**
+ * Has tiles data types
+ *
+ * @return true if has tiles data types
+ */
+-(BOOL) hasTilesDataTypes;
+
+/**
+ * Get the features data types
+ *
+ * @return features data types
+ */
+-(NSSet<NSNumber *> *) featuresDataTypes;
+
+/**
+ * Has features data types
+ *
+ * @return true if has features data types
+ */
+-(BOOL) hasFeaturesDataTypes;
+
+/**
+ * Get the data types for the contents data type
+ *
+ * @param contentsDataType
+ *            contents data type
+ * @return data types
+ */
+-(NSSet<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) contentsDataType;
+
+/**
+ * Create a Spatial Reference System
+ *
+ * @return Spatial Reference System
+ */
+-(GPKGSpatialReferenceSystem *) createSpatialReferenceSystem;
+
+/**
+ * Validate the CRS for tiles and get the SRS
+ *
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) createTilesSpatialReferenceSystem;
+
+/**
+ * Validate the CRS for features and get the SRS
+ *
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) createFeaturesSpatialReferenceSystem;
+
+/**
+ * Create a Lambert Conic Conformal 1SP Spatial Reference System
+ *
+ * @param epsg
+ *            Lambert Conic Conformal 1SP EPSG
+ * @param name
+ *            CRS name
+ * @param crsType
+ *            CRS type
+ * @param geoDatum
+ *            {@link GeoDatums#WGS84}, {@link GeoDatums#ETRS89}, or
+ *            {@link GeoDatums#NAD83}
+ * @param latitudeOfOrigin
+ *            latitude of origin
+ * @param centralMeridian
+ *            central meridian
+ * @param scaleFactor
+ *            scale factor
+ * @param falseEasting
+ *            false easting
+ * @param falseNorthing
+ *            false northing
+ * @return Spatial Reference System
+ */
++(GPKGSpatialReferenceSystem *) createLambertConicConformal1SPWithEPSG: (int) epsg andName: (NSString *) name andCRS: (enum CRSType) crsType andGeoDatum: (enum CRSGeoDatumType) geoDatum andLatitudeOfOrigin: (double) latitudeOfOrigin andCentralMeridian: (double) centralMeridian andScaleFactor: (double) scaleFactor andFalseEasting: (double) falseEasting andFalseNorthing: (double) falseNorthing;
+
+/**
+ * Create a Lambert Conic Conformal 2SP Spatial Reference System
+ *
+ * @param epsg
+ *            Lambert Conic Conformal 2SP EPSG
+ * @param name
+ *            CRS name
+ * @param crsType
+ *            CRS type
+ * @param geoDatum
+ *            {@link GeoDatums#WGS84}, {@link GeoDatums#ETRS89}, or
+ *            {@link GeoDatums#NAD83}
+ * @param standardParallel1
+ *            standard parallel 1
+ * @param standardParallel2
+ *            standard parallel 2
+ * @param latitudeOfOrigin
+ *            latitude of origin
+ * @param centralMeridian
+ *            central meridian
+ * @param falseEasting
+ *            false easting
+ * @param falseNorthing
+ *            false northing
+ * @return Spatial Reference System
+ */
++(GPKGSpatialReferenceSystem *) createLambertConicConformal2SPWithEPSG: (int) epsg andName: (NSString *) name andCRS: (enum CRSType) crsType andGeoDatum: (enum CRSGeoDatumType) geoDatum andStandardParallel1: (double) standardParallel1 andStandardParallel2: (double) standardParallel2 andLatitudeOfOrigin: (double) latitudeOfOrigin andCentralMeridian: (double) centralMeridian andFalseEasting: (double) falseEasting andFalseNorthing: (double) falseNorthing;
+
+/**
+ * Get the coordinate reference system for the EPSG code
+ *
+ * @param epsgCode
+ *            EPSG code
+ * @return crs
+ */
++(GPKGDgiwgCoordinateReferenceSystems *) coordinateReferenceSystemWithEPSG: (int) epsg;
+
+/**
+ * Get the coordinate reference system for the spatial reference system
+ *
+ * @param srs
+ *            spatial reference system
+ * @return crs
+ */
++(GPKGDgiwgCoordinateReferenceSystems *) coordinateReferenceSystemWithSRS: (GPKGSpatialReferenceSystem *) srs;
+
+/**
+ * Get the coordinate reference system for the authority and code
+ *
+ * @param authority
+ *            authority
+ * @param code
+ *            code
+ * @return crs
+ */
++(GPKGDgiwgCoordinateReferenceSystems *) coordinateReferenceSystemWithAuthority: (NSString *) authority andCode: (int) code;
+
+/**
+ * Get the supported coordinate reference systems for the data type
+ *
+ * @param dataType
+ *            data type
+ * @return coordinate reference systems
+ */
++(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForType: (enum GPKGDgiwgDataType) dataType;
+
+/**
+ * Get the supported coordinate reference systems for the contents data type
+ *
+ * @param dataType
+ *            data type
+ * @return coordinate reference systems
+ */
++(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType;
 
 @end

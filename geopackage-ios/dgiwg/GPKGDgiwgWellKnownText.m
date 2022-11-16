@@ -50,6 +50,9 @@ static NSString *EPSG_UTM_ZONE = @"EPSG_UTM_ZONE";
 static NSString *EPSG_LAMBERT_CONFORMAL_CONIC_1SP = @"EPSG_LAMBERT_CONFORMAL_CONIC_1SP";
 static NSString *EPSG_LAMBERT_CONFORMAL_CONIC_2SP = @"EPSG_LAMBERT_CONFORMAL_CONIC_2SP";
 
+static NSString *LAMBERT_CONFORMAL_CONIC_1SP_DESCRIPTION = @"LAMBERT_CONFORMAL_CONIC_1SP_DESCRIPTION";
+static NSString *LAMBERT_CONFORMAL_CONIC_2SP_DESCRIPTION = @"LAMBERT_CONFORMAL_CONIC_2SP_DESCRIPTION";
+
 +(NSString *) readProperty: (NSString *) propertyName{
     NSMutableString *propertiesFile = [NSMutableString stringWithString:GPKG_DGIWG_RESOURCES_WKT];
     NSString *propertiesPath = [GPKGIOUtils propertyListPathWithName:propertiesFile];
@@ -207,6 +210,14 @@ static NSString *EPSG_LAMBERT_CONFORMAL_CONIC_2SP = @"EPSG_LAMBERT_CONFORMAL_CON
     wkt = [self replace:IDENTIFIER_UNIQUE_ID withInt:epsg inString:wkt];
     
     return wkt;
+}
+
++(NSString *) lambertConicConformal1SPDescription{
+    return [self readProperty:LAMBERT_CONFORMAL_CONIC_1SP_DESCRIPTION];
+}
+
++(NSString *) lambertConicConformal2SPDescription{
+    return [self readProperty:LAMBERT_CONFORMAL_CONIC_2SP_DESCRIPTION];
 }
 
 +(NSString *) replace: (NSString *) property withString: (NSString *) replacement inString: (NSString *) string{

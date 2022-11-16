@@ -129,4 +129,14 @@ extern NSString * const GPKG_DGIWG_RESOURCES_WKT;
  */
 +(NSString *) lambertConicConformal2SPWithEPSG: (int) epsg andName: (NSString *) name andCRS: (enum CRSType) crsType andGeoDatum: (enum CRSGeoDatumType) geoDatum andStandardParallel1: (double) standardParallel1 andStandardParallel2: (double) standardParallel2 andLatitudeOfOrigin: (double) latitudeOfOrigin andCentralMeridian: (double) centralMeridian andFalseEasting: (double) falseEasting andFalseNorthing: (double) falseNorthing;
 
+/**
+ * Get Lambert Conic Conformal 1SP description
+ */
++(NSString *) lambertConicConformal1SPDescription;
+
+/**
+ * Get Lambert Conic Conformal 2SP description
+ */
++(NSString *) lambertConicConformal2SPDescription;
+
 @end
