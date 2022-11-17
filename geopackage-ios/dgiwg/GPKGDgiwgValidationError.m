@@ -51,8 +51,16 @@
     return self;
 }
 
+-(instancetype) initWithTable: (NSString *) table andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey{
+    return [self initWithTable:table andValue:value andConstraint:constraint andRequirement:requirement andKeys:[NSArray arrayWithObject:primaryKey]];
+}
+
 -(instancetype) initWithTable: (NSString *) table andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys{
     return [self initWithTable:table andColumn:nil andValue:value andConstraint:constraint andRequirement:requirement andKeys:primaryKeys];
+}
+
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey{
+    return [self initWithTable:table andColumn:column andValue:value andConstraint:constraint andRequirement:requirement andKeys:[NSArray arrayWithObject:primaryKey]];
 }
 
 -(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys{
@@ -63,8 +71,16 @@
     return self;
 }
 
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey{
+    return [self initWithTable:table andColumn:column andNumber:value andConstraint:constraint andRequirement:requirement andKeys:[NSArray arrayWithObject:primaryKey]];
+}
+
 -(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys{
     return [self initWithTable:table andColumn:column andValue:value != nil ? [value stringValue] : nil andConstraint:constraint andRequirement:requirement andKeys:primaryKeys];
+}
+
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraintValue: (NSNumber *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey{
+    return [self initWithTable:table andColumn:column andNumber:value andConstraintValue:constraint andRequirement:requirement andKeys:[NSArray arrayWithObject:primaryKey]];
 }
 
 -(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraintValue: (NSNumber *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys{

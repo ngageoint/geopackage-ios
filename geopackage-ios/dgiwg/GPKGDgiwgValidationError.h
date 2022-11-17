@@ -140,10 +140,44 @@
  *            constraint or error description
  * @param requirement
  *            requirement
+ * @param primaryKey
+ *            primary key
+ */
+-(instancetype) initWithTable: (NSString *) table andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey;
+
+/**
+ * Initialize
+ *
+ * @param table
+ *            table name
+ * @param value
+ *            error causing value
+ * @param constraint
+ *            constraint or error description
+ * @param requirement
+ *            requirement
  * @param primaryKeys
  *            primary keys
  */
 -(instancetype) initWithTable: (NSString *) table andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys;
+
+/**
+ * Initialize
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param value
+ *            error causing value
+ * @param constraint
+ *            constraint or error description
+ * @param requirement
+ *            requirement
+ * @param primaryKey
+ *            primary key
+ */
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andValue: (NSString *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey;
 
 /**
  * Initialize
@@ -176,10 +210,46 @@
  *            constraint or error description
  * @param requirement
  *            requirement
+ * @param primaryKey
+ *            primary key
+ */
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey;
+
+/**
+ * Initialize
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param value
+ *            error causing value
+ * @param constraint
+ *            constraint or error description
+ * @param requirement
+ *            requirement
  * @param primaryKeys
  *            primary keys
  */
 -(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraint: (NSString *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKeys: (NSArray<GPKGDgiwgValidationKey *> *) primaryKeys;
+
+/**
+ * Initialize
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param value
+ *            error causing value
+ * @param constraint
+ *            constraint or error description
+ * @param requirement
+ *            requirement
+ * @param primaryKey
+ *            primary key
+ */
+-(instancetype) initWithTable: (NSString *) table andColumn: (NSString *) column andNumber: (NSNumber *) value andConstraintValue: (NSNumber *) constraint andRequirement: (enum GPKGDgiwgRequirement) requirement andKey: (GPKGDgiwgValidationKey *) primaryKey;
 
 /**
  * Initialize

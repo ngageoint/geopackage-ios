@@ -27,6 +27,27 @@
     return type;
 }
 
++(NSString *) name: (enum GPKGDgiwgDataType) dataType{
+    NSString *name = nil;
+    
+    switch(dataType){
+        case GPKG_DGIWG_DT_FEATURES_2D:
+            name = @"FEATURES_2D";
+            break;
+        case GPKG_DGIWG_DT_FEATURES_3D:
+            name = @"FEATURES_3D";
+            break;
+        case GPKG_DGIWG_DT_TILES_2D:
+            name = @"TILES_2D";
+            break;
+        case GPKG_DGIWG_DT_TILES_3D:
+            name = @"TILES_3D";
+            break;
+    }
+    
+    return name;
+}
+
 +(int) dimension: (enum GPKGDgiwgDataType) dataType{
     int dimension = -1;
     

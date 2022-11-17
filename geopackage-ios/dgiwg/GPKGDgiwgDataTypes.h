@@ -29,6 +29,13 @@ enum GPKGDgiwgDataType{
 +(enum GPKGContentsDataType) dataType: (enum GPKGDgiwgDataType) dataType;
 
 /**
+ * Get the name
+ *
+ * @return name
+ */
++(NSString *) name: (enum GPKGDgiwgDataType) dataType;
+
+/**
  * Get the dimension
  *
  * @return dimension

@@ -780,6 +780,14 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
     return _dataTypes;
 }
 
+-(NSSet<NSString *> *) dataTypeNames{
+    NSMutableSet<NSString *> *names = [NSMutableSet set];
+    for(NSNumber *dataType in _dataTypes){
+        [names addObject:[GPKGDgiwgDataTypes name:[dataType intValue]]];
+    }
+    return names;
+}
+
 -(BOOL) isCRSType: (enum CRSType) type{
     return _crsType == type;
 }

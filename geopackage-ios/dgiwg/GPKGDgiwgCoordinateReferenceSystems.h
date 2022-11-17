@@ -248,6 +248,13 @@ enum GPKGDgiwgCoordinateReferenceSystem{
 -(NSSet<NSNumber *> *) dataTypes;
 
 /**
+ * Get the data type names
+ *
+ * @return data type names
+ */
+-(NSSet<NSString *> *) dataTypeNames;
+
+/**
  * Is the CRS Type
  *
  * @param type
