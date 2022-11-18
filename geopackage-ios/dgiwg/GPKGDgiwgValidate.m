@@ -19,6 +19,9 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGExtensionManager.h"
 #import "GPKGGeometryExtensions.h"
+#import "CRSReader.h"
+#import "GPKGZoomOtherExtension.h"
+#import "GPKGWebPExtension.h"
 
 @implementation GPKGDgiwgValidate
 
@@ -188,11 +191,167 @@
 }
 
 +(GPKGDgiwgValidationErrors *) validateTileTable: (NSString *) tileTable inGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return nil; // TODO
+
+    GPKGDgiwgValidationErrors *errors = [[GPKGDgiwgValidationErrors alloc] init];
+
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:tileTable];
+
+    if(tileMatrixSet != nil){
+        GPKGSpatialReferenceSystem *srs = [tileMatrixSetDao srs:tileMatrixSet];
+        [errors addValidationErrors:[self validateCRSWithTileTable:tileTable andSRS:srs]];
+        
+        GPKGDgiwgCoordinateReferenceSystems *crs = [GPKGDgiwgCoordinateReferenceSystems coordinateReferenceSystemWithSRS:srs];
+        if(crs != nil){
+            
+            GPKGBoundingBox *boundingBox = [crs bounds];
+            if(![boundingBox contains:[tileMatrixSet boundingBox]]){
+
+                NSString *crsBounds = [NSString stringWithFormat:@"CRS %@ Bounds: %@", [crs authorityAndCode], boundingBox];
+
+                if([tileMatrixSet.minX doubleValue] < [boundingBox.minLongitude doubleValue]){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MIN_X andNumber:tileMatrixSet.minX andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
+                }
+
+                if([tileMatrixSet.minY doubleValue] < [boundingBox.minLatitude doubleValue]){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MIN_Y andNumber:tileMatrixSet.minY andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
+                }
+                
+                if([tileMatrixSet.maxX doubleValue] > [boundingBox.maxLongitude doubleValue]){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MAX_X andNumber:tileMatrixSet.maxX andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
+                }
+
+                if([tileMatrixSet.maxY doubleValue] > [boundingBox.maxLatitude doubleValue]){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MAX_Y andNumber:tileMatrixSet.maxY andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
+                }
+
+            }
+            
+        }
+        
+    }else{
+        [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_TABLE_NAME andValue:tileTable andConstraint:@"No Tile Matrix Set for tile table" andRequirement:GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET]];
+    }
+
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
+    NSArray<GPKGTileMatrix *> *tileMatrices = [tileMatrixDao tileMatricesForTableName:tileTable];
+
+    if(tileMatrices == nil || tileMatrices.count == 0){
+        [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_TABLE_NAME andValue:tileTable andConstraint:@"No Tile Matrices for tile table" andRequirement:GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
+    }else{
+
+        GPKGTileMatrix *previousTileMatrix = nil;
+
+        for(GPKGTileMatrix *tileMatrix in tileMatrices){
+
+            int zoomLevel = [tileMatrix.zoomLevel intValue];
+            if(zoomLevel < GPKG_DGIWG_MIN_ZOOM_LEVEL || zoomLevel > GPKG_DGIWG_MAX_ZOOM_LEVEL){
+                [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_ZOOM_LEVEL andNumber:tileMatrix.zoomLevel andConstraint:[NSString stringWithFormat:@"%d <= %@ <= %d", (int) GPKG_DGIWG_MIN_ZOOM_LEVEL, GPKG_TM_COLUMN_ZOOM_LEVEL, (int) GPKG_DGIWG_MAX_ZOOM_LEVEL] andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+            }
+
+            if([tileMatrix.tileWidth intValue] != GPKG_DGIWG_TILE_WIDTH){
+                [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_TILE_WIDTH andNumber:tileMatrix.tileWidth andConstraintValue:[NSNumber numberWithInteger:GPKG_DGIWG_TILE_WIDTH] andRequirement:GPKG_DGIWG_REQ_TILE_SIZE_MATRIX andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+            }
+            
+            if([tileMatrix.tileHeight intValue] != GPKG_DGIWG_TILE_HEIGHT){
+                [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_TILE_HEIGHT andNumber:tileMatrix.tileHeight andConstraintValue:[NSNumber numberWithInteger:GPKG_DGIWG_TILE_HEIGHT] andRequirement:GPKG_DGIWG_REQ_TILE_SIZE_MATRIX andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+            }
+
+            if(previousTileMatrix != nil){
+
+                int zoomChange = [tileMatrix.zoomLevel intValue] - [previousTileMatrix.zoomLevel intValue];
+                double factor = pow(2, zoomChange);
+                double pixelXSize = [previousTileMatrix.pixelXSize doubleValue] / factor;
+                double pixelYSize = [previousTileMatrix.pixelYSize doubleValue] / factor;
+                
+                if([tileMatrix.pixelXSize doubleValue] != pixelXSize){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_PIXEL_X_SIZE andNumber:tileMatrix.pixelXSize andConstraintValue:[[NSDecimalNumber alloc] initWithDouble:pixelXSize] andRequirement:GPKG_DGIWG_REQ_ZOOM_FACTOR andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+                }
+                
+                if([tileMatrix.pixelYSize doubleValue] != pixelYSize){
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_PIXEL_Y_SIZE andNumber:tileMatrix.pixelYSize andConstraintValue:[[NSDecimalNumber alloc] initWithDouble:pixelYSize] andRequirement:GPKG_DGIWG_REQ_ZOOM_FACTOR andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+                }
+
+                if(zoomChange > 1){
+                    NSMutableString *zoomMissing = [NSMutableString string];
+                    [zoomMissing appendFormat:@"%d", [previousTileMatrix.zoomLevel intValue] + 1];
+                    if(zoomChange > 2){
+                        [zoomMissing appendString:@" - "];
+                        [zoomMissing appendFormat:@"%d", [tileMatrix.zoomLevel intValue] - 1];
+                    }
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_ZOOM_LEVEL andNumber:tileMatrix.zoomLevel andConstraint:[NSString stringWithFormat:@"Missing adjacent zoom level(s): %@", zoomMissing] andRequirement:GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
+                }
+
+            }
+
+            previousTileMatrix = tileMatrix;
+        }
+
+    }
+
+    GPKGZoomOtherExtension *zoomOtherExtension = [[GPKGZoomOtherExtension alloc] initWithGeoPackage:geoPackage];
+    if([zoomOtherExtension hasWithTableName:tileTable]){
+        [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_EX_TABLE_NAME andColumn:GPKG_EX_COLUMN_EXTENSION_NAME andValue:zoomOtherExtension.extensionName andConstraint:@"Zoom other intervals not allowed" andRequirement:GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED andKeys:[self primaryKeysOfExtension:zoomOtherExtension.extensionName withTable:tileTable andColumn:GPKG_TC_COLUMN_TILE_DATA]]];
+    }
+
+    GPKGWebPExtension *webPExtension = [[GPKGWebPExtension alloc] initWithGeoPackage:geoPackage];
+    if([webPExtension hasWithTableName:tileTable]){
+        [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_EX_TABLE_NAME andColumn:GPKG_EX_COLUMN_EXTENSION_NAME andValue:webPExtension.extensionName andConstraint:@"WebP encoding not allowed" andRequirement:GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED andKeys:[self primaryKeysOfExtension:webPExtension.extensionName withTable:tileTable andColumn:GPKG_TC_COLUMN_TILE_DATA]]];
+    }
+ 
+    return errors;
 }
 
 +(GPKGDgiwgValidationErrors *) validateCRSWithTileTable: (NSString *) tileTable andSRS: (GPKGSpatialReferenceSystem *) srs{
-    return nil; // TODO
+
+    GPKGDgiwgValidationErrors *errors = [[GPKGDgiwgValidationErrors alloc] init];
+
+    GPKGDgiwgCoordinateReferenceSystems *crs = [self validateCRSWithErrors:errors andTable:tileTable andSRS:srs andContentsType:GPKG_CDT_TILES];
+
+    if(crs == nil){
+
+        PROJProjection *projection = [srs projection];
+        NSString *definition = [projection definition];
+
+        CRSObject *definitionCrs = [projection definitionCRS];
+        if(definitionCrs == nil){
+            if(definition != nil){
+                @try {
+                    definitionCrs = [CRSReader read:definition];
+                } @catch (NSException *e) {
+                    [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:GPKG_SRS_COLUMN_DEFINITION andValue:definition andConstraint:[NSString stringWithFormat:@"Failed to read tiles coordinate reference system definition: %@", [e description]] andRequirement:GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED andKey:[self primaryKeyOfSRS:srs]]];
+                }
+            }
+        }
+
+        if(definitionCrs != nil){
+
+            BOOL valid = NO;
+
+            if(definitionCrs.type == CRS_TYPE_PROJECTED && [definitionCrs isKindOfClass:[CRSProjectedCoordinateReferenceSystem class]]){
+                CRSProjectedCoordinateReferenceSystem *projected = (CRSProjectedCoordinateReferenceSystem *) definitionCrs;
+                CRSOperationMethods *operationMethod = projected.mapProjection.method.method;
+                switch(operationMethod.type){
+                    case CRS_METHOD_LAMBERT_CONIC_CONFORMAL_1SP:
+                    case CRS_METHOD_LAMBERT_CONIC_CONFORMAL_2SP:
+                        valid = YES;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            if(!valid){
+                [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:GPKG_SRS_COLUMN_DEFINITION andValue:definition andConstraint:@"Unsupported tiles coordinate reference system" andRequirement:GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED andKey:[self primaryKeyOfSRS:srs]]];
+            }
+
+        }else if(![errors hasErrors]){
+            [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:GPKG_SRS_COLUMN_DEFINITION andValue:definition andConstraint:@"Failed to read tiles coordinate reference system definition" andRequirement:GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED andKey:[self primaryKeyOfSRS:srs]]];
+        }
+
+    }
+
+    return errors;
 }
 
 +(GPKGDgiwgValidationErrors *) validateFeatureTable: (NSString *) featureTable inGeoPackage: (GPKGGeoPackage *) geoPackage{
