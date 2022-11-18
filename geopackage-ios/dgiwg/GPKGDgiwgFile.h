@@ -44,6 +44,16 @@
 -(instancetype) initWithFile: (NSString *) file andFileName: (GPKGDgiwgFileName *) fileName;
 
 /**
+ *  Initialize
+ *
+ *  @param file GeoPackage file name or path
+ *  @param fileName file name
+ *
+ *  @return new file
+ */
+-(instancetype) initWithFile: (NSString *) file andName: (NSString *) fileName;
+
+/**
  * Get the file name
  *
  * @return file name

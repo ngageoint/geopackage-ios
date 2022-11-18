@@ -28,6 +28,15 @@
     return self;
 }
 
+-(instancetype) initWithFile: (NSString *) file andName: (NSString *) fileName{
+    self = [super init];
+    if(self != nil){
+        [self setFile:file];
+        [self setFileNameFromFile:fileName];
+    }
+    return self;
+}
+
 -(NSString *) name{
     return _fileName != nil ? [_fileName name] : nil;
 }

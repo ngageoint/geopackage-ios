@@ -185,59 +185,59 @@
 /**
  * Create GeoPackage metadata with a series scope and metadata reference
  *
+ * @param metadata
+ *            metadata
  * @param geoPackage
  *            GeoPackage
  * @param uri
  *            URI
- * @param metadata
- *            metadata
  * @return metadata reference
  */
-+(GPKGMetadataReference *) createGeoPackageSeriesMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andURI: (NSString *) uri andMetadata: (NSString *) metadata;
++(GPKGMetadataReference *) createGeoPackageSeriesMetadata: (NSString *) metadata withGeoPackage: (GPKGGeoPackage *) geoPackage andURI: (NSString *) uri;
 
 /**
  * Create GeoPackage metadata with a dataset scope and metadata reference
  *
+ * @param metadata
+ *            metadata
  * @param geoPackage
  *            GeoPackage
  * @param uri
  *            URI
- * @param metadata
- *            metadata
  * @return metadata reference
  */
-+(GPKGMetadataReference *) createGeoPackageDatasetMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andURI: (NSString *) uri andMetadata: (NSString *) metadata;
++(GPKGMetadataReference *) createGeoPackageDatasetMetadata: (NSString *) metadata withGeoPackage: (GPKGGeoPackage *) geoPackage andURI: (NSString *) uri;
 
 /**
  * Create GeoPackage metadata and metadata reference
  *
+ * @param metadata
+ *            metadata
  * @param geoPackage
  *            GeoPackage
  * @param scope
  *            metadata scope type
  * @param uri
  *            URI
- * @param metadata
- *            metadata
  * @return metadata reference
  */
-+(GPKGMetadataReference *) createGeoPackageMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri andMetadata: (NSString *) metadata;
++(GPKGMetadataReference *) createGeoPackageMetadata: (NSString *) metadata withGeoPackage: (GPKGGeoPackage *) geoPackage andScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri;
 
 /**
  * Create metadata and metadata reference
  *
+ * @param metadata
+ *            metadata
  * @param geoPackage
  *            GeoPackage
  * @param scope
  *            metadata scope type
  * @param uri
  *            URI
- * @param metadata
- *            metadata
  * @param reference
  *            metadata reference
  * @return metadata reference
  */
-+(GPKGMetadataReference *) createMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri andMetadata: (NSString *) metadata andReference: (GPKGMetadataReference *) reference;
++(GPKGMetadataReference *) createMetadata: (NSString *) metadata withGeoPackage: (GPKGGeoPackage *) geoPackage andScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri andReference: (GPKGMetadataReference *) reference;
 
 @end
