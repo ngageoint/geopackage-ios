@@ -313,6 +313,7 @@
 #import "GPKGDgiwgCoordinateReferenceSystems.h"
 #import "GPKGDgiwgDataTypes.h"
 #import "GPKGDgiwgGeoPackage.h"
+#import "GPKGDgiwgGeoPackageFactory.h"
 #import "GPKGDgiwgGeoPackageManager.h"
 #import "GPKGDgiwgMetadata.h"
 #import "GPKGDgiwgRequirements.h"

@@ -629,6 +629,8 @@
 		0499468023F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499467E23F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m */; };
 		0499468323F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0499468123F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h */; };
 		0499468423F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */; };
+		049A5DE32927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 049A5DE12927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h */; };
+		049A5DE42927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A5DE22927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m */; };
 		049D95A327B6DDC2003C8046 /* GPKGPagination.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95A127B6DDC2003C8046 /* GPKGPagination.h */; };
 		049D95A427B6DDC2003C8046 /* GPKGPagination.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95A227B6DDC2003C8046 /* GPKGPagination.m */; };
 		049D95A727BAEAAA003C8046 /* GPKGPaginatedResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95A527BAEAAA003C8046 /* GPKGPaginatedResults.h */; };
@@ -1516,6 +1518,8 @@
 		0499467E23F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexerIdQuery.m; sourceTree = "<group>"; };
 		0499468123F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexerIdResultSet.h; sourceTree = "<group>"; };
 		0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexerIdResultSet.m; sourceTree = "<group>"; };
+		049A5DE12927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGDgiwgGeoPackageFactory.h; sourceTree = "<group>"; };
+		049A5DE22927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGDgiwgGeoPackageFactory.m; sourceTree = "<group>"; };
 		049D95A127B6DDC2003C8046 /* GPKGPagination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPagination.h; sourceTree = "<group>"; };
 		049D95A227B6DDC2003C8046 /* GPKGPagination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPagination.m; sourceTree = "<group>"; };
 		049D95A527BAEAAA003C8046 /* GPKGPaginatedResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPaginatedResults.h; sourceTree = "<group>"; };
@@ -3319,6 +3323,8 @@
 				04AC5ED5291C4F06005CAB9D /* GPKGDgiwgDataTypes.m */,
 				04AC5F0C291EDF5B005CAB9D /* GPKGDgiwgGeoPackage.h */,
 				04AC5F0D291EDF5B005CAB9D /* GPKGDgiwgGeoPackage.m */,
+				049A5DE12927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h */,
+				049A5DE22927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m */,
 				04AC5F10291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.h */,
 				04AC5F11291EDF8D005CAB9D /* GPKGDgiwgGeoPackageManager.m */,
 				04AC5F00291EDDD2005CAB9D /* GPKGDgiwgMetadata.h */,
@@ -3732,6 +3738,7 @@
 				04DA3459250163340005AD20 /* GPKGFeatureTableMetadata.h in Headers */,
 				0407C45921E52DD1008ABBF6 /* GPKGContentsId.h in Headers */,
 				0407C47821F14441008ABBF6 /* GPKGFeatureStyleExtension.h in Headers */,
+				049A5DE32927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h in Headers */,
 				042FC8601B964D8C00549A4B /* GPKGCompressFormats.h in Headers */,
 				042FC8071B964D8C00549A4B /* GPKGSqlLiteQueryBuilder.h in Headers */,
 				046877EC1C63904100967470 /* GPKGFeatureTileLink.h in Headers */,
@@ -4057,6 +4064,7 @@
 				042FC8901B964D8C00549A4B /* GPKGFeatureTiles.m in Sources */,
 				042FC8C41B964D8C00549A4B /* GPKGGeoPackageValidate.m in Sources */,
 				042FC8A61B964D8C00549A4B /* GPKGOverlayFactory.m in Sources */,
+				049A5DE42927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m in Sources */,
 				04AC5EE3291DA29D005CAB9D /* GPKGDgiwgValidationKey.m in Sources */,
 				042FC84B1B964D8C00549A4B /* GPKGMultiPolyline.m in Sources */,
 				0409CCBE20D2B4770069B797 /* GPKGMediaTable.m in Sources */,
