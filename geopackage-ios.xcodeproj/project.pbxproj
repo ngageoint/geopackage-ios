@@ -631,6 +631,7 @@
 		0499468423F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */; };
 		049A5DE32927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 049A5DE12927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h */; };
 		049A5DE42927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A5DE22927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m */; };
+		049A5DE8292C1D970098954D /* GPKGDgiwgFileNameTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 049A5DE7292C1D970098954D /* GPKGDgiwgFileNameTestCase.m */; };
 		049D95A327B6DDC2003C8046 /* GPKGPagination.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95A127B6DDC2003C8046 /* GPKGPagination.h */; };
 		049D95A427B6DDC2003C8046 /* GPKGPagination.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95A227B6DDC2003C8046 /* GPKGPagination.m */; };
 		049D95A727BAEAAA003C8046 /* GPKGPaginatedResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95A527BAEAAA003C8046 /* GPKGPaginatedResults.h */; };
@@ -1520,6 +1521,8 @@
 		0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexerIdResultSet.m; sourceTree = "<group>"; };
 		049A5DE12927DDC80098954D /* GPKGDgiwgGeoPackageFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGDgiwgGeoPackageFactory.h; sourceTree = "<group>"; };
 		049A5DE22927DDC80098954D /* GPKGDgiwgGeoPackageFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGDgiwgGeoPackageFactory.m; sourceTree = "<group>"; };
+		049A5DE6292C1D970098954D /* GPKGDgiwgFileNameTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGDgiwgFileNameTestCase.h; sourceTree = "<group>"; };
+		049A5DE7292C1D970098954D /* GPKGDgiwgFileNameTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGDgiwgFileNameTestCase.m; sourceTree = "<group>"; };
 		049D95A127B6DDC2003C8046 /* GPKGPagination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPagination.h; sourceTree = "<group>"; };
 		049D95A227B6DDC2003C8046 /* GPKGPagination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPagination.m; sourceTree = "<group>"; };
 		049D95A527BAEAAA003C8046 /* GPKGPaginatedResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPaginatedResults.h; sourceTree = "<group>"; };
@@ -2278,6 +2281,7 @@
 				0422BB341DF0E626002709B6 /* attributes */,
 				04DCAEA31F27CCC800FA9B9F /* contents */,
 				042FC8C51B964DA200549A4B /* db */,
+				049A5DE5292C1C1B0098954D /* dgiwg */,
 				048EC1721BD54F58008426A7 /* extension */,
 				0480CD111BD6DC0600094009 /* features */,
 				042FC8CB1B964DA200549A4B /* geom */,
@@ -3297,6 +3301,15 @@
 				04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */,
 			);
 			path = retriever;
+			sourceTree = "<group>";
+		};
+		049A5DE5292C1C1B0098954D /* dgiwg */ = {
+			isa = PBXGroup;
+			children = (
+				049A5DE6292C1D970098954D /* GPKGDgiwgFileNameTestCase.h */,
+				049A5DE7292C1D970098954D /* GPKGDgiwgFileNameTestCase.m */,
+			);
+			path = dgiwg;
 			sourceTree = "<group>";
 		};
 		049D95D627CFD6CD003C8046 /* overlay */ = {
@@ -4336,6 +4349,7 @@
 				04DCAEB01F28EC8400FA9B9F /* GPKGSpatialReferenceSystemCreateTest.m in Sources */,
 				0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */,
 				042FC8F01B964DA200549A4B /* GPKGTestConstants.m in Sources */,
+				049A5DE8292C1D970098954D /* GPKGDgiwgFileNameTestCase.m in Sources */,
 				04711AEC220CC9CE007DC3A4 /* GPKGRelatedAttributesUtils.m in Sources */,
 				04711AEF220DD89D007DC3A4 /* GPKGRelatedTilesCreateTest.m in Sources */,
 				041A2C522413046E00A5B08A /* GPKGFeaturePreviewCreateTestCase.m in Sources */,
