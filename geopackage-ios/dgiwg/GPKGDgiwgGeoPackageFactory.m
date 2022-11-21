@@ -10,6 +10,8 @@
 
 @implementation GPKGDgiwgGeoPackageFactory
 
-// TODO
++(GPKGDgiwgGeoPackageManager *) manager{
+    return [[GPKGDgiwgGeoPackageManager alloc] init];
+}
 
 @end

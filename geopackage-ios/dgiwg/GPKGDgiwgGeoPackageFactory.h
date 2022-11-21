@@ -7,12 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGDgiwgGeoPackageManager.h"
 
 /**
  * DGIWG GeoPackage Factory to get a DGIWG GeoPackage Manager
  */
 @interface GPKGDgiwgGeoPackageFactory : NSObject
 
-// TODO
+/**
+ * Get a GeoPackage Manager
+ *
+ * @return GeoPackage manager
+ */
++(GPKGDgiwgGeoPackageManager *) manager;
 
 @end
