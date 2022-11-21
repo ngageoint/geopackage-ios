@@ -245,14 +245,14 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *
  * @return data types
  */
--(NSSet<NSNumber *> *) dataTypes;
+-(NSArray<NSNumber *> *) dataTypes;
 
 /**
  * Get the data type names
  *
  * @return data type names
  */
--(NSSet<NSString *> *) dataTypeNames;
+-(NSArray<NSString *> *) dataTypeNames;
 
 /**
  * Is the CRS Type
@@ -277,14 +277,14 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *
  * @return contents data types
  */
--(NSDictionary<NSNumber *, NSSet<NSNumber *> *> *) contentsDataTypes;
+-(NSDictionary<NSNumber *, NSArray<NSNumber *> *> *) contentsDataTypes;
 
 /**
  * Get the tiles data types
  *
  * @return tiles data types
  */
--(NSSet<NSNumber *> *) tilesDataTypes;
+-(NSArray<NSNumber *> *) tilesDataTypes;
 
 /**
  * Has tiles data types
@@ -298,7 +298,7 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *
  * @return features data types
  */
--(NSSet<NSNumber *> *) featuresDataTypes;
+-(NSArray<NSNumber *> *) featuresDataTypes;
 
 /**
  * Has features data types
@@ -314,7 +314,7 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *            contents data type
  * @return data types
  */
--(NSSet<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) contentsDataType;
+-(NSArray<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) contentsDataType;
 
 /**
  * Create a Spatial Reference System
@@ -427,7 +427,7 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *            data type
  * @return coordinate reference systems
  */
-+(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForType: (enum GPKGDgiwgDataType) dataType;
++(NSArray<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForType: (enum GPKGDgiwgDataType) dataType;
 
 /**
  * Get the supported coordinate reference systems for the contents data type
@@ -436,6 +436,6 @@ enum GPKGDgiwgCoordinateReferenceSystem{
  *            data type
  * @return coordinate reference systems
  */
-+(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType;
++(NSArray<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType;
 
 @end

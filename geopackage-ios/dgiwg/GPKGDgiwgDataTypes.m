@@ -85,8 +85,8 @@
     return [self dimension:dataType] - 2;
 }
 
-+(NSSet<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) type{
-    NSMutableSet<NSNumber *> *types = [NSMutableSet set];
++(NSArray<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) type{
+    NSMutableArray<NSNumber *> *types = [NSMutableArray array];
     
     for(int dataType = 0; dataType <= GPKG_DGIWG_DT_TILES_3D; dataType++) {
         if([self dataType:dataType] == type){

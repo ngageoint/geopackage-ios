@@ -482,7 +482,7 @@
  *
  * @return metadata references
  */
-+(GPKGResultSet *) queryGeoPackageDMFMetadata;
+-(GPKGResultSet *) queryGeoPackageDMFMetadata;
 
 /**
  * Query for GeoPackage NSG Metadata Foundation (NMF) NSG Application Schema
@@ -490,7 +490,7 @@
  *
  * @return metadata references
  */
-+(GPKGResultSet *) queryGeoPackageNASMetadata;
+-(GPKGResultSet *) queryGeoPackageNASMetadata;
 
 /**
  * Query for GeoPackage metadata
@@ -498,6 +498,6 @@
  * @param baseURI base URI
  * @return metadata references
  */
-+(GPKGResultSet *) queryGeoPackageMetadataWithBaseURI: (NSString *) baseURI;
+-(GPKGResultSet *) queryGeoPackageMetadataWithBaseURI: (NSString *) baseURI;
 
 @end

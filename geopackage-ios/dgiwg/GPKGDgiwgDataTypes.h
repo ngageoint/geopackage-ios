@@ -84,6 +84,6 @@ enum GPKGDgiwgDataType{
  *            contents data type
  * @return data types
  */
-+(NSSet<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) type;
++(NSArray<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) type;
 
 @end

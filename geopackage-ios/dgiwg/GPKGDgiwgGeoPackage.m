@@ -8,6 +8,9 @@
 
 #import "GPKGDgiwgGeoPackage.h"
 #import "GPKGDgiwgValidate.h"
+#import "GPKGDgiwgUtils.h"
+#import "GPKGRTreeIndexExtension.h"
+#import "GPKGDgiwgMetadata.h"
 
 @interface GPKGDgiwgGeoPackage()
 
@@ -63,159 +66,170 @@
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:table andDescription:table andCRS:crs];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:identifier andDescription:description andInformativeBounds:nil andCRS:crs];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andInformativeBounds: (GPKGBoundingBox *) informativeBounds andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    GPKGSpatialReferenceSystem *srs = [crs createTilesSpatialReferenceSystem];
+    return [self createTilesWithTable:table andIdentifier:identifier andDescription:description andInformativeBounds:informativeBounds andSRS:srs andExtentBounds:[crs bounds]];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:table andDescription:table andCRS:crs andExtentBounds:extentBounds];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:identifier andDescription:description andInformativeBounds:nil andCRS:crs andExtentBounds:extentBounds];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andInformativeBounds: (GPKGBoundingBox *) informativeBounds andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:identifier andDescription:description andInformativeBounds:informativeBounds andSRS:[crs createTilesSpatialReferenceSystem] andExtentBounds:extentBounds];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andSRS: (GPKGSpatialReferenceSystem *) srs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:table andDescription:table andSRS:srs andExtentBounds:extentBounds];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andSRS: (GPKGSpatialReferenceSystem *) srs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [self createTilesWithTable:table andIdentifier:identifier andDescription:description andInformativeBounds:nil andSRS:srs andExtentBounds:extentBounds];
 }
 
 -(GPKGTileMatrixSet *) createTilesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andInformativeBounds: (GPKGBoundingBox *) informativeBounds andSRS: (GPKGSpatialReferenceSystem *) srs andExtentBounds: (GPKGBoundingBox *) extentBounds{
-    return nil; // TODO
+    return [GPKGDgiwgUtils createTilesWithGeoPackage:self andTable:table andIdentifier:identifier andDescription:description andInformativeBounds:informativeBounds andSRS:srs andExtentBounds:extentBounds];
 }
 
 -(void) createTileMatricesWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-    // TODO
+    return [self createTileMatricesWithTable:tileMatrixSet.tableName andBounds:[tileMatrixSet boundingBox] andMinZoom:minZoom andMaxZoom:maxZoom andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatricesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) boundingBox andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-    // TODO
+    return [GPKGDgiwgUtils createTileMatricesWithGeoPackage:self andTable:table andBounds:boundingBox andMinZoom:minZoom andMaxZoom:maxZoom andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatricesWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-    // TODO
+    return [self createTileMatricesWithTable:tileMatrixSet.tableName andBounds:[tileMatrixSet boundingBox] andZoomLevels:zoomLevels andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatricesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) boundingBox andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-   // TODO
+    return [GPKGDgiwgUtils createTileMatricesWithGeoPackage:self andTable:table andBounds:boundingBox andZoomLevels:zoomLevels andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatrixWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andZoom: (int) zoom andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-    // TODO
+    [self createTileMatrixWithTable:tileMatrixSet.tableName andBounds:[tileMatrixSet boundingBox] andZoom:zoom andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatrixWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom andWidth: (int) matrixWidth andHeight: (int) matrixHeight{
-    // TODO
+    return [GPKGDgiwgUtils createTileMatrixWithGeoPackage:self andTable:table andBounds:boundingBox andZoom:zoom andWidth:matrixWidth andHeight:matrixHeight];
 }
 
 -(void) createTileMatrixWithTable: (NSString *) table andZoom: (int) zoom andWidth: (int) matrixWidth andHeight: (int) matrixHeight andPixelX: (double) pixelXSize andPixelY: (double) pixelYSize{
-    // TODO
+    return [GPKGDgiwgUtils createTileMatrixWithGeoPackage:self andTable:table andZoom:zoom andWidth:matrixWidth andHeight:matrixHeight andPixelX:pixelXSize andPixelY:pixelYSize];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andGeometryType: (enum SFGeometryType) geometryType andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andGeometryType:geometryType andColumns:nil andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andGeometryType: (enum SFGeometryType) geometryType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:table andDescription:table andGeometryType:geometryType andColumns:columns andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andGeometryType: (enum SFGeometryType) geometryType andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:identifier andDescription:description andGeometryType:geometryType andColumns:nil andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andGeometryType: (enum SFGeometryType) geometryType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    GPKGSpatialReferenceSystem *srs = [crs createFeaturesSpatialReferenceSystem];
+    enum GPKGDgiwgDataType dataType = [[[crs featuresDataTypes] firstObject] intValue];
+    return [self createFeaturesWithTable:table andIdentifier:identifier andDescription:description andBounds:[crs bounds] andGeometryType:geometryType andDataType:dataType andColumns:columns andSRS:srs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andBounds:bounds andGeometryType:geometryType andColumns:nil andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:table andDescription:table andBounds:bounds andGeometryType:geometryType andColumns:columns andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:identifier andDescription:description andBounds:bounds andGeometryType:geometryType andColumns:nil andCRS:crs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andCRS: (GPKGDgiwgCoordinateReferenceSystems *) crs{
-    return nil; // TODO
+    GPKGSpatialReferenceSystem *srs = [crs createFeaturesSpatialReferenceSystem];
+    enum GPKGDgiwgDataType dataType = [[[crs featuresDataTypes] firstObject] intValue];
+    return [self createFeaturesWithTable:table andIdentifier:identifier andDescription:description andBounds:bounds andGeometryType:geometryType andDataType:dataType andColumns:columns andSRS:srs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andDataType: (enum GPKGDgiwgDataType) dataType andSRS: (GPKGSpatialReferenceSystem *) srs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andBounds:bounds andGeometryType:geometryType andDataType:dataType andColumns:nil andSRS:srs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andDataType: (enum GPKGDgiwgDataType) dataType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andSRS: (GPKGSpatialReferenceSystem *) srs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:table andDescription:table andBounds:bounds andGeometryType:geometryType andDataType:dataType andColumns:columns andSRS:srs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andDataType: (enum GPKGDgiwgDataType) dataType andSRS: (GPKGSpatialReferenceSystem *) srs{
-    return nil; // TODO
+    return [self createFeaturesWithTable:table andIdentifier:identifier andDescription:description andBounds:bounds andGeometryType:geometryType andDataType:dataType andColumns:nil andSRS:srs];
 }
 
 -(GPKGGeometryColumns *) createFeaturesWithTable: (NSString *) table andIdentifier: (NSString *) identifier andDescription: (NSString *) description andBounds: (GPKGBoundingBox *) bounds andGeometryType: (enum SFGeometryType) geometryType andDataType: (enum GPKGDgiwgDataType) dataType andColumns: (NSArray<GPKGFeatureColumn *> *) columns andSRS: (GPKGSpatialReferenceSystem *) srs{
-    return nil; // TODO
+
+    GPKGGeometryColumns *geometryColumns = [GPKGDgiwgUtils createFeaturesWithGeoPackage:self andTable:table andIdentifier:identifier andDescription:description andBounds:bounds andGeometryType:geometryType andDataType:dataType andColumns:columns andSRS:srs];
+
+    GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:self];
+    [extension createWithFeatureTable:[[self featureDaoWithGeometryColumns:geometryColumns] featureTable]];
+
+    return geometryColumns;
 }
 
 -(void) createMetadata: (GPKGMetadata *) metadata andReference: (GPKGMetadataReference *) reference{
-    // TODO
+    return [GPKGDgiwgUtils createMetadataWithGeoPackage:self andMetadata:metadata andReference:reference];
 }
 
 -(void) createMetadata: (GPKGMetadata *) metadata{
-    // TODO
+    return [GPKGDgiwgUtils createMetadataWithGeoPackage:self andMetadata:metadata];
 }
 
 -(void) createMetadataReference: (GPKGMetadataReference *) reference withMetadata: (GPKGMetadata *) metadata{
-    // TODO
+    return [GPKGDgiwgUtils createMetadataReferenceWithGeoPackage:self andMetadata:metadata andReference:reference];
 }
 
 -(void) createMetadataReference: (GPKGMetadataReference *) reference{
-    // TODO
+    return [GPKGDgiwgUtils createMetadataReferenceWithGeoPackage:self andReference:reference];
 }
 
 -(GPKGMetadataReference *) createGeoPackageSeriesMetadata: (NSString *) metadata withURI: (NSString *) uri{
-    return nil; // TODO
+    return [GPKGDgiwgUtils createGeoPackageSeriesMetadata:metadata withGeoPackage:self andURI:uri];
 }
 
 -(GPKGMetadataReference *) createGeoPackageDatasetMetadata: (NSString *) metadata withURI: (NSString *) uri{
-    return nil; // TODO
+    return [GPKGDgiwgUtils createGeoPackageDatasetMetadata:metadata withGeoPackage:self andURI:uri];
 }
 
 -(GPKGMetadataReference *) createGeoPackageMetadata: (NSString *) metadata withScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri{
-    return nil; // TODO
+    return [GPKGDgiwgUtils createGeoPackageMetadata:metadata withGeoPackage:self andScope:scope andURI:uri];
 }
 
 -(GPKGMetadataReference *) createMetadata: (NSString *) metadata withScope: (enum GPKGMetadataScopeType) scope andURI: (NSString *) uri andReference: (GPKGMetadataReference *) reference{
-    return nil; // TODO
+    return [GPKGDgiwgUtils createMetadata:metadata withGeoPackage:self andScope:scope andURI:uri andReference:reference];
 }
 
-+(GPKGResultSet *) queryGeoPackageDMFMetadata{
-    return nil; // TODO
+-(GPKGResultSet *) queryGeoPackageDMFMetadata{
+    return [GPKGDgiwgMetadata queryGeoPackageDMFMetadata:self];
 }
 
-+(GPKGResultSet *) queryGeoPackageNASMetadata{
-    return nil; // TODO
+-(GPKGResultSet *) queryGeoPackageNASMetadata{
+    return [GPKGDgiwgMetadata queryGeoPackageNASMetadata:self];
 }
 
-+(GPKGResultSet *) queryGeoPackageMetadataWithBaseURI: (NSString *) baseURI{
-    return nil; // TODO
+-(GPKGResultSet *) queryGeoPackageMetadataWithBaseURI: (NSString *) baseURI{
+    return [GPKGDgiwgMetadata queryGeoPackageMetadata:self withBaseURI:baseURI];
 }
 
 @end

@@ -67,12 +67,12 @@
 /**
  * Data Types
  */
-@property (nonatomic, strong) NSSet<NSNumber *> *dataTypes;
+@property (nonatomic, strong) NSArray<NSNumber *> *dataTypes;
 
 /**
  * Contents Data Types
  */
-@property (nonatomic, strong) NSDictionary<NSNumber *, NSSet<NSNumber *> *> *contentsDataTypes;
+@property (nonatomic, strong) NSDictionary<NSNumber *, NSArray<NSNumber *> *> *contentsDataTypes;
 
 @end
 
@@ -91,7 +91,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary<NSNumber *, GPKGDgiwg
 /**
  * Map between data types and supported Coordinate Reference Systems
  */
-static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReferenceSystems *> *> *dataTypeCRS;
+static NSMutableDictionary<NSNumber *, NSMutableArray<GPKGDgiwgCoordinateReferenceSystems *> *> *dataTypeCRS;
 
 +(void) initialize{
     typeCRS = [NSMutableDictionary dictionary];
@@ -259,13 +259,13 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
 
     for(NSNumber *dataType in crs.dataTypes){
         
-        NSMutableSet<GPKGDgiwgCoordinateReferenceSystems *> *crsSet = [dataTypeCRS objectForKey:dataType];
-        if(crsSet == nil){
-            crsSet = [NSMutableSet set];
-            [dataTypeCRS setObject:crsSet forKey:dataType];
+        NSMutableArray<GPKGDgiwgCoordinateReferenceSystems *> *crsArray = [dataTypeCRS objectForKey:dataType];
+        if(crsArray == nil){
+            crsArray = [NSMutableArray array];
+            [dataTypeCRS setObject:crsArray forKey:dataType];
         }
         
-        [crsSet addObject:crs];
+        [crsArray addObject:crs];
     }
     
 }
@@ -649,17 +649,17 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
         _theDescription = description;
         _bounds = bounds;
         _wgs84Bounds = wgs84Bounds;
-        _dataTypes = [NSSet setWithArray:dataTypes];
-        NSMutableDictionary<NSNumber *, NSMutableSet<NSNumber *> *> *contentsTypes = [NSMutableDictionary dictionary];
+        _dataTypes = dataTypes;
+        NSMutableDictionary<NSNumber *, NSMutableArray<NSNumber *> *> *contentsTypes = [NSMutableDictionary dictionary];
         for(NSNumber *dataType in dataTypes){
             enum GPKGContentsDataType contentsDataType = [GPKGDgiwgDataTypes dataType:[dataType intValue]];
             NSNumber *contentsNumber = [NSNumber numberWithInt:contentsDataType];
-            NSMutableSet<NSNumber *> *dataTypesSet = [contentsTypes objectForKey:contentsNumber];
-            if(dataTypesSet == nil){
-                dataTypesSet = [NSMutableSet set];
-                [contentsTypes setObject:dataTypesSet forKey:contentsNumber];
+            NSMutableArray<NSNumber *> *dataTypesArray = [contentsTypes objectForKey:contentsNumber];
+            if(dataTypesArray == nil){
+                dataTypesArray = [NSMutableArray array];
+                [contentsTypes setObject:dataTypesArray forKey:contentsNumber];
             }
-            [dataTypesSet addObject:dataType];
+            [dataTypesArray addObject:dataType];
         }
         _contentsDataTypes = contentsTypes;
     }
@@ -726,7 +726,7 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
         
         _bounds = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-9501965.72931276 andMinLatitudeDouble:-20003931.4586255 andMaxLongitudeDouble:10501965.7293128 andMaxLatitudeDouble:20003931.4586255];
         _wgs84Bounds = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
-        _dataTypes = [NSSet setWithObject:[NSNumber numberWithInt:GPKG_DGIWG_DT_TILES_2D]];
+        _dataTypes = [NSArray arrayWithObject:[NSNumber numberWithInt:GPKG_DGIWG_DT_TILES_2D]];
         _contentsDataTypes = [NSDictionary dictionaryWithObject:_dataTypes forKey:[NSNumber numberWithInt:GPKG_CDT_TILES]];
     }
     return self;
@@ -776,12 +776,12 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
     return _wgs84Bounds;
 }
 
--(NSSet<NSNumber *> *) dataTypes{
+-(NSArray<NSNumber *> *) dataTypes{
     return _dataTypes;
 }
 
--(NSSet<NSString *> *) dataTypeNames{
-    NSMutableSet<NSString *> *names = [NSMutableSet set];
+-(NSArray<NSString *> *) dataTypeNames{
+    NSMutableArray<NSString *> *names = [NSMutableArray array];
     for(NSNumber *dataType in _dataTypes){
         [names addObject:[GPKGDgiwgDataTypes name:[dataType intValue]]];
     }
@@ -796,29 +796,29 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
     return [_dataTypes containsObject:[NSNumber numberWithInt:dataType]];
 }
 
--(NSDictionary<NSNumber *, NSSet<NSNumber *> *> *) contentsDataTypes{
+-(NSDictionary<NSNumber *, NSArray<NSNumber *> *> *) contentsDataTypes{
     return _contentsDataTypes;
 }
 
--(NSSet<NSNumber *> *) tilesDataTypes{
+-(NSArray<NSNumber *> *) tilesDataTypes{
     return [self dataTypes:GPKG_CDT_TILES];
 }
 
 -(BOOL) hasTilesDataTypes{
-    NSSet<NSNumber *> *tiles = [self tilesDataTypes];
+    NSArray<NSNumber *> *tiles = [self tilesDataTypes];
     return tiles != nil && tiles.count > 0;
 }
 
--(NSSet<NSNumber *> *) featuresDataTypes{
+-(NSArray<NSNumber *> *) featuresDataTypes{
     return [self dataTypes:GPKG_CDT_FEATURES];
 }
 
 -(BOOL) hasFeaturesDataTypes{
-    NSSet<NSNumber *> *features = [self featuresDataTypes];
+    NSArray<NSNumber *> *features = [self featuresDataTypes];
     return features != nil && features.count > 0;
 }
 
--(NSSet<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) contentsDataType{
+-(NSArray<NSNumber *> *) dataTypes: (enum GPKGContentsDataType) contentsDataType{
     return [_contentsDataTypes objectForKey:[NSNumber numberWithInt:contentsDataType]];
 }
 
@@ -916,19 +916,19 @@ static NSMutableDictionary<NSNumber *, NSMutableSet<GPKGDgiwgCoordinateReference
     return crs;
 }
 
-+(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForType: (enum GPKGDgiwgDataType) dataType{
++(NSArray<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForType: (enum GPKGDgiwgDataType) dataType{
     return [dataTypeCRS objectForKey:[NSNumber numberWithInt:dataType]];
 }
 
-+(NSSet<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType{
++(NSArray<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType{
     
-    NSMutableSet<GPKGDgiwgCoordinateReferenceSystems *> *crss = [NSMutableSet set];
+    NSMutableArray<GPKGDgiwgCoordinateReferenceSystems *> *crss = [NSMutableArray array];
     
     for(NSNumber *dt in [GPKGDgiwgDataTypes dataTypes:dataType]){
         
-        NSMutableSet<GPKGDgiwgCoordinateReferenceSystems *> *crs = [dataTypeCRS objectForKey:dt];
+        NSArray<GPKGDgiwgCoordinateReferenceSystems *> *crs = [dataTypeCRS objectForKey:dt];
         if(crs != nil){
-            [crss addObjectsFromArray:[crs allObjects]];
+            [crss addObjectsFromArray:crs];
         }
         
     }
