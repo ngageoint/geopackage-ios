@@ -8,7 +8,7 @@
 
 #import "GPKGDgiwgFileName.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 
 NSString * const GPKG_DGIWG_FN_DELIMITER_ELEMENTS = @"_";
 NSString * const GPKG_DGIWG_FN_DELIMITER_WORDS = @"-";
@@ -210,14 +210,14 @@ NSString * const GPKG_DGIWG_FN_DATE_FORMAT = @"ddMMMyyyy";
 
 -(void) setCreationDateText: (NSString *) creationDateText{
     _creationDateText = creationDateText;
-    NSDateFormatter *formatter = [self dateConverter];
-    _creationDate = [formatter dateFromString:creationDateText];
+    GPKGDateConverter *formatter = [self dateConverter];
+    _creationDate = [formatter dateValue:creationDateText];
 }
 
 -(void) setCreationDate: (NSDate *) creationDate{
     _creationDate = creationDate;
-    NSDateFormatter *formatter = [self dateConverter];
-    _creationDateText = [formatter stringFromDate:creationDate];
+    GPKGDateConverter *formatter = [self dateConverter];
+    _creationDateText = [formatter stringValue:creationDate];
     if(_creationDateText != nil){
         _creationDateText = [_creationDateText uppercaseString];
     }
@@ -273,8 +273,10 @@ NSString * const GPKG_DGIWG_FN_DATE_FORMAT = @"ddMMMyyyy";
  *
  * @return date converter
  */
--(NSDateFormatter *) dateConverter{
-    return [GPKGDateTimeUtils createFormatterWithFormat:GPKG_DGIWG_FN_DATE_FORMAT];
+-(GPKGDateConverter *) dateConverter{
+    GPKGDateConverter *converter = [GPKGDateConverter createWithFormats:[NSArray arrayWithObjects:GPKG_DGIWG_FN_DATE_FORMAT, GPKG_DTU_DATE_FORMAT, GPKG_DTU_DATE_FORMAT2, nil]];
+    converter.expected = NO;
+    return converter;
 }
 
 /**

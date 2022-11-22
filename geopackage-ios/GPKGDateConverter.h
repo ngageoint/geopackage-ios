@@ -1,5 +1,5 @@
 //
-//  GPKGDateTimeUtils.h
+//  GPKGDateConverter.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 10/19/15.
@@ -55,9 +55,104 @@ extern NSString * const GPKG_DTU_FUNCTION_JULIANDAY;
 extern NSString * const GPKG_DTU_FUNCTION_STRFTIME;
 
 /**
- *  Provides DateTime utility methods
+ *  Date converter between database date formats and date objects
  */
-@interface GPKGDateTimeUtils : NSObject
+@interface GPKGDateConverter : NSObject
+
+/**
+ * Is parsing a date value from a string always expected
+ */
+@property (nonatomic) BOOL expected;
+
+/**
+ * Get a default date converter for all property configured date and date time formats
+ *
+ * @return date converter
+ */
++(GPKGDateConverter *) converter;
+
+/**
+ * Get a date converter for the data type
+ *
+ * @param type
+ *            data type
+ * @return date converter
+ */
++(GPKGDateConverter *) converter: (enum GPKGDataType) type;
+
+/**
+ * Get a date converter
+ *
+ * @return date converter
+ */
++(GPKGDateConverter *) dateConverter;
+
+/**
+ * Get a date time converter
+ *
+ * @return date converter
+ */
++(GPKGDateConverter *) dateTimeConverter;
+
+/**
+ * Get a date converter for the provided format
+ *
+ * @param format
+ *            format
+ * @return date converter
+ */
++(GPKGDateConverter *) createWithFormat: (NSString *) format;
+
+/**
+ * Get a date converter for the provided formats
+ *
+ * @param formats
+ *            formats
+ * @return date converter
+ */
++(GPKGDateConverter *) createWithFormats: (NSArray<NSString *> *) formats;
+
+/**
+ * Initialize
+ *
+ * @param format
+ *            date format
+ */
+-(instancetype) initWithFormat: (NSString *) format;
+
+/**
+ * Initialize
+ *
+ * @param formats
+ *            date formats
+ */
+-(instancetype) initWithFormats: (NSArray<NSString *> *) formats;
+
+/**
+ * Add date format
+ *
+ * @param format
+ *            date format
+ */
+-(void) addFormat: (NSString *) format;
+
+/**
+ * Get the formatted string date value of the date
+ *
+ * @param date
+ *            date
+ * @return formatted string date
+ */
+-(NSString *) stringValue: (NSDate *) date;
+
+/**
+ * Get the date value of the formatted string date
+ *
+ * @param date
+ *            formatted string date
+ * @return date
+ */
+-(NSDate *) dateValue: (NSString *) date;
 
 /**
  *  Convert a datetime string to a date

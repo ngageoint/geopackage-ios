@@ -603,8 +603,8 @@
 		048EC1761BD54FD4008426A7 /* GPKGFeatureTableIndexCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC1751BD54FD4008426A7 /* GPKGFeatureTableIndexCreateTest.m */; };
 		048EC1791BD5503B008426A7 /* GPKGFeatureTableIndexImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC1781BD5503B008426A7 /* GPKGFeatureTableIndexImportTest.m */; };
 		048EC17C1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC17B1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m */; };
-		048EC17F1BD563E4008426A7 /* GPKGDateTimeUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 048EC17D1BD563E4008426A7 /* GPKGDateTimeUtils.h */; };
-		048EC1801BD563E4008426A7 /* GPKGDateTimeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC17E1BD563E4008426A7 /* GPKGDateTimeUtils.m */; };
+		048EC17F1BD563E4008426A7 /* GPKGDateConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 048EC17D1BD563E4008426A7 /* GPKGDateConverter.h */; };
+		048EC1801BD563E4008426A7 /* GPKGDateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC17E1BD563E4008426A7 /* GPKGDateConverter.m */; };
 		04915606230739EB00B92B3F /* GPKGConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 04915604230739EB00B92B3F /* GPKGConstraint.h */; };
 		04915607230739EB00B92B3F /* GPKGConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 04915605230739EB00B92B3F /* GPKGConstraint.m */; };
 		0491560A230B465500B92B3F /* GPKGFeatureGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 04915608230B465500B92B3F /* GPKGFeatureGenerator.h */; };
@@ -1491,8 +1491,8 @@
 		048EC1781BD5503B008426A7 /* GPKGFeatureTableIndexImportTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTableIndexImportTest.m; sourceTree = "<group>"; };
 		048EC17A1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTableIndexUtils.h; sourceTree = "<group>"; };
 		048EC17B1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTableIndexUtils.m; sourceTree = "<group>"; };
-		048EC17D1BD563E4008426A7 /* GPKGDateTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDateTimeUtils.h; sourceTree = "<group>"; };
-		048EC17E1BD563E4008426A7 /* GPKGDateTimeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDateTimeUtils.m; sourceTree = "<group>"; };
+		048EC17D1BD563E4008426A7 /* GPKGDateConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDateConverter.h; sourceTree = "<group>"; };
+		048EC17E1BD563E4008426A7 /* GPKGDateConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDateConverter.m; sourceTree = "<group>"; };
 		04915604230739EB00B92B3F /* GPKGConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGConstraint.h; sourceTree = "<group>"; };
 		04915605230739EB00B92B3F /* GPKGConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGConstraint.m; sourceTree = "<group>"; };
 		04915608230B465500B92B3F /* GPKGFeatureGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureGenerator.h; sourceTree = "<group>"; };
@@ -2255,8 +2255,8 @@
 				042FC7781B964D8C00549A4B /* GPKGUtils.h */,
 				042FC7791B964D8C00549A4B /* GPKGUtils.m */,
 				042FC6E51B964BC800549A4B /* geopackage_ios.h */,
-				048EC17D1BD563E4008426A7 /* GPKGDateTimeUtils.h */,
-				048EC17E1BD563E4008426A7 /* GPKGDateTimeUtils.m */,
+				048EC17D1BD563E4008426A7 /* GPKGDateConverter.h */,
+				048EC17E1BD563E4008426A7 /* GPKGDateConverter.m */,
 				0431EDEC1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h */,
 				0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */,
 				042FC6E31B964BC800549A4B /* Supporting Files */,
@@ -3584,7 +3584,7 @@
 				042FC8621B964D8C00549A4B /* GPKGImageConverter.h in Headers */,
 				0409CCCB20D2B73C0069B797 /* GPKGUserCustomTable.h in Headers */,
 				0409CCD320D9ABB00069B797 /* GPKGUserCustomRow.h in Headers */,
-				048EC17F1BD563E4008426A7 /* GPKGDateTimeUtils.h in Headers */,
+				048EC17F1BD563E4008426A7 /* GPKGDateConverter.h in Headers */,
 				0499468323F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h in Headers */,
 				04AFE2F325A8E73700B6CE41 /* GPKGNetworkUtils.h in Headers */,
 				04DA3451250161580005AD20 /* GPKGMediaTableMetadata.h in Headers */,
@@ -4088,7 +4088,7 @@
 				04711B24221CCCA8007DC3A4 /* GPKGPolylineOptions.m in Sources */,
 				042FC86C1B964D8C00549A4B /* GPKGMetadataScope.m in Sources */,
 				0447FA0F1CDA531B00418104 /* GPKGExtensionManager.m in Sources */,
-				048EC1801BD563E4008426A7 /* GPKGDateTimeUtils.m in Sources */,
+				048EC1801BD563E4008426A7 /* GPKGDateConverter.m in Sources */,
 				04711B28221CCCBC007DC3A4 /* GPKGPolygonOptions.m in Sources */,
 				04770E9C257A60B200DC0594 /* GPKGTileReprojectionZoom.m in Sources */,
 				0409CCB020D2B3090069B797 /* GPKGUserRelatedTable.m in Sources */,

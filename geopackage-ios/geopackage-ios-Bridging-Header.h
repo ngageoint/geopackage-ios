@@ -14,7 +14,7 @@
 #import "tiff-ios-Bridging-Header.h"
 #import "ogc-api-features-json-ios-Bridging-Header.h"
 #import "GPKGBoundingBox.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGGeoPackage.h"
 #import "GPKGGeoPackageCache.h"
 #import "GPKGGeoPackageConstants.h"

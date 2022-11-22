@@ -9,7 +9,7 @@
 #import "GPKGUserRow.h"
 #import <sqlite3.h>
 #import "GPKGUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 
 @implementation GPKGUserRow
 
@@ -93,7 +93,7 @@
     if(value != nil){
         GPKGUserColumn *column = [self columnWithIndex:index];
         if([value isKindOfClass:[NSString class]] && (column.dataType == GPKG_DT_DATE || column.dataType == GPKG_DT_DATETIME)){
-            value = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
+            value = [GPKGDateConverter convertToDateWithString:((NSString *) value)];
         }else{
             value = [self toObjectValueWithIndex:index andValue:value];
         }
@@ -259,7 +259,7 @@
     if(value != nil){
         if([value isKindOfClass:[NSDate class]]){
             GPKGUserColumn *userColumn = [self columnWithIndex:index];
-            value = [GPKGDateTimeUtils convertToStringWithDate:(NSDate *)value andType:userColumn.dataType];
+            value = [GPKGDateConverter convertToStringWithDate:(NSDate *)value andType:userColumn.dataType];
         }
     }
     

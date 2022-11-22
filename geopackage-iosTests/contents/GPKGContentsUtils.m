@@ -8,7 +8,7 @@
 
 #import "GPKGContentsUtils.h"
 #import "GPKGTestUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 
 @implementation GPKGContentsUtils
 
@@ -144,7 +144,7 @@
         
         // Update
         NSDate *updatedLastChange = [NSDate date];
-        updatedLastChange = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToDateTimeStringWithDate:updatedLastChange]];
+        updatedLastChange = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToDateTimeStringWithDate:updatedLastChange]];
         [contents setLastChange:updatedLastChange];
         [dao update:contents];
         
@@ -208,7 +208,7 @@
     NSString *identifier = @"TEST_IDENTIFIER";
     NSString *description = @"TEST_IDENTIFIER";
     NSDate *lastChange = [NSDate date];
-    lastChange = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToDateTimeStringWithDate:lastChange]];
+    lastChange = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToDateTimeStringWithDate:lastChange]];
     NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:-180.0];
     NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:-90.0];
     NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:180.0];

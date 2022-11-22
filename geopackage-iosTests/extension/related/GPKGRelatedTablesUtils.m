@@ -11,7 +11,7 @@
 #import "GPKGDublinCoreTypes.h"
 #import "GPKGSimpleAttributesTable.h"
 #import "GPKGTestUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGDublinCoreMetadata.h"
 
 @implementation GPKGRelatedTablesUtils
@@ -116,12 +116,12 @@
                     NSDate *date = [NSDate date];
                     if([GPKGTestUtils randomDouble] < .5){
                         if(column.dataType == GPKG_DT_DATE){
-                            value = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType]];
+                            value = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:date andType:column.dataType]];
                         }else{
                             value = date;
                         }
                     }else{
-                        value = [GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType];
+                        value = [GPKGDateConverter convertToStringWithDate:date andType:column.dataType];
                     }
                 }
                     break;
@@ -165,8 +165,8 @@
                     if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
                         [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
                         NSDate *date = (NSDate *) value;
-                        NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
-                        [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
+                        NSString *dateString = [GPKGDateConverter convertToStringWithDate:date andType:dataType];
+                        [GPKGTestUtils assertTrue:[date compare:[GPKGDateConverter convertToDateWithString:dateString]] == NSOrderedSame];
                     }else{
                         [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
                     }

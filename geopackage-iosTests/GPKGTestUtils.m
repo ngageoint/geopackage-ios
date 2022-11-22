@@ -8,7 +8,7 @@
 
 #import "GPKGTestUtils.h"
 #import "GPKGUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGSchemaExtension.h"
 
@@ -324,12 +324,12 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                                 NSDate *date = [NSDate date];
                                 if([GPKGTestUtils randomDouble] < .5){
                                     if(column.dataType == GPKG_DT_DATE){
-                                        value = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType]];
+                                        value = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:date andType:column.dataType]];
                                     }else{
                                         value = date;
                                     }
                                 }else{
-                                    value = [GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType];
+                                    value = [GPKGDateConverter convertToStringWithDate:date andType:column.dataType];
                                 }
                             }
                             break;

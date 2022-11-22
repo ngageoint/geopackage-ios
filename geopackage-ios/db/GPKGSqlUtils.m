@@ -9,7 +9,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGSQLiteMaster.h"
 #import "GPKGAlterTable.h"
 
@@ -403,7 +403,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                     && (dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME)) {
                     
                     @try{
-                        value = [GPKGDateTimeUtils convertToDateWithString:stringValue];
+                        value = [GPKGDateConverter convertToDateWithString:stringValue];
                     } @catch (NSException *exception) {
                         NSLog(@"Invalid %@ format: %@, String value used, error: %@", [GPKGDataTypes name:dataType], stringValue, exception);
                         value = stringValue;
@@ -495,7 +495,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             case GPKG_DT_DATETIME:
                 {
                     if (![value isKindOfClass:[NSDate class]] && [value isKindOfClass:[NSString class]]) {
-                        value = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
+                        value = [GPKGDateConverter convertToDateWithString:(NSString *)value];
                     }
                 }
                 break;
@@ -751,7 +751,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                 }
             }else if([argument isKindOfClass:[NSDate class]]){
                 NSDate *date = (NSDate *) argument;
-                NSString *dateString = [GPKGDateTimeUtils convertToDateTimeStringWithDate:date];
+                NSString *dateString = [GPKGDateConverter convertToDateTimeStringWithDate:date];
                 int bindResult = sqlite3_bind_text(statement, index, [dateString UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind Date" format:@"Failed to bind date in SQL statement: %@, Error Code: %d", statement, bindResult];

@@ -10,7 +10,7 @@
 #import "GPKGGeometryIndexDao.h"
 #import "GPKGGeometryIndex.h"
 #import "GPKGExtensionsDao.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 
 @implementation GPKGTableIndexDao
 
@@ -42,7 +42,7 @@
             setObject.tableName = (NSString *) value;
             break;
         case 1:
-            setObject.lastIndexed = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
+            setObject.lastIndexed = [GPKGDateConverter convertToDateWithString:((NSString *) value)];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

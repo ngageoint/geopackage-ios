@@ -11,7 +11,7 @@
 #import "PROJProjectionConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "SFGFeature.h"
 #import "OAFCrs.h"
 #import "OAFFeaturesConverter.h"
@@ -101,7 +101,7 @@ static PROJProjections *defaultProjections;
 
 -(void) setTimeFromDate: (NSDate *) time{
     if (time != nil) {
-        self.time = [GPKGDateTimeUtils convertToStringWithDate:time withFormat:GPKG_DTU_DATETIME_FORMAT2];
+        self.time = [GPKGDateConverter convertToStringWithDate:time withFormat:GPKG_DTU_DATETIME_FORMAT2];
     } else {
         self.time = nil;
     }
@@ -109,7 +109,7 @@ static PROJProjections *defaultProjections;
 
 -(void) setPeriodFromDate: (NSDate *) period{
     if (period != nil) {
-        self.period = [GPKGDateTimeUtils convertToStringWithDate:period withFormat:GPKG_DTU_DATETIME_FORMAT2];
+        self.period = [GPKGDateConverter convertToStringWithDate:period withFormat:GPKG_DTU_DATETIME_FORMAT2];
     } else {
         self.period = nil;
     }

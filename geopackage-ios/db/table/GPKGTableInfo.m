@@ -9,7 +9,7 @@
 #import "GPKGTableInfo.h"
 #import "SFGeometryTypes.h"
 #import "GPKGSqlUtils.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGUtils.h"
 
 NSString * const GPKG_TI_CID = @"cid";
@@ -200,9 +200,9 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
                 break;
             case GPKG_DT_DATE:
             case GPKG_DT_DATETIME:
-                if(![GPKGDateTimeUtils isFunction:defaultValue]){
+                if(![GPKGDateConverter isFunction:defaultValue]){
                     @try{
-                        value = [GPKGDateTimeUtils convertToDateWithString:defaultValue];
+                        value = [GPKGDateConverter convertToDateWithString:defaultValue];
                     } @catch (NSException *exception) {
                         NSLog(@"Invalid %@ format: %@, String value used, error: %@", [GPKGDataTypes name:type], defaultValue, exception);
                     }

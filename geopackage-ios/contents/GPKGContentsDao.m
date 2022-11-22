@@ -11,7 +11,7 @@
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGTileMatrixDao.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGUtils.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGContentsDataTypes.h"
@@ -55,7 +55,7 @@
             setObject.theDescription = (NSString *) value;
             break;
         case 4:
-            setObject.lastChange = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
+            setObject.lastChange = [GPKGDateConverter convertToDateWithString:((NSString *) value)];
             break;
         case 5:
             setObject.minX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];

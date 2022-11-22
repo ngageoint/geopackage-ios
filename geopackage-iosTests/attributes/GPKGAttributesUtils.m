@@ -9,7 +9,7 @@
 #import "GPKGAttributesUtils.h"
 #import "GPKGTestUtils.h"
 #import "GPKGAttributesColumn.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGPropertiesExtension.h"
 #import "GPKGMetadataExtension.h"
@@ -287,8 +287,8 @@
                         if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
                             [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
                             NSDate *date = (NSDate *) value;
-                            NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
-                            [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
+                            NSString *dateString = [GPKGDateConverter convertToStringWithDate:date andType:dataType];
+                            [GPKGTestUtils assertTrue:[date compare:[GPKGDateConverter convertToDateWithString:dateString]] == NSOrderedSame];
                         }else{
                             [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
                         }
@@ -500,12 +500,12 @@
                         }
                         if (updatedDate == nil) {
                             updatedDate = [NSDate date];
-                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                            updatedDate = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:updatedDate andType:dataType]];
                         }
                         if ([GPKGTestUtils randomDouble] < .5) {
                             [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDate];
                         } else {
-                            [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateConverter convertToStringWithDate:updatedDate andType:dataType]];
                         }
                     }
                         break;
@@ -646,11 +646,11 @@
                             if([value isKindOfClass:[NSDate class]]){
                                 date = (NSDate *) value;
                             } else {
-                                date = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
+                                date = [GPKGDateConverter convertToDateWithString:(NSString *)value];
                             }
                             NSDate *compareDate = updatedDate;
                             if (dataType == GPKG_DT_DATE) {
-                                compareDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:compareDate andType:dataType]];
+                                compareDate = [GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:compareDate andType:dataType]];
                             }
                             [GPKGTestUtils assertTrue:[compareDate compare:date] == NSOrderedSame];
                         }else{

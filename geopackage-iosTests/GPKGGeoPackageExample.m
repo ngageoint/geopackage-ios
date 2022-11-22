@@ -17,7 +17,7 @@
 #import "SFPoint.h"
 #import "SFLineString.h"
 #import "SFPolygon.h"
-#import "GPKGDateTimeUtils.h"
+#import "GPKGDateConverter.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGFeatureTiles.h"
@@ -670,7 +670,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         [newRow setValueWithColumnName:INTEGER_COLUMN andValue:[NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]]];
         [newRow setValueWithColumnName:TEXT_LIMITED_COLUMN andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
         [newRow setValueWithColumnName:BLOB_LIMITED_COLUMN andValue:[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding]];
-        [newRow setValueWithColumnName:DATE_COLUMN andValue:[GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:[NSDate date] andType:GPKG_DT_DATE]]];
+        [newRow setValueWithColumnName:DATE_COLUMN andValue:[GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:[NSDate date] andType:GPKG_DT_DATE]]];
         [newRow setValueWithColumnName:DATETIME_COLUMN andValue:[NSDate date]];
         
         [dao create:newRow];
@@ -840,7 +840,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         [newRow setValueWithColumnName:INTEGER_COLUMN andValue:[NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]]];
         [newRow setValueWithColumnName:TEXT_LIMITED_COLUMN andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
         [newRow setValueWithColumnName:BLOB_LIMITED_COLUMN andValue:[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding]];
-        [newRow setValueWithColumnName:DATE_COLUMN andValue:[GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:[NSDate date] andType:GPKG_DT_DATE]]];
+        [newRow setValueWithColumnName:DATE_COLUMN andValue:[GPKGDateConverter convertToDateWithString:[GPKGDateConverter convertToStringWithDate:[NSDate date] andType:GPKG_DT_DATE]]];
         [newRow setValueWithColumnName:DATETIME_COLUMN andValue:[NSDate date]];
         
         [attributesDao create:newRow];
@@ -1705,7 +1705,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGPropertiesExtension *properties = [[GPKGPropertiesExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSString *dateTime = [GPKGDateTimeUtils convertToDateTimeStringWithDate:[NSDate date]];
+    NSString *dateTime = [GPKGDateConverter convertToDateTimeStringWithDate:[NSDate date]];
     
     [properties addValue:@"GeoPackage iOS Example" withProperty:GPKG_PE_TITLE];
     [properties addValue:@"3.2.0" withProperty:GPKG_PE_VERSION];
