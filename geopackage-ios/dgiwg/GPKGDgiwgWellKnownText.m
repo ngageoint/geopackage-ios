@@ -117,7 +117,7 @@ static NSString *LAMBERT_CONFORMAL_CONIC_2SP_DESCRIPTION = @"LAMBERT_CONFORMAL_C
     wkt = [self replace:DIRECTION withString:direction inString:wkt];
     wkt = [self replace:CENTRAL_MERIDIAN withDouble:centralMeridian inString:wkt];
     wkt = [self replace:FALSE_NORTHING withDouble:falseNorthing inString:wkt];
-    wkt = [self replace:IDENTIFIER_UNIQUE_ID withDouble:epsg inString:wkt];
+    wkt = [self replace:IDENTIFIER_UNIQUE_ID withInt:epsg inString:wkt];
     
     return wkt;
 }
@@ -198,6 +198,7 @@ static NSString *LAMBERT_CONFORMAL_CONIC_2SP_DESCRIPTION = @"LAMBERT_CONFORMAL_C
     wkt = [self replace:CRS_NAME withString:name inString:wkt];
     wkt = [self replace:CRS_TYPE withString:crsKeyword inString:wkt];
     wkt = [self replace:BASE_NAME withString:[datum code] inString:wkt];
+    wkt = [self replace:REFERENCE_NAME withString:[datum name] inString:wkt];
     wkt = [self replace:ELLIPSOID_NAME withString:[ellipsoids name] inString:wkt];
     wkt = [self replace:SEMI_MAJOR_AXIS withDouble:[ellipsoids equatorRadius] inString:wkt];
     wkt = [self replace:INVERSE_FLATTENING withDouble:[ellipsoids reciprocalFlattening] inString:wkt];
