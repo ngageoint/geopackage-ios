@@ -82,6 +82,23 @@
 -(GPKGDgiwgGeoPackage *) open: (NSString *) database andValidate: (BOOL) validate;
 
 /**
+ * Open the database
+ *
+ * @param file GeoPackage file
+ * @return open GeoPackage
+ */
+-(GPKGDgiwgGeoPackage *) openDGIWG: (GPKGDgiwgFile *) file;
+
+/**
+ * Open the database
+ *
+ * @param file GeoPackage file
+ * @param validate validate the GeoPackage
+ * @return open GeoPackage
+ */
+-(GPKGDgiwgGeoPackage *) openDGIWG: (GPKGDgiwgFile *) file andValidate: (BOOL) validate;
+
+/**
  * Delete the database
  *
  * @param file GeoPackage file

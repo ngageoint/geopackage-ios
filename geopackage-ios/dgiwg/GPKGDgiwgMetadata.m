@@ -64,8 +64,8 @@
         
         if([metadataDao tableExists] && [referenceDao tableExists]){
             
-            NSString *query = [NSString stringWithFormat:@"SELECT %@.* FROM %@ LEFT JOIN %@ ON %@.%@ = %@.%@ WHERE %@.%@ LIKE '?' AND (%@.%@ LIKE '?')", GPKG_MR_TABLE_NAME, GPKG_MR_TABLE_NAME, GPKG_M_TABLE_NAME, GPKG_MR_TABLE_NAME, GPKG_MR_COLUMN_FILE_ID, GPKG_M_TABLE_NAME, GPKG_M_COLUMN_ID, GPKG_MR_TABLE_NAME, GPKG_MR_COLUMN_REFERENCE_SCOPE, GPKG_M_TABLE_NAME, GPKG_M_COLUMN_STANDARD_URI];
-            results = [referenceDao rawQuery:query andArgs:[NSArray arrayWithObjects:GPKG_RST_GEOPACKAGE_NAME, [NSString stringWithFormat:@"%@%%", baseURI], nil]];
+            NSString *query = [NSString stringWithFormat:@"SELECT %@.* FROM %@ LEFT JOIN %@ ON %@.%@ = %@.%@ WHERE %@.%@ LIKE '%@' AND (%@.%@ LIKE '%@')", GPKG_MR_TABLE_NAME, GPKG_MR_TABLE_NAME, GPKG_M_TABLE_NAME, GPKG_MR_TABLE_NAME, GPKG_MR_COLUMN_FILE_ID, GPKG_M_TABLE_NAME, GPKG_M_COLUMN_ID, GPKG_MR_TABLE_NAME, GPKG_MR_COLUMN_REFERENCE_SCOPE, GPKG_RST_GEOPACKAGE_NAME, GPKG_M_TABLE_NAME, GPKG_M_COLUMN_STANDARD_URI, [NSString stringWithFormat:@"%@%%", baseURI]];
+            results = [referenceDao rawQuery:query];
             
         }
         

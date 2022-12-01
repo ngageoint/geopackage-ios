@@ -36,6 +36,10 @@ NSString * const GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE = @"webMercator.png";
 NSString * const GPKG_TEST_TILES2_WGS84_TEST_IMAGE = @"wgs84.png";
 NSString * const GPKG_TEST_ICON_POINT_IMAGE_EXTENSION = @"png";
 NSString * const GPKG_TEST_ICON_POINT_IMAGE = @"point.png";
+NSString * const GPKG_TEST_DGIWG_METADATA_1 = @"DMF_v2_0_Example_1.xml";
+NSString * const GPKG_TEST_DGIWG_METADATA_2 = @"DMF_v2_0_Example_2.xml";
+NSString * const GPKG_TEST_NMIS_METADATA_1 = @"NMIS_v3_0_Example_1.xml";
+NSString * const GPKG_TEST_NMIS_METADATA_2 = @"NMIS_v3_0_Example_2.xml";
 
 @implementation GPKGTestConstants
 

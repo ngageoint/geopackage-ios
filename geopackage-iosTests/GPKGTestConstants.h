@@ -36,6 +36,10 @@ extern NSString * const GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE;
 extern NSString * const GPKG_TEST_TILES2_WGS84_TEST_IMAGE;
 extern NSString * const GPKG_TEST_ICON_POINT_IMAGE_EXTENSION;
 extern NSString * const GPKG_TEST_ICON_POINT_IMAGE;
+extern NSString * const GPKG_TEST_DGIWG_METADATA_1;
+extern NSString * const GPKG_TEST_DGIWG_METADATA_2;
+extern NSString * const GPKG_TEST_NMIS_METADATA_1;
+extern NSString * const GPKG_TEST_NMIS_METADATA_2;
 
 @interface GPKGTestConstants : NSObject
 

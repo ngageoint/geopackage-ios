@@ -97,6 +97,14 @@
     return geoPackage;
 }
 
+-(GPKGDgiwgGeoPackage *) openDGIWG: (GPKGDgiwgFile *) file{
+    return [self openDGIWG:file andValidate:YES];
+}
+
+-(GPKGDgiwgGeoPackage *) openDGIWG: (GPKGDgiwgFile *) file andValidate: (BOOL) validate{
+    return [self open:[file name] andValidate:validate];
+}
+
 -(BOOL) deleteDGIWG: (GPKGDgiwgFile *) file{
     return [super delete:file.file];
 }
