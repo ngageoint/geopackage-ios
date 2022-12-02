@@ -923,12 +923,23 @@ static NSMutableDictionary<NSNumber *, NSMutableArray<GPKGDgiwgCoordinateReferen
 +(NSArray<GPKGDgiwgCoordinateReferenceSystems *> *) coordinateReferenceSystemsForContentsType: (enum GPKGContentsDataType) dataType{
     
     NSMutableArray<GPKGDgiwgCoordinateReferenceSystems *> *crss = [NSMutableArray array];
+    NSMutableSet<GPKGDgiwgCoordinateReferenceSystems *> *crssSet = [NSMutableSet set];
     
     for(NSNumber *dt in [GPKGDgiwgDataTypes dataTypes:dataType]){
         
         NSArray<GPKGDgiwgCoordinateReferenceSystems *> *crs = [dataTypeCRS objectForKey:dt];
         if(crs != nil){
-            [crss addObjectsFromArray:crs];
+            if(crss.count == 0){
+                [crss addObjectsFromArray:crs];
+                [crssSet addObjectsFromArray:crs];
+            }else{
+                for(GPKGDgiwgCoordinateReferenceSystems *dtCrs in crs){
+                    if(![crssSet containsObject:dtCrs]){
+                        [crss addObject:dtCrs];
+                        [crssSet addObject:dtCrs];
+                    }
+                }
+            }
         }
         
     }
