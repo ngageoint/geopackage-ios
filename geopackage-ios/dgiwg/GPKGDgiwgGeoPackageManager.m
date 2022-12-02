@@ -106,11 +106,11 @@
 }
 
 -(BOOL) deleteDGIWG: (GPKGDgiwgFile *) file{
-    return [super delete:file.file];
+    return [self deleteDGIWG:file andFile:YES];
 }
 
 -(BOOL) deleteDGIWG: (GPKGDgiwgFile *) file andFile: (BOOL) deleteFile{
-    return [super delete:file.file andFile:deleteFile];
+    return [super delete:[file name] andFile:deleteFile];
 }
 
 +(BOOL) isValid: (GPKGDgiwgGeoPackage *) geoPackage{

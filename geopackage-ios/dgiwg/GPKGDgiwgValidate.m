@@ -22,6 +22,7 @@
 #import "CRSReader.h"
 #import "GPKGZoomOtherExtension.h"
 #import "GPKGWebPExtension.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGDgiwgValidate
 
@@ -264,11 +265,11 @@
                 double pixelXSize = [previousTileMatrix.pixelXSize doubleValue] / factor;
                 double pixelYSize = [previousTileMatrix.pixelYSize doubleValue] / factor;
                 
-                if([tileMatrix.pixelXSize doubleValue] != pixelXSize){
+                if(![GPKGUtils compareDouble:[tileMatrix.pixelXSize doubleValue] withDouble:pixelXSize andDelta:pixelSizeValidationDelta]){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_PIXEL_X_SIZE andNumber:tileMatrix.pixelXSize andConstraintValue:[[NSDecimalNumber alloc] initWithDouble:pixelXSize] andRequirement:GPKG_DGIWG_REQ_ZOOM_FACTOR andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
                 }
                 
-                if([tileMatrix.pixelYSize doubleValue] != pixelYSize){
+                if(![GPKGUtils compareDouble:[tileMatrix.pixelYSize doubleValue] withDouble:pixelYSize andDelta:pixelSizeValidationDelta]){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TM_TABLE_NAME andColumn:GPKG_TM_COLUMN_PIXEL_Y_SIZE andNumber:tileMatrix.pixelYSize andConstraintValue:[[NSDecimalNumber alloc] initWithDouble:pixelYSize] andRequirement:GPKG_DGIWG_REQ_ZOOM_FACTOR andKeys:[self primaryKeysOfTileMatrix:tileMatrix]]];
                 }
 

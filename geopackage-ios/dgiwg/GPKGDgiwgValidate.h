@@ -11,6 +11,11 @@
 #import "GPKGDgiwgValidationErrors.h"
 
 /**
+ *  Delta for comparisons between same pixel sizes
+ */
+static double pixelSizeValidationDelta = .00000000001;
+
+/**
  * Performs DGIWG (Defence Geospatial Information Working Group) GeoPackage
  * validations
  */
