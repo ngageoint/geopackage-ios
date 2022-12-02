@@ -19,12 +19,23 @@
     return self;
 }
 
+-(instancetype) initWithDatabase: (GPKGConnection *) database{
+    self = [super init];
+    if(self != nil){
+        self.extensionsDao = [GPKGExtensionsDao createWithDatabase:database];
+    }
+    return self;
+}
+
 -(GPKGExtensions *) extensionCreateWithName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDefinition: (NSString *) definition andScope: (enum GPKGExtensionScopeType) scopeType{
     
     GPKGExtensions *extension = [self extensionWithName:extensionName andTableName:tableName andColumnName:columnName];
     
     if(extension == nil){
         if(![self.extensionsDao tableExists]){
+            if(self.geoPackage == nil){
+                [NSException raise:@"No GeoPackage" format:@"Extension must be created with a GeoPackage in order to create the extensions table"];
+            }
             [self.geoPackage createExtensionsTable];
         }
         
@@ -91,7 +102,9 @@
 }
 
 -(void) verifyWritable{
-    [self.geoPackage verifyWritable];
+    if(self.geoPackage != nil){
+        [self.geoPackage verifyWritable];
+    }
 }
 
 @end

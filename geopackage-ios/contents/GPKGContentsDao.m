@@ -15,6 +15,7 @@
 #import "GPKGUtils.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGContentsDataTypes.h"
+#import "GPKGCrsWktExtension.h"
 
 @implementation GPKGContentsDao
 
@@ -513,7 +514,9 @@
 }
 
 -(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
-    return [GPKGSpatialReferenceSystemDao createWithDatabase:self.database];
+    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createWithDatabase:self.database];
+    [dao setCrsWktExtension:[[GPKGCrsWktExtension alloc] initWithDatabase:self.database]];
+    return dao;
 }
 
 -(GPKGGeometryColumnsDao *) geometryColumnsDao{

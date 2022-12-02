@@ -33,15 +33,28 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_EPOCH_COLUMN_DEF = @"geopackage.ext
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.connection = geoPackage.database;
-        self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_CRS_WKT_EXTENSION_NAME];
-        self.definitionV1 = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_V_1];
-        self.definitionV1_1 = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_V_1_1];
-        self.definitionColumnName = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_COLUMN_NAME];
-        self.definitionColumnDef = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_COLUMN_DEF];
-        self.epochColumnName = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_EPOCH_COLUMN_NAME];
-        self.epochColumnDef = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_EPOCH_COLUMN_DEF];
+        [self initialize];
     }
     return self;
+}
+
+-(instancetype) initWithDatabase: (GPKGConnection *) database{
+    self = [super initWithDatabase:database];
+    if(self != nil){
+        self.connection = database;
+        [self initialize];
+    }
+    return self;
+}
+
+-(void) initialize{
+    self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_CRS_WKT_EXTENSION_NAME];
+    self.definitionV1 = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_V_1];
+    self.definitionV1_1 = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_V_1_1];
+    self.definitionColumnName = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_COLUMN_NAME];
+    self.definitionColumnDef = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION_COLUMN_DEF];
+    self.epochColumnName = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_EPOCH_COLUMN_NAME];
+    self.epochColumnDef = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_EPOCH_COLUMN_DEF];
 }
 
 -(NSArray<GPKGExtensions *> *) extensionCreate{

@@ -64,6 +64,15 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ *  Initialize
+ *
+ *  @param database database
+ *
+ *  @return new instance
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
  *  Get or create the latest version of the extension
  *
  *  @return extension

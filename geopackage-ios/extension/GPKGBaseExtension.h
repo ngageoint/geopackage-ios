@@ -35,6 +35,15 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ *  Initialize
+ *
+ *  @param database database
+ *
+ *  @return new base extension
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
  *  Get the extension or create as needed
  *
  *  @param extensionName extension name
