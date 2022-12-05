@@ -462,8 +462,10 @@
  *
  *  @param database  database name
  *  @param directory directory
+ *
+ *  @return exported file
  */
--(void) exportGeoPackage: (NSString *) database toDirectory: (NSString *) directory;
+-(NSString *) exportGeoPackage: (NSString *) database toDirectory: (NSString *) directory;
 
 /**
  *  Export a GeoPackage to a directory and name it
@@ -471,8 +473,10 @@
  *  @param database  database name
  *  @param name      export save name
  *  @param directory directory
+ *
+ *  @return exported file
  */
--(void) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory;
+-(NSString *) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory;
 
 /**
  *  Open a GeoPackage database

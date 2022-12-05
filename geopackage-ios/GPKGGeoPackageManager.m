@@ -558,11 +558,11 @@ didCompleteWithError:(nullable NSError *)error{
     }
 }
 
--(void) exportGeoPackage: (NSString *) database toDirectory: (NSString *) directory{
-    [self exportGeoPackage:database withName:database toDirectory:directory];
+-(NSString *) exportGeoPackage: (NSString *) database toDirectory: (NSString *) directory{
+    return [self exportGeoPackage:database withName:database toDirectory:directory];
 }
 
--(void) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory{
+-(NSString *) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory{
     
     NSString *file = [directory stringByAppendingPathComponent:name];
     
@@ -574,6 +574,8 @@ didCompleteWithError:(nullable NSError *)error{
     // Copy the geopackage database to the new file location
     NSString *documentsDbFile = [self requiredDocumentsPathForDatabase:database];
     [GPKGIOUtils copyFile:documentsDbFile toFile:file];
+    
+    return file;
 }
 
 -(GPKGGeoPackage *) open: (NSString *) database{
