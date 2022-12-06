@@ -8,6 +8,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * oapi-features-json version 4.2.0
 * WKT for CRS Extension version 1.1 support
+* DGIWG (Defence Geospatial Information Working Group) GeoPackage Profile support
 * GeoPackage user version 1.3.1
 
 ## [7.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.3.0) (09-08-2022)
