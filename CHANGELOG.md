@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.4.0 (TBD)
+## [7.4.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.0) (12-09-2022)
 
-* oapi-features-json version 4.2.0
+* oapi-features-json version 4.2.1
 * WKT for CRS Extension version 1.1 support
 * DGIWG (Defence Geospatial Information Working Group) GeoPackage Profile support
 * GeoPackage user version 1.3.1

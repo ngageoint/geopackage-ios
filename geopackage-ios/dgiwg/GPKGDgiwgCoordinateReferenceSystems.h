@@ -394,7 +394,7 @@ enum GPKGDgiwgCoordinateReferenceSystem{
 /**
  * Get the coordinate reference system for the EPSG code
  *
- * @param epsgCode
+ * @param epsg
  *            EPSG code
  * @return crs
  */

@@ -9089,34 +9089,41 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 32,
-      "symbol": "GPKG_BUNDLE_NAME",
+      "symbol": "GPKG_UNDEFINED_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 33,
-      "symbol": "GPKG_PROPERTY_LIST_TYPE",
+      "symbol": "GPKG_BUNDLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 34,
-      "symbol": "GPKG_RESOURCES_PROPERTIES",
+      "symbol": "GPKG_PROPERTY_LIST_TYPE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 35,
+      "symbol": "GPKG_RESOURCES_PROPERTIES",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
+      "line": 36,
       "symbol": "GPKG_EARTH_RADIUS",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
-      "line": 37,
+      "line": 38,
       "symbol": "GPKGGeoPackageConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
@@ -9815,10 +9822,1564 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 21,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_3035",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 22,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_3395",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 23,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_3857",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 24,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_3978",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 25,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_4326",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 26,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_4979",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 27,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_5041",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 28,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_5042",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 29,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_9518",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 30,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32601",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 31,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32602",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 32,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32603",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 33,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32604",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 34,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32605",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 35,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32606",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 36,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32607",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 37,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32608",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 38,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32609",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 39,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32610",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 40,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32611",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 41,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32612",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 42,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32613",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 43,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32614",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 44,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32615",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 45,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32616",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 46,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32617",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 47,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32618",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 48,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32619",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 49,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32620",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 50,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32621",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 51,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32622",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 52,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32623",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 53,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32624",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 54,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32625",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 55,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32626",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 56,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32627",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 57,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32628",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 58,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32629",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 59,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32630",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 60,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32631",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 61,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32632",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 62,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32633",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 63,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32634",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 64,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32635",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 65,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32636",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 66,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32637",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 67,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32638",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 68,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32639",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 69,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32640",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 70,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32641",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 71,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32642",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 72,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32643",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 73,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32644",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 74,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32645",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 75,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32646",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 76,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32647",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 77,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32648",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 78,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32649",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 79,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32650",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 80,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32651",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 81,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32652",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 82,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32653",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 83,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32654",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 84,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32655",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 85,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32656",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 86,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32657",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 87,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32658",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 88,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32659",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 89,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32660",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 90,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32701",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 91,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32702",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 92,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32703",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 93,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32704",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 94,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32705",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 95,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32706",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 96,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32707",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 97,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32708",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 98,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32709",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 99,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32710",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 100,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32711",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 101,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32712",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 102,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32713",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 103,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32714",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 104,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32715",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 105,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32716",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 106,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32717",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 107,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32718",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 108,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32719",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 109,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32720",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 110,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32721",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 111,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32722",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 112,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32723",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 113,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32724",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 114,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32725",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 115,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32726",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 116,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32727",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 117,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32728",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 118,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32729",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 119,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32730",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 120,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32731",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 121,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32732",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 122,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32733",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 123,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32734",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 124,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32735",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 125,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32736",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 126,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32737",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 127,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32738",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 128,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32739",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 129,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32740",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 130,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32741",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 131,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32742",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 132,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32743",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 133,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32744",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 134,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32745",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 135,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32746",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 136,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32747",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 137,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32748",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 138,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32749",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 139,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32750",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 140,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32751",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 141,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32752",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 142,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32753",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 143,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32754",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 144,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32755",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 145,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32756",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 146,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32757",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 147,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32758",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 148,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32759",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgCoordinateReferenceSystems.h",
+      "line": 149,
+      "symbol": "GPKGDgiwgCoordinateReferenceSystem.GPKG_DGIWG_CRS_EPSG_32760",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgDataTypes.h",
+      "line": 16,
+      "symbol": "GPKGDgiwgDataType.GPKG_DGIWG_DT_FEATURES_2D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgDataTypes.h",
+      "line": 17,
+      "symbol": "GPKGDgiwgDataType.GPKG_DGIWG_DT_FEATURES_3D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgDataTypes.h",
+      "line": 18,
+      "symbol": "GPKGDgiwgDataType.GPKG_DGIWG_DT_TILES_2D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgDataTypes.h",
+      "line": 19,
+      "symbol": "GPKGDgiwgDataType.GPKG_DGIWG_DT_TILES_3D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgDataTypes.h",
+      "line": 22,
+      "symbol": "GPKGDgiwgDataTypes",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 15,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_GEOPACKAGE_BASE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 16,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 17,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 18,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 19,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 20,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 21,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 22,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 23,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_2D_VECTOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 24,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_3D_VECTOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 25,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_WKT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 26,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_COMPOUND",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 27,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_CRS_COMPOUND_WKT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 28,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_DMF",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 29,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_GPKG",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 30,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_ROW",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 31,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_USER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 32,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_PRODUCT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 33,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 34,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 35,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_TILE_SIZE_MATRIX",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 36,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_TILE_SIZE_DATA",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 37,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_ZOOM_FACTOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 38,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 39,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 40,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_BBOX_CRS",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 41,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_TILE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 42,
+      "symbol": "GPKGDgiwgRequirement.GPKG_DGIWG_REQ_METADATA_FEATURE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 45,
+      "symbol": "GPKG_DGIWG_REQ_GEOPACKAGE_BASE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 46,
+      "symbol": "GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 47,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 48,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 49,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 50,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 51,
+      "symbol": "GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 52,
+      "symbol": "GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 53,
+      "symbol": "GPKG_DGIWG_REQ_CRS_2D_VECTOR_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 54,
+      "symbol": "GPKG_DGIWG_REQ_CRS_3D_VECTOR_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 55,
+      "symbol": "GPKG_DGIWG_REQ_CRS_WKT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 56,
+      "symbol": "GPKG_DGIWG_REQ_CRS_COMPOUND_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 57,
+      "symbol": "GPKG_DGIWG_REQ_CRS_COMPOUND_WKT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 58,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_DMF_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 59,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_GPKG_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 60,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_ROW_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 61,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_USER_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 62,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_PRODUCT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 63,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 64,
+      "symbol": "GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 65,
+      "symbol": "GPKG_DGIWG_REQ_TILE_SIZE_MATRIX_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 66,
+      "symbol": "GPKG_DGIWG_REQ_TILE_SIZE_DATA_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 67,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_FACTOR_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 68,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 69,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 70,
+      "symbol": "GPKG_DGIWG_REQ_BBOX_CRS_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 71,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_TILE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 72,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_FEATURE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 74,
+      "symbol": "GPKG_DGIWG_REQ_GEOPACKAGE_BASE_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 75,
+      "symbol": "GPKG_DGIWG_REQ_GEOPACKAGE_OPTIONS_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 76,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_MANDATORY_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 77,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_OPTIONAL_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 78,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_NOT_ALLOWED_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 79,
+      "symbol": "GPKG_DGIWG_REQ_EXTENSIONS_CONDITIONAL_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 80,
+      "symbol": "GPKG_DGIWG_REQ_CRS_RASTER_ALLOWED_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 81,
+      "symbol": "GPKG_DGIWG_REQ_CRS_RASTER_TILE_MATRIX_SET_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 82,
+      "symbol": "GPKG_DGIWG_REQ_CRS_2D_VECTOR_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 83,
+      "symbol": "GPKG_DGIWG_REQ_CRS_3D_VECTOR_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 84,
+      "symbol": "GPKG_DGIWG_REQ_CRS_WKT_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 85,
+      "symbol": "GPKG_DGIWG_REQ_CRS_COMPOUND_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 86,
+      "symbol": "GPKG_DGIWG_REQ_CRS_COMPOUND_WKT_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 87,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_DMF_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 88,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_GPKG_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 89,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_ROW_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 90,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_USER_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 91,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_PRODUCT_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 92,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_PRODUCT_PARTIAL_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 93,
+      "symbol": "GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 94,
+      "symbol": "GPKG_DGIWG_REQ_TILE_SIZE_MATRIX_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 95,
+      "symbol": "GPKG_DGIWG_REQ_TILE_SIZE_DATA_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 96,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_FACTOR_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 97,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_MULTIPLE_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 98,
+      "symbol": "GPKG_DGIWG_REQ_ZOOM_MATRIX_SETS_ONE_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 99,
+      "symbol": "GPKG_DGIWG_REQ_BBOX_CRS_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 100,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_TILE_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 101,
+      "symbol": "GPKG_DGIWG_REQ_METADATA_FEATURE_IDENTIFIER",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgRequirements.h",
+      "line": 108,
+      "symbol": "GPKGDgiwgRequirements",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/dgiwg/GPKGDgiwgWellKnownText.h",
+      "line": 13,
+      "symbol": "GPKG_DGIWG_RESOURCES_WKT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGCrsWktExtension.h",
-      "line": 12,
+      "line": 13,
       "symbol": "GPKG_CRS_WKT_EXTENSION_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGCrsWktExtensionVersions.h",
+      "line": 15,
+      "symbol": "GPKGCrsWktExtensionVersion.GPKG_CRS_WKT_V_1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGCrsWktExtensionVersions.h",
+      "line": 16,
+      "symbol": "GPKGCrsWktExtensionVersion.GPKG_CRS_WKT_V_1_1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
@@ -12373,13 +13934,6 @@
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 23,
       "symbol": "GPKG_SRS_COLUMN_DESCRIPTION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
-      "line": 24,
-      "symbol": "GPKG_SRS_COLUMN_DEFINITION_12_063",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },

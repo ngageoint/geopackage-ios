@@ -299,8 +299,8 @@ NSString * const GPKG_DGIWG_FN_DATE_FORMAT = @"ddMMMyyyy";
 /**
  * Add an element delimiter
  *
- * @param builder
- *            string builder
+ * @param description
+ *            description
  */
 -(void) addDelimiter: (NSMutableString *) description{
     if(description.length > 0){

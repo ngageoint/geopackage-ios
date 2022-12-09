@@ -45,7 +45,6 @@
  * Create the DGIWG GeoPackage file
  *
  * @param database database name
- * @param file     GeoPackage file path
  * @param uri      URI
  * @param metadata metadata
  * @return GeoPackage file
