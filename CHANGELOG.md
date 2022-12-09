@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 7.4.1 (TBD)
+
+* TBD
+
 ## [7.4.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.0) (12-09-2022)
 
 * oapi-features-json version 4.2.1
