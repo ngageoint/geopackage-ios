@@ -7,8 +7,6 @@
 //
 
 #import "GPKGGeometryColumnsDao.h"
-#import "GPKGSpatialReferenceSystemDao.h"
-#import "GPKGContentsDao.h"
 #import "GPKGCrsWktExtension.h"
 
 @implementation GPKGGeometryColumnsDao

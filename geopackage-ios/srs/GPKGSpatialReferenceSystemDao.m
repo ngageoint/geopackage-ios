@@ -8,10 +8,6 @@
 
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "PROJProjectionConstants.h"
-#import "GPKGGeometryColumnsDao.h"
-#import "GPKGTileMatrixSetDao.h"
-#import "GPKGContentsDao.h"
-#import "PROJProjectionFactory.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGCrsWktExtension.h"

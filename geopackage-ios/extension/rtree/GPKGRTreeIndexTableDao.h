@@ -6,7 +6,6 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import "GPKGUserCustomDao.h"
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGProgress.h"
 #import "GPKGRTreeIndexTableRow.h"

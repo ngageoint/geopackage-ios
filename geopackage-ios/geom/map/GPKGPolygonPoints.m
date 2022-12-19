@@ -8,7 +8,6 @@
 
 #import "GPKGPolygonPoints.h"
 #import "GPKGUtils.h"
-#import "GPKGMapShapePoints.h"
 #import "GPKGMapShapeConverter.h"
 
 @implementation GPKGPolygonPoints

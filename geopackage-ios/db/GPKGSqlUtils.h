@@ -6,15 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGResultSet.h"
-#import <sqlite3.h>
-#import "GPKGContentValues.h"
-#import "GPKGDbConnection.h"
-#import "GPKGSqliteConnection.h"
-#import "GPKGDataTypes.h"
-#import "GPKGUserTable.h"
-#import "GPKGConnection.h"
 #import "GPKGTableMapping.h"
 
 /**

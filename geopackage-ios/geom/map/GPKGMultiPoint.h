@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-@import MapKit;
 #import "GPKGShapePoints.h"
-#import "GPKGMapPoint.h"
 
 /**
  *  Multi point shape

@@ -8,8 +8,6 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGGeometryMetadata.h"
-#import "SFGeometryEnvelope.h"
-#import "GPKGBoundingBox.h"
 
 /**
  * Geometry Metadata Data Access Object

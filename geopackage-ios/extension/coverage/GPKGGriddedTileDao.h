@@ -7,7 +7,6 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGContents.h"
 #import "GPKGGriddedTile.h"
 
 /**

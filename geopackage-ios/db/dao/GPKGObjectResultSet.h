@@ -6,9 +6,7 @@
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGBaseDao.h"
-#import "GPKGResultSet.h"
 
 @class GPKGBaseDao;
 

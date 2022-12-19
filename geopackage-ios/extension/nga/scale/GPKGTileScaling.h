@@ -6,7 +6,6 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGTileMatrixSet.h"
 #import "GPKGTileScalingTypes.h"
 

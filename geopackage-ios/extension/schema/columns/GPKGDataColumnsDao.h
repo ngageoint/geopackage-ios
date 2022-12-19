@@ -8,7 +8,6 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGDataColumns.h"
-#import "GPKGContents.h"
 
 /**
  *  Data Columns Data Access Object

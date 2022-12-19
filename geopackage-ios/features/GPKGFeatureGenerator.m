@@ -10,7 +10,6 @@
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGFeatureTableReader.h"
-#import "GPKGFeatureTableMetadata.h"
 
 @interface GPKGFeatureGenerator()
 

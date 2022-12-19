@@ -8,7 +8,6 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGAttributesRow.h"
-#import "GPKGAttributesTable.h"
 
 /**
  * Attributes DAO for reading attributes user data tables

@@ -6,9 +6,7 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureStyleExtension.h"
-#import "GPKGIconCache.h"
 #import "GPKGMapPoint.h"
 #import "GPKGPolyline.h"
 #import "GPKGPolygon.h"

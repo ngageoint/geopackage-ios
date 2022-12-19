@@ -6,10 +6,7 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGDataTypes.h"
 #import "GPKGUserColumn.h"
-#import "GPKGTableColumn.h"
 
 /**
  * Mapped column, to a column and potentially from a differently named column

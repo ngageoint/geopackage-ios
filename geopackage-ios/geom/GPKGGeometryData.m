@@ -7,11 +7,9 @@
 //
 
 #import "GPKGGeometryData.h"
-#import "SFByteReader.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeometryExtensions.h"
 #import "SFWBGeometryReader.h"
-#import "SFByteWriter.h"
 #import "SFWBGeometryWriter.h"
 #import "SFPointFiniteFilter.h"
 #import "GPKGProperties.h"

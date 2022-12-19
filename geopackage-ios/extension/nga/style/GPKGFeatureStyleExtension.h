@@ -6,7 +6,6 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import "GPKGBaseExtension.h"
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGContentsIdExtension.h"
 #import "GPKGStyleMappingDao.h"

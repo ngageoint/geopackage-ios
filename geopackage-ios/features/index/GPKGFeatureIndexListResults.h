@@ -6,9 +6,7 @@
 //  Copyright © 2017 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureIndexResults.h"
-#import "GPKGFeatureRow.h"
 
 /**
  * Feature Index Results Feature Row list implementation

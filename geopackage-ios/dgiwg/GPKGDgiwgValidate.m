@@ -8,7 +8,6 @@
 
 #import "GPKGDgiwgValidate.h"
 #import "GPKGDgiwgCoordinateReferenceSystems.h"
-#import "GPKGMetadataReference.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "PROJProjectionConstants.h"
@@ -17,7 +16,6 @@
 #import "GPKGDgiwgMetadata.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGRTreeIndexExtension.h"
-#import "GPKGExtensionManager.h"
 #import "GPKGGeometryExtensions.h"
 #import "CRSReader.h"
 #import "GPKGZoomOtherExtension.h"

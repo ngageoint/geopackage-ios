@@ -6,8 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGMapShape.h"
 #import "GPKGFeatureShape.h"
 
 /**

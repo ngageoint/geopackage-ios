@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserCustomDao.h"
-#import "GPKGSimpleAttributesTable.h"
 #import "GPKGSimpleAttributesRow.h"
 
 /**

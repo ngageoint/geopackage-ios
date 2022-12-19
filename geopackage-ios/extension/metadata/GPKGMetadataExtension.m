@@ -7,7 +7,6 @@
 //
 
 #import "GPKGMetadataExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 
 NSString * const GPKG_METADATA_EXTENSION_NAME = @"metadata";

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGGeoPackageMetadataDao.h"
 #import "GPKGTableMetadataDao.h"
 #import "GPKGGeometryMetadataDao.h"

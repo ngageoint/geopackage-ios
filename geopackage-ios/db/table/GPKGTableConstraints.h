@@ -6,8 +6,6 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGConstraint.h"
 #import "GPKGColumnConstraints.h"
 
 /**

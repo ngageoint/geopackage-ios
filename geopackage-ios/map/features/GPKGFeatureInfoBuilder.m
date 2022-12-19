@@ -11,10 +11,8 @@
 #import "GPKGPropertyConstants.h"
 #import "SFGeometryPrinter.h"
 #import "GPKGDataColumnsDao.h"
-#import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGFeatureIndexListResults.h"
 #import "GPKGMapShapeConverter.h"
-#import "PROJProjectionFactory.h"
 #import "GPKGMapUtils.h"
 
 @interface GPKGFeatureInfoBuilder ()

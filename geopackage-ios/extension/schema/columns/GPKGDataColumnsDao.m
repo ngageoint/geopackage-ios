@@ -8,7 +8,6 @@
 
 #import "GPKGDataColumnsDao.h"
 #import "GPKGContentsDao.h"
-#import "GPKGDataColumnConstraintsDao.h"
 
 @implementation GPKGDataColumnsDao
 

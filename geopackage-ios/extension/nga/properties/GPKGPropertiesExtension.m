@@ -8,7 +8,6 @@
 
 #import "GPKGPropertiesExtension.h"
 #import "GPKGProperties.h"
-#import "GPKGAttributesColumn.h"
 #import "GPKGNGAExtensions.h"
 #import "GPKGUniqueConstraint.h"
 

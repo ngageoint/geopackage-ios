@@ -6,9 +6,7 @@
 //  Copyright © 2017 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGCoverageDataImage.h"
-#import <UIKit/UIKit.h>
 #import "GPKGTileRow.h"
 
 /**

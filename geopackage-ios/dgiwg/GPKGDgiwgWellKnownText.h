@@ -6,7 +6,6 @@
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "CRSGeoDatums.h"
 #import "CRSTypes.h"
 

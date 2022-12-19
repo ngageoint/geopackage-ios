@@ -6,8 +6,6 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGTableColumn.h"
 #import "GPKGConnection.h"
 
 /**

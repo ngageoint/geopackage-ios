@@ -6,8 +6,6 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGGeoPackage.h"
 #import "GPKGBaseExtension.h"
 #import "GPKGFeatureTileLinkDao.h"
 

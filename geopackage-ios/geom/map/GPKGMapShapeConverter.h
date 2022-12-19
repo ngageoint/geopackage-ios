@@ -6,33 +6,13 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-@import MapKit;
 #import "PROJProjection.h"
-#import "SFPoint.h"
-#import "GPKGMapPoint.h"
-#import "SFLineString.h"
-#import "SFCircularString.h"
-#import "SFPolygon.h"
 #import "GPKGMultiPoint.h"
-#import "SFMultiPoint.h"
 #import "GPKGMultiPolyline.h"
-#import "SFMultiLineString.h"
-#import "SFCompoundCurve.h"
 #import "GPKGMultiPolygon.h"
-#import "SFMultiPolygon.h"
-#import "SFPolyhedralSurface.h"
-#import "GPKGMapShape.h"
-#import "SFGeometry.h"
 #import "GPKGMapShapePoints.h"
-#import "GPKGPolylinePoints.h"
-#import "GPKGPolygonPoints.h"
 #import "GPKGMultiPolylinePoints.h"
-#import "SFTIN.h"
-#import "SFTriangle.h"
 #import "GPKGMultiPolygonPoints.h"
-#import "GPKGPolyline.h"
-#import "GPKGPolygon.h"
 
 /**
  *  Provides conversion methods between Well-Known Binary geometry objects and Map shapes. Includes adding shapes to map view functionality.

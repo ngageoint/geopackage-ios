@@ -7,8 +7,6 @@
 //
 
 #import "GPKGTileMatrixSetDao.h"
-#import "GPKGContentsDao.h"
-#import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGUtils.h"
 #import "GPKGCrsWktExtension.h"
 

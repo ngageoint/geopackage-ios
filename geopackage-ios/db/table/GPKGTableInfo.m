@@ -7,10 +7,8 @@
 //
 
 #import "GPKGTableInfo.h"
-#import "SFGeometryTypes.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGDateConverter.h"
-#import "GPKGUtils.h"
 
 NSString * const GPKG_TI_CID = @"cid";
 int const GPKG_TI_CID_INDEX = 0;

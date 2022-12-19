@@ -6,11 +6,8 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureDao.h"
 #import "GPKGProgress.h"
-#import "GPKGGeometryMetadata.h"
-#import "GPKGMetadataDb.h"
 
 /**
  *  Feature Indexer, indexes feature geometries into a table for searching

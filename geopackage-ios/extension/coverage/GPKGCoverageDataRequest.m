@@ -7,7 +7,6 @@
 //
 
 #import "GPKGCoverageDataRequest.h"
-#import "GPKGTileBoundingBoxUtils.h"
 
 @interface GPKGCoverageDataRequest()
 

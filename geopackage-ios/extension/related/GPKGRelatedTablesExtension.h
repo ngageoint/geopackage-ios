@@ -8,11 +8,6 @@
 
 #import "GPKGBaseExtension.h"
 #import "GPKGExtendedRelationsDao.h"
-#import "GPKGUserRelatedTable.h"
-#import "GPKGUserMappingTable.h"
-#import "GPKGMediaTable.h"
-#import "GPKGSimpleAttributesTable.h"
-#import "GPKGUserCustomDao.h"
 #import "GPKGUserMappingDao.h"
 #import "GPKGMediaDao.h"
 #import "GPKGSimpleAttributesDao.h"

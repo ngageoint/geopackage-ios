@@ -6,8 +6,6 @@
 //  Copyright © 2020 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGGeoPackage.h"
 #import "GPKGFeatureTiles.h"
 
 @interface GPKGFeaturePreview : NSObject

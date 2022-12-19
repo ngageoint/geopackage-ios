@@ -7,7 +7,6 @@
 //
 
 #import "GPKGWebPExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 
 NSString * const GPKG_WEBP_EXTENSION_NAME = @"webp";

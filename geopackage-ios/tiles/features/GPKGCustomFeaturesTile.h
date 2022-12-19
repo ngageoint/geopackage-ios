@@ -9,7 +9,6 @@
 #ifndef GPKGCustomFeaturesTile_h
 #define GPKGCustomFeaturesTile_h
 
-@import MapKit;
 #import "GPKGFeatureIndexResults.h"
 #import "GPKGFeatureDao.h"
 

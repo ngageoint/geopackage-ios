@@ -6,9 +6,7 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
-#import "PROJProjection.h"
 #import "GPKGProgress.h"
 #import "PROJProjections.h"
 

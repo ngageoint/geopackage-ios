@@ -7,7 +7,6 @@
 //
 
 #import "GPKGFeatureShapes.h"
-#import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGMapUtils.h"

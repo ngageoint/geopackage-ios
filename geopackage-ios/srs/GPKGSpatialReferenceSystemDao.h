@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGConnection.h"
 #import "GPKGBaseDao.h"
-#import "GPKGSpatialReferenceSystem.h"
 
 /**
  *  Spatial Reference System Data Access Object

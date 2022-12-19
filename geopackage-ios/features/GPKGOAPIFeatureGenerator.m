@@ -12,7 +12,6 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGDateConverter.h"
-#import "SFGFeature.h"
 #import "OAFCrs.h"
 #import "OAFFeaturesConverter.h"
 #import "GPKGNetworkUtils.h"

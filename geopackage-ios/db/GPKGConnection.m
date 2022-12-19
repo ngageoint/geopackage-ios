@@ -7,12 +7,8 @@
 //
 
 #import "GPKGConnection.h"
-#import <sqlite3.h>
-#import "GPKGDbConnection.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGConnectionPool.h"
 #import "GPKGSqlUtils.h"
-#import "GPKGConnectionFunction.h"
 #import "GPKGAlterTable.h"
 #import "GPKGSQLiteMaster.h"
 

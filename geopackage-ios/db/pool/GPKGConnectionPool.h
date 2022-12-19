@@ -6,8 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGDbConnection.h"
 #import "GPKGConnectionFunction.h"
 
 @class GPKGDbConnection;

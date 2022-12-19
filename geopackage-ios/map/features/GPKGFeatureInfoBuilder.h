@@ -6,11 +6,8 @@
 //  Copyright © 2017 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGFeatureDao.h"
 #import "GPKGFeatureTableData.h"
 #import "GPKGFeatureIndexResults.h"
-#import "SFPoint.h"
 #import "GPKGMapTolerance.h"
 #import "GPKGFeatureTableStyles.h"
 

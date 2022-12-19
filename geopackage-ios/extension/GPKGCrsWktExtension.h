@@ -7,7 +7,6 @@
 //
 
 #import "GPKGBaseExtension.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGCrsWktExtensionVersions.h"
 
 extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;

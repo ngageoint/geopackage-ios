@@ -9,7 +9,6 @@
 #ifndef geopackage_ios_GPKGShapePoints_h
 #define geopackage_ios_GPKGShapePoints_h
 
-@import MapKit;
 #import "GPKGMapPoint.h"
 
 /**

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGExtensionsDao.h"
-#import "GPKGUtils.h"
 
 @implementation GPKGExtensionsDao
 

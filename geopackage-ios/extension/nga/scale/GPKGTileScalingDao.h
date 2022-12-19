@@ -6,7 +6,6 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import "GPKGBaseDao.h"
 #import "GPKGTileScaling.h"
 
 /**

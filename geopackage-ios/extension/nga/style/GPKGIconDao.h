@@ -7,7 +7,6 @@
 //
 
 #import "GPKGMediaDao.h"
-#import "GPKGIconTable.h"
 #import "GPKGIconRow.h"
 #import "GPKGStyleMappingRow.h"
 

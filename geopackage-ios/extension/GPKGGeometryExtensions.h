@@ -7,7 +7,6 @@
 //
 
 #import "GPKGBaseExtension.h"
-#import "SFGeometryTypes.h"
 
 /**
  *  Geometry Extensions utility methods and constants

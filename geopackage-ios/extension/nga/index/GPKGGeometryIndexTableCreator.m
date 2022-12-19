@@ -7,7 +7,6 @@
 //
 
 #import "GPKGGeometryIndexTableCreator.h"
-#import "GPKGTableIndex.h"
 #import "GPKGGeometryIndex.h"
 
 @implementation GPKGGeometryIndexTableCreator

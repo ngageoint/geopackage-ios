@@ -6,7 +6,6 @@
 //  Copyright © 2020 NGA. All rights reserved.
 //
 
-#import "GPKGTableCreator.h"
 #import "GPKGNGATableCreator.h"
 
 /**

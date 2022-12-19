@@ -6,9 +6,7 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGSQLiteMasterTypes.h"
-#import "GPKGSQLiteMasterColumns.h"
 #import "GPKGTableConstraints.h"
 #import "GPKGConnection.h"
 #import "GPKGSQLiteMasterQuery.h"

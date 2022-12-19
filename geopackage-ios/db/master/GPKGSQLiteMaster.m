@@ -8,7 +8,6 @@
 
 #import "GPKGSQLiteMaster.h"
 #import "GPKGConstraintParser.h"
-#import "GPKGUtils.h"
 
 NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 

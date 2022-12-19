@@ -8,7 +8,6 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGTileMatrix.h"
-#import "GPKGContents.h"
 
 /**
  *  Tile Matrix Data Access Object

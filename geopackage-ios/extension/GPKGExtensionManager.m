@@ -15,11 +15,9 @@
 #import "GPKGSchemaExtension.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGCrsWktExtension.h"
-#import "GPKGTableInfo.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGAlterTable.h"
-#import "GPKGTableCreator.h"
 #import "GPKGConstraintParser.h"
 
 @interface GPKGExtensionManager()

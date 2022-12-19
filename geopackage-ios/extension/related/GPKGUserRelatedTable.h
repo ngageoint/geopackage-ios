@@ -6,9 +6,7 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGUserCustomTable.h"
-#import "GPKGContents.h"
 
 /**
  * User Defined Related Table

@@ -8,7 +8,6 @@
 
 #import "GPKGAttributesTable.h"
 #import "GPKGContentsDataTypes.h"
-#import "GPKGAttributesColumns.h"
 
 @implementation GPKGAttributesTable
 

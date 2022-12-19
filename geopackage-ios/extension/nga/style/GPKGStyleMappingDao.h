@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserMappingDao.h"
-#import "GPKGStyleMappingTable.h"
 #import "GPKGStyleMappingRow.h"
 
 /**

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGMetadataDb.h"
-#import "GPKGConnection.h"
 #import "GPKGIOUtils.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeoPackageMetadataTableCreator.h"

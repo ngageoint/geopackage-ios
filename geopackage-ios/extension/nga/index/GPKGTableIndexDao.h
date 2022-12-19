@@ -8,7 +8,6 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGTableIndex.h"
-#import "GPKGExtensions.h"
 
 /**
  *  Table Index Data Access Object

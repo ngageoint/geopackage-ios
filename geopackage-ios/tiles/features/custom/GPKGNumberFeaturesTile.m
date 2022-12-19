@@ -7,7 +7,6 @@
 //
 
 #import "GPKGNumberFeaturesTile.h"
-#import <CoreText/CoreText.h>
 #import "GPKGUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"

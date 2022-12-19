@@ -7,11 +7,8 @@
 //
 
 #import "GPKGCoverageData.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGCoverageDataAlgorithms.h"
-#import "PROJProjectionFactory.h"
-#import "PROJProjectionTransform.h"
 #import "GPKGCoverageDataSourcePixel.h"
 #import "GPKGCoverageDataTileMatrixResults.h"
 #import "GPKGTileBoundingBoxUtils.h"

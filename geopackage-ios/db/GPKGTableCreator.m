@@ -8,7 +8,6 @@
 
 #import "GPKGTableCreator.h"
 #import "GPKGIOUtils.h"
-#import "GPKGGeoPackageConstants.h"
 
 NSString * const GPKG_RESOURCES_TABLES = @"geopackage.tables";
 

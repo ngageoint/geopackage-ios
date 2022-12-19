@@ -6,7 +6,6 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "GPKGFeatureGenerator.h"
 #import "OAFCollection.h"
 

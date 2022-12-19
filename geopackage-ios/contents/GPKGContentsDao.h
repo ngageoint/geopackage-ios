@@ -7,8 +7,6 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGContents.h"
-#import "GPKGSpatialReferenceSystem.h"
 #import "GPKGGeometryColumns.h"
 #import "GPKGTileMatrixSet.h"
 #import "GPKGContentsDataTypes.h"

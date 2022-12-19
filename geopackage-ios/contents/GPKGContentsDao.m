@@ -7,14 +7,9 @@
 //
 
 #import "GPKGContentsDao.h"
-#import "GPKGGeometryColumnsDao.h"
-#import "GPKGSpatialReferenceSystemDao.h"
-#import "GPKGTileMatrixSetDao.h"
-#import "GPKGTileMatrixDao.h"
 #import "GPKGDateConverter.h"
 #import "GPKGUtils.h"
 #import "GPKGSqlUtils.h"
-#import "GPKGContentsDataTypes.h"
 #import "GPKGCrsWktExtension.h"
 
 @implementation GPKGContentsDao

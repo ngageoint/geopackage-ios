@@ -6,8 +6,6 @@
 //  Copyright © 2019 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGConstraintTypes.h"
 #import "GPKGTableConstraints.h"
 /**
  * SQL constraint parser from create table statements

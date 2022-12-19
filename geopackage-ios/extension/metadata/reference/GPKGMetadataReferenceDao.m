@@ -7,8 +7,6 @@
 //
 
 #import "GPKGMetadataReferenceDao.h"
-#import "GPKGUtils.h"
-#import "GPKGColumnValues.h"
 #import "GPKGDateConverter.h"
 
 @implementation GPKGMetadataReferenceDao

@@ -7,11 +7,8 @@
 //
 
 #import "GPKGRTreeIndexExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
-#import "GPKGPropertyConstants.h"
 #import "GPKGIOUtils.h"
-#import "GPKGSqlUtils.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_RTREE_INDEX_PREFIX = @"rtree_";

@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGConnection.h"
-#import "GPKGUserTable.h"
 
 extern NSString * const GPKG_RESOURCES_TABLES;
 

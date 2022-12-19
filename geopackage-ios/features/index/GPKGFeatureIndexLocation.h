@@ -6,7 +6,6 @@
 //  Copyright © 2020 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureIndexManager.h"
 
 @class GPKGFeatureIndexManager;

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGZoomOtherExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 
 NSString * const GPKG_ZOOM_OTHER_EXTENSION_NAME = @"zoom_other";

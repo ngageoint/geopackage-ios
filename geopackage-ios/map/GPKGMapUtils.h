@@ -6,11 +6,7 @@
 //  Copyright © 2017 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
-#import "GPKGBoundingBox.h"
 #import "GPKGLocationBoundingBox.h"
-#import "GPKGMapPoint.h"
 #import "GPKGMapShape.h"
 #import "GPKGMultiPoint.h"
 #import "GPKGMultiPolyline.h"

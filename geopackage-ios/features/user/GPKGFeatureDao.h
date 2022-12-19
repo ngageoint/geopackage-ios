@@ -7,9 +7,7 @@
 //
 
 #import "GPKGUserDao.h"
-#import "GPKGGeometryColumns.h"
 #import "GPKGFeatureRow.h"
-#import "SFGeometryTypes.h"
 #import "GPKGMetadataDb.h"
 
 /**

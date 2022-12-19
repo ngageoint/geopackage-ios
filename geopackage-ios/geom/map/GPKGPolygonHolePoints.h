@@ -6,11 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGShapePoints.h"
 #import "GPKGPolygonPoints.h"
-@import MapKit;
-#import "GPKGMapPoint.h"
 
 @class GPKGPolygonPoints;
 

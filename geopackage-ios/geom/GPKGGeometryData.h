@@ -6,11 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "SFGeometryEnvelope.h"
-#import "SFGeometry.h"
 #import "SFGeometryFilter.h"
-#import "SFPGeometryTransform.h"
 #import "GPKGBoundingBox.h"
 
 /**

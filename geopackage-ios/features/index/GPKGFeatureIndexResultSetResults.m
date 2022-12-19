@@ -7,7 +7,6 @@
 //
 
 #import "GPKGFeatureIndexResultSetResults.h"
-#import "GPKGFeatureRow.h"
 
 @interface GPKGFeatureIndexResultSetResults ()
 

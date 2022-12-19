@@ -8,11 +8,9 @@
 
 #import "GPKGBaseExtension.h"
 #import "GPKGGriddedCoverageDao.h"
-#import "GPKGTileDao.h"
 #import "GPKGCoverageDataImage.h"
 #import "GPKGCoverageDataRequest.h"
 #import "GPKGCoverageDataResults.h"
-#import "GPKGGriddedCoverageEncodingTypes.h"
 #import "GPKGGriddedTileDao.h"
 
 extern NSString * const GPKG_CD_GRIDDED_COVERAGE;

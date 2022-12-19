@@ -7,7 +7,6 @@
 //
 
 #import "GPKGContents.h"
-#import "GPKGUtils.h"
 #import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_CON_TABLE_NAME = @"gpkg_contents";

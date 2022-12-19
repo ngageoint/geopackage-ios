@@ -6,12 +6,8 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGConnection.h"
 #import "GPKGBaseDao.h"
 #import "GPKGGeometryColumns.h"
-#import "GPKGSpatialReferenceSystem.h"
-#import "GPKGContents.h"
 
 /**
  *  Geometry Columns Data Access Object

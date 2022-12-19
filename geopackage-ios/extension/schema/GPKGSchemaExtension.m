@@ -7,9 +7,7 @@
 //
 
 #import "GPKGSchemaExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
-#import "GPKGDataColumns.h"
 
 NSString * const GPKG_SCHEMA_EXTENSION_NAME = @"schema";
 NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions.schema";

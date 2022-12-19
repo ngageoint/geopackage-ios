@@ -6,10 +6,7 @@
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGSqliteConnection.h"
-
-@class GPKGSqliteConnection;
 
 /**
  *  Single database connection to a database file opened as part of a connection pool.  Wraps a sqlite3 connection.

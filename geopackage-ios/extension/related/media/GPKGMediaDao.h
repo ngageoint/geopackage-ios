@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserCustomDao.h"
-#import "GPKGMediaTable.h"
 #import "GPKGMediaRow.h"
 
 /**

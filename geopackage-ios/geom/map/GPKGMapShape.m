@@ -10,11 +10,8 @@
 #import "GPKGMultiPoint.h"
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
-#import "GPKGPolylinePoints.h"
-#import "GPKGPolygonPoints.h"
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
-#import "GPKGMapPoint.h"
 #import "PROJProjectionConstants.h"
 
 @implementation GPKGMapShape

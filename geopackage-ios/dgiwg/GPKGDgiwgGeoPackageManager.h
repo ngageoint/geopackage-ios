@@ -6,9 +6,7 @@
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGGeoPackageManager.h"
-#import "GPKGDgiwgFile.h"
 #import "GPKGDgiwgGeoPackage.h"
 
 /**

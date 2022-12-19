@@ -6,9 +6,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGMapPointInitializer.h"
-@import MapKit;
 
 /**
  *  Map Point options including style and atributes

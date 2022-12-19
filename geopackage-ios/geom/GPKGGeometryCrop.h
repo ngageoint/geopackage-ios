@@ -6,9 +6,6 @@
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "SFGeometryEnvelope.h"
-#import "SFGeometry.h"
 #import "PROJProjection.h"
 #import "GPKGGeometryData.h"
 

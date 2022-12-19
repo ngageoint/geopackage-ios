@@ -6,11 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import <sqlite3.h>
 #import "GPKGConnectionPool.h"
-
-@class GPKGConnectionPool;
 
 /**
  *  Single sqlite3 connection to a database file opened as part of a connection pool

@@ -6,15 +6,12 @@
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureIndexTypes.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGFeatureIndexer.h"
 #import "GPKGFeatureIndexResults.h"
 #import "GPKGRTreeIndexTableDao.h"
 #import "GPKGFeatureIndexLocation.h"
-#import "GPKGRowPaginatedResults.h"
 
 @class GPKGFeatureIndexLocation;
 

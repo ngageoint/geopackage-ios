@@ -7,7 +7,6 @@
 //
 
 #import "GPKGFeatureTileTableLinker.h"
-#import "GPKGExtensions.h"
 #import "GPKGProperties.h"
 #import "GPKGFeatureTileLinkTableCreator.h"
 #import "GPKGNGAExtensions.h"

@@ -8,7 +8,6 @@
 
 #import "GPKGRTreeIndexTableDao.h"
 #import "GPKGSqlUtils.h"
-#import "GPKGRTreeIndexExtension.h"
 
 @interface GPKGRTreeIndexTableDao()
 

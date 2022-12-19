@@ -6,8 +6,6 @@
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGGeoPackage.h"
 #import "GPKGFeatureDao.h"
 #import "GPKGProgress.h"
 #import "GPKGBaseExtension.h"

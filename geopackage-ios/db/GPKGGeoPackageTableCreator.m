@@ -7,28 +7,17 @@
 //
 
 #import "GPKGGeoPackageTableCreator.h"
-#import "GPKGIOUtils.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGSpatialReferenceSystemDao.h"
-#import "GPKGSpatialReferenceSystem.h"
-#import "GPKGContents.h"
 #import "GPKGGeometryColumns.h"
-#import "GPKGTileMatrixSet.h"
 #import "GPKGTileMatrix.h"
 #import "GPKGDataColumns.h"
-#import "GPKGDataColumnConstraints.h"
-#import "GPKGMetadata.h"
 #import "GPKGMetadataReference.h"
 #import "GPKGExtensions.h"
-#import "GPKGTableIndex.h"
-#import "GPKGGeometryIndex.h"
-#import "GPKGFeatureTileLink.h"
 #import "GPKGGriddedCoverage.h"
 #import "GPKGGriddedTile.h"
-#import "GPKGTileScaling.h"
 #import "GPKGExtendedRelation.h"
 #import "GPKGSqlUtils.h"
-#import "GPKGContentsId.h"
 
 @implementation GPKGGeoPackageTableCreator
 

@@ -8,7 +8,6 @@
 
 #import "GPKGUserColumn.h"
 #import "SFGeometryTypes.h"
-#import "GPKGTableColumn.h"
 
 /**
  *  Feature column

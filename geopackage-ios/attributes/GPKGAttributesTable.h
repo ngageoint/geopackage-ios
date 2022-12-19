@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserTable.h"
-#import "GPKGAttributesColumn.h"
 #import "GPKGAttributesColumns.h"
 
 @interface GPKGAttributesTable : GPKGUserTable

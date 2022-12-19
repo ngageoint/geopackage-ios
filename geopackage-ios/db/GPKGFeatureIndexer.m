@@ -7,11 +7,8 @@
 //
 
 #import "GPKGFeatureIndexer.h"
-#import "GPKGMetadataDb.h"
 #import "GPKGGeometryColumnsDao.h"
-#import "SFPGeometryTransform.h"
 #import "GPKGUserRowSync.h"
-#import "GPKGFeatureIndexerIdQuery.h"
 #import "GPKGFeatureIndexMetadataResults.h"
 #import "GPKGFeatureIndexerIdResultSet.h"
 

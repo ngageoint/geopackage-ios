@@ -8,8 +8,6 @@
 
 #import "GPKGTableIndexDao.h"
 #import "GPKGGeometryIndexDao.h"
-#import "GPKGGeometryIndex.h"
-#import "GPKGExtensionsDao.h"
 #import "GPKGDateConverter.h"
 
 @implementation GPKGTableIndexDao

@@ -8,11 +8,7 @@
 
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGNGAExtensions.h"
-#import "GPKGExtensions.h"
 #import "GPKGProperties.h"
-#import "GPKGStyleTable.h"
-#import "GPKGIconTable.h"
-#import "GPKGStyleMappingTable.h"
 
 NSString * const GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR = @"feature_style";
 NSString * const GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION = @"geopackage.extensions.feature_style";

@@ -6,10 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "SFGeometryTypes.h"
 #import "GPKGMapShapeTypes.h"
-@import MapKit;
 #import "GPKGBoundingBox.h"
 
 /**

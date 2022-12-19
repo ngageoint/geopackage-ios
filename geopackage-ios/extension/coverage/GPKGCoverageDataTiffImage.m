@@ -8,7 +8,6 @@
 
 #import "GPKGCoverageDataTiffImage.h"
 #import "GPKGCoverageDataTiff.h"
-#import "TIFFRasters.h"
 #import "TIFFReader.h"
 #import "TIFFWriter.h"
 

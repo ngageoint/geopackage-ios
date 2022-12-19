@@ -7,7 +7,6 @@
 //
 
 #import "GPKGCrsWktExtension.h"
-#import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGAlterTable.h"

@@ -7,10 +7,7 @@
 //
 
 #import "GPKGFeatureIndexManager.h"
-#import "GPKGFeatureIndexGeoPackageResults.h"
-#import "GPKGFeatureIndexMetadataResults.h"
 #import "GPKGManualFeatureQuery.h"
-#import "GPKGFeatureIndexRTreeResults.h"
 #import "GPKGFeatureIndexFeatureResults.h"
 
 @interface GPKGFeatureIndexManager ()

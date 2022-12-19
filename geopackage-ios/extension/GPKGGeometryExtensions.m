@@ -7,9 +7,7 @@
 //
 
 #import "GPKGGeometryExtensions.h"
-#import "SFGeometryTypes.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGExtensions.h"
 #import "GPKGProperties.h"
 #import "SFWBGeometryCodes.h"
 

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGMapShapeConverter.h"
-#import "GPKGMapPoint.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGUtils.h"
 #import "GPKGPolygonOrientations.h"

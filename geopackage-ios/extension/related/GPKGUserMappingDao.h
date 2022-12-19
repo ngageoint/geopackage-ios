@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserCustomDao.h"
-#import "GPKGUserMappingTable.h"
 #import "GPKGUserMappingRow.h"
 
 /**

@@ -8,7 +8,6 @@
 
 #import "GPKGUserTableMetadata.h"
 #import "GPKGAttributesColumn.h"
-#import "GPKGAttributesColumns.h"
 #import "GPKGAttributesTable.h"
 
 @interface GPKGAttributesTableMetadata : GPKGUserTableMetadata

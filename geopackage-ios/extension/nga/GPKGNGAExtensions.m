@@ -8,12 +8,10 @@
 
 #import "GPKGNGAExtensions.h"
 #import "GPKGFeatureTableIndex.h"
-#import "GPKGFeatureTileLinkDao.h"
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGTileTableScaling.h"
 #import "GPKGPropertiesExtension.h"
 #import "GPKGFeatureStyleExtension.h"
-#import "GPKGContentsIdExtension.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGAlterTable.h"

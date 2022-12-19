@@ -8,16 +8,10 @@
 
 #import "GPKGFeatureTiles.h"
 #import "GPKGImageConverter.h"
-#import "GPKGTileBoundingBoxUtils.h"
-@import MapKit;
-#import "SFPoint.h"
-#import "GPKGMapPoint.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGMapShapeConverter.h"
-#import "GPKGMultiPolyline.h"
-#import "GPKGMultiPolygon.h"
 #import "PROJProjectionFactory.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
