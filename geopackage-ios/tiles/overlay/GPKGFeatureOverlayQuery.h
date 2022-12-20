@@ -6,7 +6,6 @@
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGFeatureOverlay.h"
 #import "GPKGMapPoint.h"
 #import "GPKGFeatureInfoBuilder.h"

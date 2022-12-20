@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserRow.h"
-#import <sqlite3.h>
 #import "GPKGUtils.h"
 #import "GPKGDateConverter.h"
 

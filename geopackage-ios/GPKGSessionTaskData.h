@@ -6,8 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGProgress.h"
 #import "GPKGGeoPackageManager.h"
 
 /**

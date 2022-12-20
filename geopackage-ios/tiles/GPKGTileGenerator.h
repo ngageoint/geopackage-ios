@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
-#import "GPKGBoundingBox.h"
 #import "GPKGProgress.h"
 #import "GPKGTileScaling.h"
 

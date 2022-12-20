@@ -6,9 +6,7 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGBoundingBox.h"
-#import "PROJProjection.h"
 
 /**
  * Abstract overlay which provides bounding returned tiles by zoom levels and/or a bounding box

@@ -7,9 +7,6 @@
 //
 
 #import "GPKGTileCreator.h"
-#import "PROJProjectionFactory.h"
-#import "GPKGTileMatrixSetDao.h"
-#import "PROJProjectionTransform.h"
 #import "GPKGImageConverter.h"
 #import "GPKGTileBoundingBoxUtils.h"
 

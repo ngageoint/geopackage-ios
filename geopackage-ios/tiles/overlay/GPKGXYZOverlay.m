@@ -8,7 +8,6 @@
 
 #import "GPKGXYZOverlay.h"
 #import "GPKGXYZTileRetriever.h"
-#import "GPKGGeoPackageTile.h"
 
 @interface GPKGXYZOverlay ()
 

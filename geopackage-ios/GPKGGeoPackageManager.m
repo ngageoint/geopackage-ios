@@ -8,11 +8,8 @@
 
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGGeoPackageTableCreator.h"
 #import "GPKGIOUtils.h"
-#import "GPKGMetadataDb.h"
 #import "GPKGGeoPackageValidate.h"
-#import "GPKGSqlUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "SFByteReader.h"

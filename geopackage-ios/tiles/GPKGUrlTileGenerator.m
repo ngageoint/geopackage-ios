@@ -11,7 +11,6 @@
 #import "GPKGPropertyConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGIOUtils.h"
-#import "PROJProjectionFactory.h"
 #import "GPKGNetworkUtils.h"
 
 @interface GPKGUrlTileGenerator ()

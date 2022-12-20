@@ -6,12 +6,8 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGDataTypes.h"
-#import "GPKGConstraint.h"
 #import "GPKGTableColumn.h"
 #import "GPKGColumnConstraints.h"
-#import "GPKGConstraints.h"
 
 /**
  * User Column index value

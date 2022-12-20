@@ -8,7 +8,6 @@
 
 #import "GPKGTileTable.h"
 #import "GPKGUtils.h"
-#import "GPKGTileColumn.h"
 #import "GPKGContentsDataTypes.h"
 #import "GPKGUniqueConstraint.h"
 

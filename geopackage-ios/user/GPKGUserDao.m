@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserDao.h"
-#import "GPKGUserRow.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGSqlUtils.h"

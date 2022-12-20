@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserColumn.h"
-#import "GPKGTableColumn.h"
 
 /**
  *  Tile column

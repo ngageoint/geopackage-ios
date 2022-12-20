@@ -8,7 +8,6 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGUserCustomRow.h"
-#import "GPKGUserCustomTable.h"
 
 /**
  * User Custom DAO for reading user custom data tables

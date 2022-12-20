@@ -8,8 +8,6 @@
 
 #import "GPKGUserRow.h"
 #import "GPKGTileTable.h"
-#import "GPKGTileColumn.h"
-#import <UIKit/UIKit.h>
 #import "GPKGCompressFormats.h"
 
 /**

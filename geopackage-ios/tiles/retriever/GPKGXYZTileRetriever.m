@@ -7,7 +7,6 @@
 //
 
 #import "GPKGXYZTileRetriever.h"
-#import "GPKGGeoPackageTile.h"
 
 @interface GPKGXYZTileRetriever ()
 

@@ -6,22 +6,12 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <sqlite3.h>
-#import "GPKGConnection.h"
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGContentsDao.h"
 #import "GPKGGeometryColumnsDao.h"
-#import "GPKGFeatureTable.h"
 #import "GPKGFeatureDao.h"
 #import "GPKGTileDao.h"
-#import "GPKGBoundingBox.h"
-#import "GPKGTileMatrixSetDao.h"
-#import "GPKGTileMatrixDao.h"
-#import "GPKGTileTable.h"
 #import "GPKGExtensionsDao.h"
-#import "GPKGMetadataDb.h"
-#import "GPKGAttributesTable.h"
 #import "GPKGAttributesDao.h"
 #import "GPKGUserCustomDao.h"
 #import "GPKGGeoPackageTableCreator.h"

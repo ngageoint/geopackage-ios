@@ -6,11 +6,8 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGUserColumn.h"
 #import "GPKGContents.h"
 #import "GPKGUserColumns.h"
-#import "GPKGConstraints.h"
 
 /**
  * Default id autoincrement setting

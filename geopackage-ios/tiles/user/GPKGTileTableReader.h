@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserTableReader.h"
-#import "GPKGTileMatrixSet.h"
 #import "GPKGTileTable.h"
 
 /**

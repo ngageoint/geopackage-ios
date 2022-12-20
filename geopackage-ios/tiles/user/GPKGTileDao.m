@@ -7,11 +7,8 @@
 //
 
 #import "GPKGTileDao.h"
-#import "GPKGTileRow.h"
-#import "GPKGTileMatrix.h"
 #import "GPKGUtils.h"
 #import "GPKGTileDaoUtils.h"
-#import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 

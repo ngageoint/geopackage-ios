@@ -7,14 +7,11 @@
 //
 
 #import "GPKGGeoPackage.h"
-#import "GPKGGeometryColumnsDao.h"
 #import "GPKGFeatureTableReader.h"
 #import "GPKGTileTableReader.h"
-#import "GPKGUtils.h"
 #import "GPKGCrsWktExtension.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGAttributesTableReader.h"
-#import "GPKGRTreeIndexExtension.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGAlterTable.h"
 #import "GPKGUserCustomTableReader.h"

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <MapKit/MapKit.h>
 #import "GPKGTileDao.h"
 #import "GPKGBoundedOverlay.h"
 

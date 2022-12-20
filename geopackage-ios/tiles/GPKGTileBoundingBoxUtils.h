@@ -6,12 +6,8 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGBoundingBox.h"
 #import "GPKGTileGrid.h"
-#import "PROJProjection.h"
 #import "GPKGTileMatrix.h"
-#import "SFPoint.h"
 
 /**
  *  Tile Bounding Box utility methods

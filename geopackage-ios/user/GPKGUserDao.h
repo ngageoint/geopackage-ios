@@ -7,9 +7,7 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGUserTable.h"
 #import "GPKGUserRow.h"
-#import "GPKGBoundingBox.h"
 #import "GPKGRowResultSet.h"
 #import "GPKGRowPaginatedResults.h"
 

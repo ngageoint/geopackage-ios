@@ -6,10 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-@import MapKit;
-#import "GPKGTileDao.h"
-#import "GPKGBoundedOverlay.h"
 #import "GPKGTileScaling.h"
 #import "GPKGCompositeOverlay.h"
 #import "GPKGFeatureOverlay.h"

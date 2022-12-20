@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserTable.h"
-#import "GPKGTileColumn.h"
 #import "GPKGTileColumns.h"
 
 /**

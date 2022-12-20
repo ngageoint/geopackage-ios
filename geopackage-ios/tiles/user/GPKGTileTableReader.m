@@ -7,7 +7,6 @@
 //
 
 #import "GPKGTileTableReader.h"
-#import "GPKGTileColumn.h"
 
 @implementation GPKGTileTableReader
 

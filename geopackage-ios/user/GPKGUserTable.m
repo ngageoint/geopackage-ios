@@ -7,7 +7,6 @@
 //
 
 #import "GPKGUserTable.h"
-#import "GPKGUtils.h"
 
 @interface GPKGUserTable()
 

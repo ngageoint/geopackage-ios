@@ -7,10 +7,7 @@
 //
 
 #import "GPKGUserDao.h"
-#import "GPKGTileMatrixSet.h"
-#import "GPKGTileTable.h"
 #import "GPKGTileRow.h"
-#import "GPKGTileMatrix.h"
 #import "GPKGTileGrid.h"
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGTileMatrixDao.h"

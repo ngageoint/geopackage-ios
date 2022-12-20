@@ -7,9 +7,6 @@
 //
 
 #import "GPKGTileReprojectionOptimize.h"
-#import "PROJProjectionFactory.h"
-#import "PROJProjectionConstants.h"
-#import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGWebMercatorOptimize.h"
 #import "GPKGPlatteCarreOptimize.h"
 

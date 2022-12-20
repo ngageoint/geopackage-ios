@@ -7,7 +7,6 @@
 //
 
 #import "GPKGTileReprojection.h"
-#import "GPKGTileTableMetadata.h"
 #import "GPKGTileCreator.h"
 #import "GPKGSQLiteMaster.h"
 #import "GPKGTileBoundingBoxUtils.h"
