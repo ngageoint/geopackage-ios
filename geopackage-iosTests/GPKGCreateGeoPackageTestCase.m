@@ -7,7 +7,6 @@
 //
 
 #import "GPKGCreateGeoPackageTestCase.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGTestSetupTeardown.h"
 
 @implementation GPKGCreateGeoPackageTestCase

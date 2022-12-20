@@ -8,8 +8,6 @@
 
 #import "GPKGFeatureTileUtils.h"
 #import "PROJProjectionConstants.h"
-#import "SFPolygon.h"
-#import "GPKGFeatureTiles.h"
 
 @implementation GPKGFeatureTileUtils
 

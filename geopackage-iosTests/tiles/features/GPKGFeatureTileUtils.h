@@ -8,7 +8,6 @@
 
 #import "GPKGCreateGeoPackageTestCase.h"
 #import "GPKGFeatureTiles.h"
-#import "SFLineString.h"
 
 @interface GPKGFeatureTileUtils : GPKGCreateGeoPackageTestCase
 

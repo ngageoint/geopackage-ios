@@ -10,7 +10,6 @@
 #import "GPKGTestConstants.h"
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGTestUtils.h"
-#import "GPKGAttributesColumn.h"
 
 @implementation GPKGRelatedTablesReadTest
 

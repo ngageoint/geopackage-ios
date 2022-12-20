@@ -6,7 +6,6 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "GPKGImportGeoPackageTestCase.h"
 
 @interface GPKGRelatedMediaImportTest : GPKGImportGeoPackageTestCase

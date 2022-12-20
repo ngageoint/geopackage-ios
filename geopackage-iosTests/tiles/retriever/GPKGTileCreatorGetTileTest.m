@@ -12,7 +12,6 @@
 #import "GPKGTestUtils.h"
 #import "PROJProjectionFactory.h"
 #import "GPKGTileCreator.h"
-#import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGImageConverter.h"
 

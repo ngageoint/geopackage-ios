@@ -7,7 +7,6 @@
 //
 
 #import "GPKGFeatureIndexManagerUtils.h"
-#import "GPKGFeatureIndexTypes.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTestGeoPackageProgress.h"

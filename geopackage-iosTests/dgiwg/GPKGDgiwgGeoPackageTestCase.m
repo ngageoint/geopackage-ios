@@ -8,7 +8,6 @@
 
 #import "GPKGDgiwgGeoPackageTestCase.h"
 #import "GPKGTestUtils.h"
-#import "GPKGDgiwgCoordinateReferenceSystems.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGDgiwgGeoPackageFactory.h"
 #import "GPKGDgiwgGeoPackageManagerTestCase.h"

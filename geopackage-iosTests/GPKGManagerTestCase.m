@@ -8,7 +8,6 @@
 
 #import "GPKGManagerTestCase.h"
 #import "GPKGGeoPackageFactory.h"
-#import "GPKGGeoPackageManager.h"
 #import "GPKGTestConstants.h"
 #import "GPKGTestUtils.h"
 

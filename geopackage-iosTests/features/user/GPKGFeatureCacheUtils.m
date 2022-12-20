@@ -8,7 +8,6 @@
 
 #import "GPKGFeatureCacheUtils.h"
 #import "GPKGTestUtils.h"
-#import "GPKGFeatureIndexTypes.h"
 #import "GPKGFeatureCacheTables.h"
 #import "GPKGFeatureIndexManager.h"
 

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGCreateCoverageDataTiffGeoPackageTestCase.h"
-#import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
 #import "GPKGTestUtils.h"

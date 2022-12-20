@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
 @interface GPKGBaseTestCase : XCTestCase

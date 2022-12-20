@@ -8,10 +8,8 @@
 
 #import "GPKGFeatureTilesTest.h"
 #import "GPKGFeatureTileUtils.h"
-#import "GPKGFeatureIndexer.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGTestUtils.h"
-#import "GPKGImageConverter.h"
 
 @implementation GPKGFeatureTilesTest
 

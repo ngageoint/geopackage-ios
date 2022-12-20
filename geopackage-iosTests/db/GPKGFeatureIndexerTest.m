@@ -8,7 +8,6 @@
 
 #import "GPKGFeatureIndexerTest.h"
 #import "GPKGFeatureTileUtils.h"
-#import "GPKGMetadataDb.h"
 #import "GPKGTestUtils.h"
 
 @implementation GPKGFeatureIndexerTest

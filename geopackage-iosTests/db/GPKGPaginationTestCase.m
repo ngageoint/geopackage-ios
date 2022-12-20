@@ -8,8 +8,6 @@
 
 #import "GPKGPaginationTestCase.h"
 #import "GPKGTestUtils.h"
-#import "GPKGPagination.h"
-#import "GPKGObjectPaginatedResults.h"
 
 @implementation GPKGPaginationTestCase
 

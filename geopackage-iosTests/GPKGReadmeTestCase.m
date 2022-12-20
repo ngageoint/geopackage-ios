@@ -13,7 +13,6 @@
 #import "GPKGMetadataExtension.h"
 #import "GPKGMapShapeConverter.h"
 #import "GPKGOverlayFactory.h"
-#import "GPKGFeatureOverlay.h"
 #import "PROJProjectionFactory.h"
 #import "GPKGUrlTileGenerator.h"
 #import "GPKGFeatureTileGenerator.h"

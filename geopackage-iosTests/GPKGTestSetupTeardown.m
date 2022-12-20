@@ -10,13 +10,8 @@
 #import "GPKGTestUtils.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
-#import "GPKGMetadata.h"
-#import "GPKGMetadataReference.h"
-#import <UIKit/UIKit.h>
-#import "GPKGCompressFormats.h"
 #import "GPKGImageConverter.h"
 #import "GPKGUtils.h"
-#import "GPKGAttributesColumn.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGDateConverter.h"
 #import "GPKGMetadataExtension.h"

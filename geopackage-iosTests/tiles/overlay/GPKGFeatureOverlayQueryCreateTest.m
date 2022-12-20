@@ -11,7 +11,6 @@
 #import "GPKGFeatureOverlayQuery.h"
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
-#import "SFPGeometryTransform.h"
 #import "GPKGFeatureOverlayQueryUtils.h"
 
 @implementation GPKGFeatureOverlayQueryCreateTest

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGGeometryCropTestCase.h"
-#import "SFPolygon.h"
 #import "GPKGGeometryCrop.h"
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"

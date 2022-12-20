@@ -9,7 +9,6 @@
 #import "GPKGFeatureCreateTest.h"
 #import "GPKGFeatureUtils.h"
 #import "PROJProjectionConstants.h"
-#import "GPKGSqlUtils.h"
 #import "GPKGTestUtils.h"
 
 @implementation GPKGFeatureCreateTest

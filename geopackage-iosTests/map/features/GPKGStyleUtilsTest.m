@@ -8,7 +8,6 @@
 
 #import "GPKGStyleUtilsTest.h"
 #import "GPKGImageConverter.h"
-#import "GPKGIconRow.h"
 #import "GPKGStyleUtils.h"
 #import "GPKGTestUtils.h"
 

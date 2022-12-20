@@ -6,11 +6,7 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
-#import "SFPoint.h"
-#import "SFLineString.h"
-#import "SFPolygon.h"
 
 extern NSString * const GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT;
 extern NSString * const GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT;

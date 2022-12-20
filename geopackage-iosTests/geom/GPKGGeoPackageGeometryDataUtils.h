@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGBaseTestCase.h"
 #import "GPKGGeoPackage.h"
 
 @interface GPKGGeoPackageGeometryDataUtils : NSObject

@@ -8,13 +8,9 @@
 
 #import "GPKGCoverageDataPngTestUtils.h"
 #import "GPKGCoverageDataPng.h"
-#import "PROJProjectionFactory.h"
 #import "GPKGTestUtils.h"
-#import "GPKGUtils.h"
-#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGCoverageDataTestUtils.h"
-#import "GPKGCoverageData.h"
 
 @implementation GPKGCoverageDataPngTestUtils
 

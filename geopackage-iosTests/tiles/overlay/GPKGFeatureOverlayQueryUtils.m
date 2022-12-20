@@ -7,15 +7,10 @@
 //
 
 #import "GPKGFeatureOverlayQueryUtils.h"
-#import "GPKGFeatureIndexManager.h"
 #import "GPKGMapShapeConverter.h"
-#import "GPKGFeatureTiles.h"
-#import "GPKGFeatureOverlay.h"
 #import "GPKGFeatureOverlayQuery.h"
-#import "GPKGFeatureRow.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "GPKGMapPoint.h"
 #import "PROJProjectionConstants.h"
 
 @implementation GPKGFeatureOverlayQueryUtils

@@ -9,7 +9,6 @@
 #import "GPKGTileBoundingBoxUtilsTestCase.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPGeometryTransform.h"
 #import "PROJProjectionConstants.h"
 
 @implementation GPKGTileBoundingBoxUtilsTestCase

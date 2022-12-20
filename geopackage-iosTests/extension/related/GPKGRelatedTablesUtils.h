@@ -6,9 +6,6 @@
 //  Copyright © 2018 NGA. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "GPKGUserCustomColumn.h"
-#import "GPKGUserCustomTable.h"
 #import "GPKGUserCustomRow.h"
 #import "GPKGDublinCoreTypes.h"
 

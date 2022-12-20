@@ -7,7 +7,6 @@
 //
 
 #import "GPKGRelatedSimpleAttributesUtils.h"
-#import "GPKGSimpleAttributesTable.h"
 #import "GPKGTestUtils.h"
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGRelatedTablesUtils.h"

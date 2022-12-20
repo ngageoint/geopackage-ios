@@ -7,8 +7,6 @@
 //
 
 #import "GPKGPerformanceTestCase.h"
-#import "SFGeometry.h"
-#import "SFPolygon.h"
 #import "GPKGGeoPackageFactory.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGTestUtils.h"

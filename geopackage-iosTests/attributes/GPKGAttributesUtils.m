@@ -8,7 +8,6 @@
 
 #import "GPKGAttributesUtils.h"
 #import "GPKGTestUtils.h"
-#import "GPKGAttributesColumn.h"
 #import "GPKGDateConverter.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGPropertiesExtension.h"

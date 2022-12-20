@@ -7,9 +7,7 @@
 //
 
 #import "GPKGRelatedMediaUtils.h"
-#import "GPKGMediaTable.h"
 #import "GPKGTestUtils.h"
-#import "GPKGMediaRow.h"
 #import "GPKGRelatedTablesUtils.h"
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGTestConstants.h"

@@ -8,10 +8,8 @@
 
 #import "GPKGFeatureTileGeneratorTest.h"
 #import "GPKGFeatureTileUtils.h"
-#import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "PROJProjectionConstants.h"
-#import "GPKGTileGenerator.h"
 #import "GPKGFeatureTileGenerator.h"
 #import "PROJProjectionFactory.h"
 #import "GPKGTestUtils.h"
