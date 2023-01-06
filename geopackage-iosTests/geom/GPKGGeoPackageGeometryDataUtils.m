@@ -171,19 +171,53 @@ static NSString *COLUMN_NAME = @"geom";
     // Compare header bytes
     [self compareByteArrayWithExpected:[expected headerData] andActual:[actual headerData]];
     
+    SFGeometry *expectedGeometry = expected.geometry;
+    SFGeometry *actualGeometry = actual.geometry;
+    
+    NSData *expectedWKB = [expected wkb];
+    NSData *actualWKB = [actual wkb];
+    
+    NSData *expectedData = [expected data];
+    NSData *actualData = [actual data];
+    
+    if(expectedGeometry != nil && actualGeometry != nil && expectedGeometry.geometryType == SF_MULTILINESTRING){
+        if(!([actualGeometry isKindOfClass:[SFMultiLineString class]])){
+            SFGeometryCollection *geomCollection = (SFGeometryCollection *) actualGeometry;
+            SFMultiLineString *multiLineString = [SFMultiLineString multiLineString];
+            [multiLineString addGeometries:geomCollection.geometries];
+            actualGeometry = multiLineString;
+            int wkbLocation;
+            int dataLocation;
+            if(actual.byteOrder == CFByteOrderBigEndian){
+                wkbLocation = 4;
+                dataLocation = 12;
+            }else{
+                wkbLocation = 1;
+                dataLocation = 9;
+            }
+            int code = [SFWBGeometryCodes codeFromGeometryType:SF_MULTICURVE];
+            NSMutableData *actualWKBMutable = [[NSMutableData alloc] initWithData:actualWKB];
+            NSMutableData *actualDataMutable = [[NSMutableData alloc] initWithData:actualData];
+            [actualWKBMutable replaceBytesInRange:NSMakeRange(wkbLocation, 1) withBytes:(char*) &code];
+            [actualDataMutable replaceBytesInRange:NSMakeRange(dataLocation, 1) withBytes:(char*) &code];
+            actualWKB = actualWKBMutable;
+            actualData = actualDataMutable;
+        }
+    }
+    
     // Compare geometries
-    [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry andDelta:.00000001];
+    [self compareGeometriesWithExpected:expectedGeometry andActual:actualGeometry andDelta:.00000001];
 
     // Compare well-known binary geometries
-    [GPKGTestUtils assertEqualIntWithValue:(int)[expected wkb].length andValue2:(int)[actual wkb].length];
+    [GPKGTestUtils assertEqualIntWithValue:(int)expectedWKB.length andValue2:(int)actualWKB.length];
     if(compareGeometryBytes){
-        [self compareByteArrayWithExpected:[expected wkb] andActual:[actual wkb]];
+        [self compareByteArrayWithExpected:expectedWKB andActual:actualWKB];
     }
     
     // Compare all bytes
-    [GPKGTestUtils assertEqualIntWithValue:(int)[expected data].length andValue2:(int)[actual data].length];
+    [GPKGTestUtils assertEqualIntWithValue:(int)expectedData.length andValue2:(int)actualData.length];
     if(compareGeometryBytes){
-        [self compareByteArrayWithExpected:[expected data] andActual:[actual data]];
+        [self compareByteArrayWithExpected:expectedData andActual:actualData];
     }
 }
 
