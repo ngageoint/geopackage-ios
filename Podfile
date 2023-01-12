@@ -8,7 +8,7 @@ target 'geopackage-ios' do
   pod 'sf-wkt-ios', '~> 2.1.1'
   pod 'sf-proj-ios', '~> 5.1.1'
   pod 'ogc-api-features-json-ios', '~> 4.2.2'
-  pod 'color-ios', '~> 1.0.0'
+  pod 'color-ios', '~> 1.0.1'
   pod 'tiff-ios', '~> 4.0.1'
 
   target 'geopackage-iosTests' do

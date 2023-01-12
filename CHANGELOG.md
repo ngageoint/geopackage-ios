@@ -11,6 +11,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * sf-proj-ios version 5.1.1
 * ogc-api-features-json-ios version 4.2.2
 * tiff-ios version 4.0.1
+* color version 1.0.1
 * Imports cleanup and simplification
 
 ## [7.4.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.0) (12-09-2022)
