@@ -348,12 +348,12 @@ manager.close()
 
 [![Build & Test](https://github.com/ngageoint/geopackage-ios/workflows/Build%20&%20Test/badge.svg)](https://github.com/ngageoint/geopackage-ios/actions/workflows/build-test.yml)
 
+See the [above note](https://github.com/ngageoint/geopackage-ios#getting-started) about `automake` and `glibtoolize`.
+
 Build this repository using Xcode and/or CocoaPods:
 
     pod repo update
     pod install
-
-See the above note about `automake` and `glibtoolize`.
 
 Open geopackage-ios.xcworkspace in Xcode or build from command line:
 
