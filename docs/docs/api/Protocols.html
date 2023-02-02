@@ -17,7 +17,7 @@
     <a title="Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">geopackage-ios 7.4.1 Docs</a> (83% documented)</p>
+        <p><a href="index.html">geopackage-ios 7.4.2 Docs</a> (83% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -5039,9 +5039,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(pl)CRSCommonOperation"></a>
-                    <a name="//apple_ref/objc/Protocol/CRSCommonOperation" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)CRSCommonOperation">CRSCommonOperation</a>
+                    <a name="/c:objc(pl)TIFFCompressionDecoder"></a>
+                    <a name="//apple_ref/objc/Protocol/TIFFCompressionDecoder" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)TIFFCompressionDecoder">TIFFCompressionDecoder</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5049,22 +5049,25 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Common Operation interface</p>
+                        <p>Compression Decoder interface</p>
 
-                        <a href="Protocols/CRSCommonOperation.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/TIFFCompressionDecoder.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">CRSCommonOperation</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">TIFFCompressionDecoder</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">CRSCommonOperation</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">TIFFCompressionDecoder</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/tiff-ios/tiff-ios/compression/TIFFCompressionDecoder.h#L17-L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5072,9 +5075,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(pl)CRSGeoDatum"></a>
-                    <a name="//apple_ref/objc/Protocol/CRSGeoDatum" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)CRSGeoDatum">CRSGeoDatum</a>
+                    <a name="/c:objc(pl)TIFFCompressionEncoder"></a>
+                    <a name="//apple_ref/objc/Protocol/TIFFCompressionEncoder" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)TIFFCompressionEncoder">TIFFCompressionEncoder</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5082,22 +5085,25 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Common Operation interface</p>
+                        <p>Compression Encoder interface</p>
 
-                        <a href="Protocols/CRSGeoDatum.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/TIFFCompressionEncoder.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">CRSGeoDatum</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">TIFFCompressionEncoder</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">CRSGeoDatum</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">TIFFCompressionEncoder</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/tiff-ios/tiff-ios/compression/TIFFCompressionEncoder.h#L17-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5132,6 +5138,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/crs-ios/crs-ios/common/CRSIdentifiable.h#L17-L73">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -5164,6 +5173,81 @@
                           <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">CRSScopeExtentIdentifierRemark</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/crs-ios/crs-ios/common/CRSScopeExtentIdentifierRemark.h#L17-L110">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)CRSGeoDatum"></a>
+                    <a name="//apple_ref/objc/Protocol/CRSGeoDatum" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)CRSGeoDatum">CRSGeoDatum</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Common Operation interface</p>
+
+                        <a href="Protocols/CRSGeoDatum.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">CRSGeoDatum</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">CRSGeoDatum</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/crs-ios/crs-ios/geo/CRSGeoDatum.h#L18-L72">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)CRSCommonOperation"></a>
+                    <a name="//apple_ref/objc/Protocol/CRSCommonOperation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)CRSCommonOperation">CRSCommonOperation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Common Operation interface</p>
+
+                        <a href="Protocols/CRSCommonOperation.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">CRSCommonOperation</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">CRSCommonOperation</span> <span class="p">:</span> <span class="kt"><a href="Protocols/CRSIdentifiable.html">CRSIdentifiable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/crs-ios/crs-ios/operation/CRSCommonOperation.h#L17-L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5199,71 +5283,8 @@ construction</p>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(pl)TIFFCompressionDecoder"></a>
-                    <a name="//apple_ref/objc/Protocol/TIFFCompressionDecoder" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)TIFFCompressionDecoder">TIFFCompressionDecoder</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Compression Decoder interface</p>
-
-                        <a href="Protocols/TIFFCompressionDecoder.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">TIFFCompressionDecoder</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">TIFFCompressionDecoder</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(pl)TIFFCompressionEncoder"></a>
-                    <a name="//apple_ref/objc/Protocol/TIFFCompressionEncoder" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)TIFFCompressionEncoder">TIFFCompressionEncoder</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Compression Encoder interface</p>
-
-                        <a href="Protocols/TIFFCompressionEncoder.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">TIFFCompressionEncoder</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">TIFFCompressionEncoder</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
-
-                        </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/Pods/sf-ios/sf-ios/util/filter/SFGeometryFilter.h#L18-L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5299,7 +5320,7 @@ construction</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/extension/coverage/GPKGCoverageDataImage.h#L17-L33">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/extension/coverage/GPKGCoverageDataImage.h#L17-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5335,7 +5356,7 @@ construction</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/geom/map/GPKGMapPointInitializer.h#L17-L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/geom/map/GPKGMapPointInitializer.h#L17-L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5371,7 +5392,7 @@ construction</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/geom/map/GPKGShapePoints.h#L17-L56">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/geom/map/GPKGShapePoints.h#L17-L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5407,7 +5428,7 @@ construction</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/geom/map/GPKGShapeWithChildrenPoints.h#L17-L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/geom/map/GPKGShapeWithChildrenPoints.h#L17-L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5443,7 +5464,7 @@ construction</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/io/GPKGProgress.h#L15-L57">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/io/GPKGProgress.h#L15-L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5480,7 +5501,7 @@ The tile drawn will be used instead of drawing all of the features.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/tiles/features/GPKGCustomFeaturesTile.h#L19-L48">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/tiles/features/GPKGCustomFeaturesTile.h#L19-L48">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5516,7 +5537,7 @@ The tile drawn will be used instead of drawing all of the features.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.1/geopackage-ios/tiles/retriever/GPKGTileRetriever.h#L17-L41">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.4.2/geopackage-ios/tiles/retriever/GPKGTileRetriever.h#L17-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5526,7 +5547,7 @@ The tile drawn will be used instead of drawing all of the features.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-12-21)</p>
+          <p>&copy; 2023 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2023-02-02)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

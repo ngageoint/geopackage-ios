@@ -6,14 +6,14 @@ on:
       - master
 
 jobs:
-  
+
   build:
 
     runs-on: macOS-latest
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
     - name: Install Utilities
       run: |
         brew install automake
@@ -23,4 +23,4 @@ jobs:
         pod repo update
         pod install
     - name: Build
-      run: xcodebuild build-for-testing -workspace geopackage-ios.xcworkspace -scheme geopackage-ios -destination 'platform=iOS Simulator,OS=latest,name=iPhone 11'
+      run: xcodebuild build-for-testing -workspace geopackage-ios.xcworkspace -scheme geopackage-ios -destination 'platform=iOS Simulator,OS=latest,name=iPhone 14'
