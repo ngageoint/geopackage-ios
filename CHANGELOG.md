@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 7.4.3 (TBD)
+
+* TBD
+
 ## [7.4.2](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.2) (02-02-2023)
 
 * sf-wkb-ios version 4.1.2
