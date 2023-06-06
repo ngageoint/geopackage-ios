@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.4.3 (TBD)
+## [7.4.3](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.3) (06-07-2023)
 
-* TBD
+* sf-proj-ios version 5.1.3
 
 ## [7.4.2](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.2) (02-02-2023)
 
