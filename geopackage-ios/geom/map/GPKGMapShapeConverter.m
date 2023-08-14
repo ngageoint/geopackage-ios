@@ -47,6 +47,25 @@
     return self;
 }
 
+-(void) close{
+    [self destroy];
+}
+
+-(void) destroy{
+    if (_toWebMercator != nil) {
+        [_toWebMercator destroy];
+    }
+    if (_toWgs84 != nil) {
+        [_toWgs84 destroy];
+    }
+    if (_fromWgs84 != nil) {
+        [_fromWgs84 destroy];
+    }
+    if (_fromWebMercator != nil) {
+        [_fromWebMercator destroy];
+    }
+}
+
 -(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance{
     self.simplifyTolerance = [[NSDecimalNumber alloc] initWithDouble:simplifyTolerance];
 }

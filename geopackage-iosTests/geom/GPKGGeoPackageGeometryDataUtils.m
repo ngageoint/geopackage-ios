@@ -143,6 +143,9 @@ static NSString *COLUMN_NAME = @"geom";
                         
                         SFGeometry *restoredGeometry = [transformFrom transformGeometry:projectedGeometry];
                         [self compareGeometriesWithExpected:geometry andActual:restoredGeometry andDelta:.001];
+                        
+                        [transformTo destroy];
+                        [transformFrom destroy];
                     }
                 }
             }

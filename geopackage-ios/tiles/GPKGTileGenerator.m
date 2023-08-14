@@ -144,6 +144,10 @@
             [GPKGUtils setObject:expandedBoundingBox forKey:zoomKey inDictionary:self.tileBounds];
         }
         
+        if (transformToWebMercator != nil) {
+            [transformToWebMercator destroy];
+        }
+        
         self.totalCount = [NSNumber numberWithInt:count];
     }
     return [self.totalCount intValue];
@@ -281,6 +285,7 @@
     GPKGBoundingBox *standardWgs84Box = [GPKGBoundingBox worldWGS84WithWebMercatorLimits];
     SFPGeometryTransform *wgs84ToWebMercatorTransform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.tileGridBoundingBox = [standardWgs84Box transform:wgs84ToWebMercatorTransform];
+    [wgs84ToWebMercatorTransform destroy];
 }
 
 -(void) adjustGeoPackageBoundsWithWgs84BoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
@@ -331,6 +336,7 @@
         if(![transformProjectionToContents isSameProjection]){
             contentsBoundingBox = [contentsBoundingBox transform:transformProjectionToContents];
         }
+        [transformProjectionToContents destroy];
         contentsBoundingBox = [contentsBoundingBox union:previousContentsBoundingBox];
         
         // Update the contents if modified
@@ -372,6 +378,7 @@
             [tileMatrixSet setBoundingBox:updateTileGridBoundingBox];
             [tileMatrixSetDao update:tileMatrixSet];
         }
+        [transformProjectionToTileMatrixSet destroy];
         
         GPKGTileMatrixDao *tileMatrixDao = [self.geoPackage tileMatrixDao];
         

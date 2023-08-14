@@ -268,6 +268,7 @@
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }
+        [transform destroy];
     }
     return boundingBox;
 }

@@ -82,10 +82,6 @@
             code = [identifier.uniqueIdentifier intValue];
         }
         
-        PROJProjection *projection2 = [PROJProjectionFactory cachelessProjectionWithAuthority:authority andIntCode:code];
-        
-        [self compareProjection:projection withProjection:projection2];
-        
     }
     
 }
@@ -146,70 +142,6 @@
     
     [GPKGTestUtils assertTrue:[crs containsObject:[GPKGDgiwgCoordinateReferenceSystems coordinateReferenceSystemWithEPSG:4979]]];
     [GPKGTestUtils assertTrue:[crs containsObject:[GPKGDgiwgCoordinateReferenceSystems coordinateReferenceSystemWithEPSG:9518]]];
-    
-}
-
-/**
- * Compare two projections
- *
- * @param projection
- *            projection
- * @param projection2
- *            projection 2
- */
--(void) compareProjection: (PROJProjection *) projection withProjection: (PROJProjection *) projection2{
-    
-    projPJ crs = projection.crs;
-    projPJ crs2 = projection2.crs;
-    double *transform = crs->datum_params;
-    double *transform2 = crs2->datum_params;
-    
-    [GPKGTestUtils assertEqualIntWithValue:crs->over andValue2:crs2->over];
-    [GPKGTestUtils assertEqualIntWithValue:crs->geoc andValue2:crs2->geoc];
-    [GPKGTestUtils assertEqualIntWithValue:crs->is_latlong andValue2:crs2->is_latlong];
-    [GPKGTestUtils assertEqualIntWithValue:crs->is_geocent andValue2:crs2->is_geocent];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->a andValue2:crs2->a];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->a_orig andValue2:crs2->a_orig];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->es andValue2:crs2->es];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->es_orig andValue2:crs2->es_orig];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->e andValue2:crs2->e];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->ra andValue2:crs2->ra];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->one_es andValue2:crs2->one_es];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->rone_es andValue2:crs2->rone_es];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->lam0 andValue2:crs2->lam0];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->phi0 andValue2:crs2->phi0];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->x0 andValue2:crs2->x0];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->y0 andValue2:crs2->y0];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->k0 andValue2:crs2->k0];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->to_meter andValue2:crs2->to_meter];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->fr_meter andValue2:crs2->fr_meter];
-    if(crs->datum_type != PJD_UNKNOWN && crs2->datum_type != PJD_UNKNOWN){
-        [GPKGTestUtils assertEqualIntWithValue:crs->datum_type andValue2:crs2->datum_type];
-    }
-    
-    if(transform != nil || transform2 != nil){
-        if(transform != nil && transform2 != nil){
-            for(int i = 0; i < 7; i++){
-                [GPKGTestUtils assertEqualDoubleWithValue:transform[i] andValue2:transform2[i]];            }
-        }else{
-            double *transformTest = transform != nil ? transform : transform2;
-            for(int i = 0; i < 7; i++){
-                [GPKGTestUtils assertEqualDoubleWithValue:0 andValue2:transformTest[i]];
-            }
-        }
-    }
-    
-    [GPKGTestUtils assertEqualIntWithValue:crs->gridlist_count andValue2:crs2->gridlist_count];
-    [GPKGTestUtils assertEqualIntWithValue:crs->has_geoid_vgrids andValue2:crs2->has_geoid_vgrids];
-    [GPKGTestUtils assertEqualIntWithValue:crs->vgridlist_geoid_count andValue2:crs2->vgridlist_geoid_count];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->vto_meter andValue2:crs2->vto_meter];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->vfr_meter andValue2:crs2->vfr_meter];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->from_greenwich andValue2:crs2->from_greenwich];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->long_wrap_center andValue2:crs2->long_wrap_center];
-    [GPKGTestUtils assertEqualIntWithValue:crs->is_long_wrap_set andValue2:crs2->is_long_wrap_set];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->datum_date andValue2:crs2->datum_date];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->last_before_date andValue2:crs2->last_before_date];
-    [GPKGTestUtils assertEqualDoubleWithValue:crs->last_after_date andValue2:crs2->last_after_date];
     
 }
 

@@ -861,6 +861,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
         GPKGBoundingBox *requestBoundingBox = [boundingBox transform:transform];
+        [transform destroy];
         
         int zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
         zoomLevel = MAX(zoomLevel, 8);
@@ -1219,6 +1220,7 @@ static int dataColumnConstraintIndex = 0;
     if(![transform isSameProjection]){
         contentsBoundingBox = [bbox transform:transform];
     }
+    [transform destroy];
     
     GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao *tileDao = [coverageData tileDao];
@@ -1310,6 +1312,7 @@ static int dataColumnConstraintIndex = 0;
     if(![transform isSameProjection]){
         contentsBoundingBox = [bbox transform:transform];
     }
+    [transform destroy];
     
     GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao *tileDao = [coverageData tileDao];

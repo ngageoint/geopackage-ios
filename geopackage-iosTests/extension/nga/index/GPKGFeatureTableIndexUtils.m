@@ -133,6 +133,7 @@
         }
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
+        [transform destroy];
         
         // Test the query by projected bounding box
         resultCount = 0;

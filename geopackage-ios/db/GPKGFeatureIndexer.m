@@ -382,6 +382,7 @@
     if(boundingBox != nil && projection != nil){
         SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:[self.featureDao projection] andToProjection:projection];
         boundingBox = [boundingBox transform:projectionTransform];
+        [projectionTransform destroy];
     }
     return boundingBox;
 }
@@ -801,6 +802,7 @@
 -(GPKGBoundingBox *) featureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
     SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:self.featureDao.projection];
     GPKGBoundingBox *featureBoundingBox = [boundingBox transform:projectionTransform];
+    [projectionTransform destroy];
     return featureBoundingBox;
 }
 

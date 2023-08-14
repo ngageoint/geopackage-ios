@@ -43,6 +43,7 @@
     PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:requestEpsg];
     SFPGeometryTransform *coverageToRequest = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
     GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:coverageToRequest];
+    [coverageToRequest destroy];
     
     // Get a random coordinate
     double latDistance = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];

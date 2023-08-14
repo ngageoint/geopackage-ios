@@ -420,6 +420,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(boundingBox != nil && projection != nil){
         SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:[self projection] andToProjection:projection];
         boundingBox = [boundingBox transform:projectionTransform];
+        [projectionTransform destroy];
     }
     return boundingBox;
 }
@@ -571,6 +572,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 -(GPKGBoundingBox *) projectBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
     SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:[self projection]];
     GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:projectionTransform];
+    [projectionTransform destroy];
     return projectedBoundingBox;
 }
 

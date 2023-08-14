@@ -73,7 +73,11 @@
     
     GPKGBoundingBox *expandedBoundingBox = [self.featureTiles expandBoundingBox:webMercatorBoundingBox withTileBoundingBox:tileBoundingBox];
     
-    GPKGBoundingBox *zoomBoundingBox = [expandedBoundingBox transform:[projectionToWebMercator inverseTransformation]];
+    SFPGeometryTransform *inverse = [projectionToWebMercator inverseTransformation];
+    GPKGBoundingBox *zoomBoundingBox = [expandedBoundingBox transform:inverse];
+    
+    [projectionToWebMercator destroy];
+    [inverse destroy];
     
     return zoomBoundingBox;
 }

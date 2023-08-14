@@ -800,6 +800,8 @@ static NSString *TILE_MAPPING_TABLE = @"nga_features_tiles";
             
         }
     }
+    
+    [transform destroy];
 
 }
 

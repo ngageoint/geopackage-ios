@@ -209,6 +209,7 @@
 -(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
     SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:_projection];
     GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:projectionTransform];
+    [projectionTransform destroy];
     return projectedBoundingBox;
 }
 
@@ -229,6 +230,7 @@
         }
         SFPGeometryTransform *webMercatorTransform = [SFPGeometryTransform transformFromProjection:_projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
+        [webMercatorTransform destroy];
         zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;

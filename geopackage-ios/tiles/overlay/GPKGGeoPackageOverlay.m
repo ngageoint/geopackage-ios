@@ -51,6 +51,7 @@
     self.retriever = retriever;
     SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox *boundingBox = [[retriever webMercatorBoundingBox] transform:transform];
+    [transform destroy];
     self.mapRect = [boundingBox mapRect];
     self.center = [boundingBox center];
     

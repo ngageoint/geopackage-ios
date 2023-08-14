@@ -63,6 +63,16 @@
 -(instancetype) initWithProjection: (PROJProjection *) projection;
 
 /**
+ *  Destroy the map shape converter memory
+ */
+-(void) close;
+
+/**
+ *  Destroy the map shape converter memory
+ */
+-(void) destroy;
+
+/**
  *  Set the simplify tolerance in meters to simplify lines and polygons to similar curves with fewer points
  *
  *  @param simplifyTolerance simplify tolerance in meters

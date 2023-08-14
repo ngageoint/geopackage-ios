@@ -505,6 +505,7 @@
                 if(![transform isSameProjection]){
                     optimizeBoundingBox = [optimizeBoundingBox transform:transform];
                 }
+                [transform destroy];
             }else{
                 SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
                 if(![transform isSameProjection]){
@@ -533,6 +534,7 @@
                 if(![transform isSameProjection]){
                     optimizeBoundingBox = [optimizeBoundingBox transform:transform];
                 }
+                [transform destroy];
             }
             
             [GPKGTestUtils assertNotNil:optimizeTileGrid];

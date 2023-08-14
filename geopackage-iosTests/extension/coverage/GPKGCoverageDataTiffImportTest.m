@@ -108,6 +108,7 @@ static BOOL allowNulls = YES;
         PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         SFPGeometryTransform *coverageToRequest = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
         projectedBoundingBox = [boundingBox transform:coverageToRequest];
+        [coverageToRequest destroy];
     }
     
     NSMutableString *log = [NSMutableString string];
@@ -181,6 +182,7 @@ static BOOL allowNulls = YES;
             [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
         }
     }
+    [wgs84Transform destroy];
     [log appendString:@"\n\n"];
     NSLog(log, nil);
     
@@ -437,6 +439,8 @@ static BOOL allowNulls = YES;
                 }
             }
         }
+        
+        [wgs84Transform destroy];
         
     }
 }

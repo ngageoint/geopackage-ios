@@ -117,6 +117,7 @@ static int MAX_CLICKS_PER_TABLE = 10;
             }
 
         } @finally {
+            [shapeConverter destroy];
             [featureTiles close];
         }
     }

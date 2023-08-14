@@ -1306,6 +1306,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         }
     }
     
+    if (transformRequestToCoverage != nil) {
+        [transformRequestToCoverage destroy];
+    }
+    
     return coverageResults;
 }
 
@@ -1353,6 +1357,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         } @finally {
             [tileResults close];
         }
+    }
+    
+    if (transformRequestToCoverage != nil) {
+        [transformRequestToCoverage destroy];
     }
     
     return coverageResults;

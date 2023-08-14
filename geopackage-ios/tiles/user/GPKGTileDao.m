@@ -89,6 +89,7 @@
     if(boundingBox != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     return boundingBox;
 }
@@ -321,6 +322,7 @@
     GPKGBoundingBox *boundingBox = [self.tileMatrixSet boundingBox];
     SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:transform];
+    [transform destroy];
 
     BOOL isFormat = NO;
     

@@ -167,6 +167,7 @@
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -179,6 +180,7 @@
     if(projection != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -195,6 +197,7 @@
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -207,6 +210,7 @@
     if(projection != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -227,6 +231,7 @@
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -239,6 +244,7 @@
     if(projection != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -255,6 +261,7 @@
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -267,6 +274,7 @@
     if(projection != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
+        [transform destroy];
     }
     
     return boundingBox;
@@ -280,6 +288,7 @@
 +(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
     SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     SFPoint *webMercatorPoint = [toWebMercator transformPoint:point];
+    [toWebMercator destroy];
     return [self tileGridFromWebMercatorPoint:webMercatorPoint andZoom:zoom];
 }
 
@@ -355,6 +364,7 @@
     SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     lowerLeftPoint = [toWebMercator transformPoint:lowerLeftPoint];
     upperRightPoint = [toWebMercator transformPoint:upperRightPoint];
+    [toWebMercator destroy];
     
     GPKGBoundingBox *mercatorBox = [[GPKGBoundingBox alloc] initWithMinLongitude:lowerLeftPoint.x andMinLatitude:lowerLeftPoint.y andMaxLongitude:upperRightPoint.x andMaxLatitude:upperRightPoint.y];
     
@@ -688,6 +698,7 @@
 +(GPKGTileGrid *) tileGridWGS84FromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
     SFPGeometryTransform *toWGS84 = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     SFPoint *wgs84Point = [toWGS84 transformPoint:point];
+    [toWGS84 destroy];
     return [self tileGridWGS84FromWGS84Point:wgs84Point andZoom:zoom];
 }
 

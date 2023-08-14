@@ -70,6 +70,7 @@ class SFWTSwiftReadmeTest: XCTestCase{
         let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection)
         let featureResults: GPKGResultSet = featureDao.queryForAll()
         do{
+            defer{converter.destroy()}
             defer{featureResults.close()}
             while(featureResults.moveToNext()){
                 let featureRow: GPKGFeatureRow = featureDao.featureRow(featureResults)

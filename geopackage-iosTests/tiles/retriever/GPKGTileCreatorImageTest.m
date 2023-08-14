@@ -39,7 +39,9 @@
     GPKGTileCreator *wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
-    GPKGBoundingBox *wgs84BoundingBox = [webMercatorBoundingBox transform:[SFPGeometryTransform transformFromProjection:webMercator andToProjection:wgs84]];
+    SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:webMercator andToProjection:wgs84];
+    GPKGBoundingBox *wgs84BoundingBox = [webMercatorBoundingBox transform:transform];
+    [transform close];
     
     [GPKGTestUtils assertTrue:[webMercatorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];
@@ -212,6 +214,9 @@
     
     GPKGBoundingBox *webMercatorBoundingBox = [boudingbox transform:toWebMercator];
     
+    [toWebMercator destroy];
+    [toWGS84 destroy];
+    
     NSNumber *width = [NSNumber numberWithInt:256];
     NSNumber *height = [NSNumber numberWithInt:256];
     GPKGTileCreator *webMercatorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
@@ -291,6 +296,9 @@
     GPKGBoundingBox *wgs84WebMercator = [webMercator transform:toWGS84];
     double pixelXSize = ([wgs84WebMercator.maxLongitude doubleValue] - [wgs84WebMercator.minLongitude doubleValue]) / (1.0 * [[wgs84Creator width] doubleValue]);
     double pixelYSize = ([wgs84WebMercator.maxLatitude doubleValue] - [wgs84WebMercator.minLatitude doubleValue]) / (1.0 * [[wgs84Creator height] doubleValue]);
+    
+    [toWebMercator destroy];
+    [toWGS84 destroy];
     
     GPKGGeoPackageTile *tile = [webMercatorCreator tileWithBoundingBox:webMercator];
     GPKGGeoPackageTile *wgs84WebMercatorTile = [wgs84Creator tileWithBoundingBox:wgs84WebMercator];

@@ -582,6 +582,7 @@
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }
+        [transform destroy];
     }else{
         _optimizeZoom = [self.tileDao mapZoomWithTileMatrix:[_tileDao tileMatrixAtMinZoom]];
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:_projection andToProjection:[_optimize projection]];
@@ -591,8 +592,11 @@
         _optimizeTileGrid = [_optimize tileGridWithBoundingBox:boundingBox andZoom:_optimizeZoom];
         boundingBox = [_optimize boundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
         if(![transform isSameProjection]){
-            boundingBox = [boundingBox transform:[transform inverseTransformation]];
+            SFPGeometryTransform *inverseTransform = [transform inverseTransformation];
+            boundingBox = [boundingBox transform:inverseTransform];
+            [inverseTransform destroy];
         }
+        [transform destroy];
     }
     
     return boundingBox;

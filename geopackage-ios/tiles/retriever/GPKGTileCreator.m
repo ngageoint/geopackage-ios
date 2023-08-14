@@ -103,6 +103,7 @@
     // Transform to the projection of the tiles
     SFPGeometryTransform *transformRequestToTiles = [SFPGeometryTransform transformFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox *tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
+    [transformRequestToTiles destroy];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
 
@@ -197,6 +198,8 @@
             
         }
     }
+    
+    [transformRequestToTiles destroy];
     
     return tile;
 }

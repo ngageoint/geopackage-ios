@@ -79,6 +79,8 @@
     [GPKGTestUtils assertEqualDoubleWithValue:16833268.117074657 andValue2:[boundingBox.maxLongitude doubleValue] andDelta:0.00000001];
     [GPKGTestUtils assertEqualDoubleWithValue:-4008969.2595009245 andValue2:[boundingBox.maxLatitude doubleValue] andDelta:0.00000001];
  
+    [transform destroy];
+    
 }
 
 /**

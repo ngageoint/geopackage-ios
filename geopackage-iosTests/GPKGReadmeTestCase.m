@@ -88,6 +88,7 @@
             }
         }
     }@finally {
+        [converter destroy];
         [featureResults close];
     }
 

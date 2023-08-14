@@ -191,6 +191,7 @@
         }
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
+        [transform destroy];
         
         // Test the query by projected bounding box
         resultCount = 0;
@@ -643,6 +644,7 @@
         }
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
+        [transform destroy];
         
         // Test the query by projected bounding box
         featureFound = NO;
@@ -1120,6 +1122,7 @@
         }
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
+        [transform destroy];
         
         // Test the query by projected bounding box
         featureFound = NO;
@@ -1664,6 +1667,9 @@
             }
             [results close];
         }
+        
+        [transformToWebMercator destroy];
+        [transformToProjection destroy];
         
         NSLog(@"Average Count: %@ s", [timerCount averageString]);
         NSLog(@"Average Query: %@ s", [timerQuery averageString]);

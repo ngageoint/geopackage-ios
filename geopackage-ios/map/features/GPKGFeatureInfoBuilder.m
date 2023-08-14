@@ -293,6 +293,7 @@
             SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:geomProjection andToProjection:projection];
             
             SFGeometry *projectedGeometry = [transform transformGeometry:geometryData.geometry];
+            [transform destroy];
             [geometryData setGeometry:projectedGeometry];
             GPKGSpatialReferenceSystem *projectionSrs = [srsDao srsWithProjection:projection];
             [geometryData setSrsId:projectionSrs.srsId];
@@ -385,6 +386,8 @@
             }
             
         }
+        
+        [converter destroy];
         
         filteredResults = [[GPKGFeatureIndexListResults alloc] initWithFeatureRows:sortedResults];
     }

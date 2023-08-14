@@ -110,6 +110,7 @@
             SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:queryProjection];
             
             GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:transform];
+            [transform destroy];
             [tableDao setTolerance:.0000000000001];
             int projectedBboxCount = [tableDao countWithBoundingBox:projectedBoundingBox inProjection:queryProjection];
             [GPKGTestUtils assertTrue:projectedBboxCount >= expectedCount];

@@ -4,9 +4,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.4.4 (TBD)
+## 8.0.0 (TBD)
 
-* TBD
+* sf-proj-ios version 6.0.0 (using PROJ C/C++ library)
+* **WARNING**: Transformations (SFPGeometryTransform, PROJProjectionTransform) should now be destroyed for memory when no longer maintained
+* **WARNING**: The following maintain open transformations and should be closed when no longer maintained: GPKGMapShapeConverter & GPKGFeatureTiles
 
 ## [7.4.3](https://github.com/ngageoint/geopackage-ios/releases/tag/7.4.3) (06-07-2023)
 

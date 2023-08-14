@@ -42,6 +42,7 @@
             tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
         self.setWebMercatorBoundingBox = [tileSetBoundingBox transform:projectionToWebMercator];
+        [projectionToWebMercator destroy];
     }
     return self;
 }

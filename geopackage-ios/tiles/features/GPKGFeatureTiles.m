@@ -121,6 +121,9 @@
 }
 
 -(void) close{
+    if (_wgs84ToWebMercatorTransform != nil) {
+        [_wgs84ToWebMercatorTransform destroy];
+    }
     if(self.indexManager != nil){
         [self.indexManager close];
     }
@@ -365,7 +368,10 @@
     if(![toWebMercator isSameProjection]){
         SFPGeometryTransform *fromWebMercator = [toWebMercator inverseTransformation];
         expandedBoundingBox = [expandedBoundingBox transform:fromWebMercator];
+        [fromWebMercator destroy];
     }
+    
+    [toWebMercator destroy];
     
     return expandedBoundingBox;
 }
@@ -465,6 +471,8 @@
             }
         }
         
+        [converter destroy];
+        
         if(drawn){
             image = [context createImage];
         }else{
@@ -497,6 +505,8 @@
             }
         }
         
+        [converter destroy];
+        
         if(drawn){
             image = [context createImage];
         }else{
@@ -525,6 +535,8 @@
             drawn = YES;
         }
     }
+    
+    [converter destroy];
         
     if(drawn){
         image = [context createImage];

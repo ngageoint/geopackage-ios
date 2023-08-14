@@ -48,9 +48,11 @@
     SFGeometry *cropped = [SFGeometryUtils cropGeometry:geometry withEnvelope:envelope];
     
     if(transform != nil){
-        transform = [transform inverseTransformation];
-        cropped = [transform transformGeometry:cropped];
+        SFPGeometryTransform *inverseTransform = [transform inverseTransformation];
+        cropped = [inverseTransform transformGeometry:cropped];
         [SFGeometryUtils minimizeWGS84Geometry:cropped];
+        [transform destroy];
+        [inverseTransform destroy];
     }
     
     return cropped;
