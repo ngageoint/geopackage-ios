@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.0 (TBD)
+## [8.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.0) (08-15-2023)
 
 * sf-proj-ios version 6.0.0 (using PROJ C/C++ library)
 * **WARNING**: Transformations (SFPGeometryTransform, PROJProjectionTransform) should now be destroyed for memory when no longer maintained
