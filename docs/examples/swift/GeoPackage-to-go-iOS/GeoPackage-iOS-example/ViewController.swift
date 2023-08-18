@@ -58,6 +58,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 }
             }
             
+            converter.close()
             featureResults.close();
         }
         
@@ -66,6 +67,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let boundingBox: GPKGBoundingBox = tileDao.boundingBox(withZoomLevel: 12)
         let transform: SFPGeometryTransform = SFPGeometryTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
         let transformedBoundingBox: GPKGBoundingBox = boundingBox.transform(transform)
+        transform.destroy()
         let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.center(), span: transformedBoundingBox.span())
         mapView.setRegion(region, animated: true)
         

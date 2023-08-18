@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E5C43BCF624EF0CDBBBE40F /* Pods_GeoPackage_iOS_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29006FA7A23248FCC538C3D6 /* Pods_GeoPackage_iOS_example.framework */; };
+		B73E3260FA36FED3D42CE311 /* libPods-GeoPackage-iOS-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E333E0939F3FB88F28BBD358 /* libPods-GeoPackage-iOS-example.a */; };
 		E3629ECD2098CADF00DDBF3B /* StLouis.gpkg in Resources */ = {isa = PBXBuildFile; fileRef = E3629ECC2098C55400DDBF3B /* StLouis.gpkg */; };
 		E3FAE2BC207F22440055C379 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FAE2BB207F22440055C379 /* AppDelegate.swift */; };
 		E3FAE2BE207F22440055C379 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FAE2BD207F22440055C379 /* ViewController.swift */; };
@@ -17,9 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29006FA7A23248FCC538C3D6 /* Pods_GeoPackage_iOS_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GeoPackage_iOS_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3796EAD1E720BDB8BE5EA333 /* Pods-GeoPackage-iOS-example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeoPackage-iOS-example.release.xcconfig"; path = "Pods/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example.release.xcconfig"; sourceTree = "<group>"; };
 		44BF51F29AD6CFF5E35C720A /* Pods-GeoPackage-iOS-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeoPackage-iOS-example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example.debug.xcconfig"; sourceTree = "<group>"; };
+		E333E0939F3FB88F28BBD358 /* libPods-GeoPackage-iOS-example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GeoPackage-iOS-example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3629ECB20978E2F00DDBF3B /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
 		E3629ECC2098C55400DDBF3B /* StLouis.gpkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = StLouis.gpkg; sourceTree = "<group>"; };
 		E3FAE2B8207F22440055C379 /* GeoPackage-iOS-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GeoPackage-iOS-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,7 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E5C43BCF624EF0CDBBBE40F /* Pods_GeoPackage_iOS_example.framework in Frameworks */,
+				B73E3260FA36FED3D42CE311 /* libPods-GeoPackage-iOS-example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,7 +55,7 @@
 		48AE22EEEE3A06605C68BD7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				29006FA7A23248FCC538C3D6 /* Pods_GeoPackage_iOS_example.framework */,
+				E333E0939F3FB88F28BBD358 /* libPods-GeoPackage-iOS-example.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -104,7 +104,7 @@
 				E3FAE2B4207F22440055C379 /* Sources */,
 				E3FAE2B5207F22440055C379 /* Frameworks */,
 				E3FAE2B6207F22440055C379 /* Resources */,
-				6F3DACCD0DC667158C120B87 /* [CP] Embed Pods Frameworks */,
+				F116426FE83EE095440818E0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -164,23 +164,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6F3DACCD0DC667158C120B87 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A2DC593E835F4B7A773DC2A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -197,6 +180,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F116426FE83EE095440818E0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
