@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.2 (TBD)
+## [8.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.2) (08-21-2023)
 
-* TBD
+* GPKGFeatureOverlay and GPKGFeatureOverlayQuery close methods for embedded GPKGFeatureTiles
 
 ## [8.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.1) (08-18-2023)
 

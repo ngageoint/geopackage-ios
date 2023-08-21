@@ -22,6 +22,7 @@
 #import "GPKGImageConverter.h"
 #import "GPKGTileCreator.h"
 #import "GPKGNumberFeaturesTile.h"
+#import "GPKGFeatureOverlayQuery.h"
 
 @implementation GPKGReadmeTestCase
 
@@ -78,16 +79,18 @@
     GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:featureDao.projection];
     GPKGRowResultSet *featureResults = [featureDao results:[featureDao queryForAll]];
     @try {
-        for(GPKGFeatureRow *featureRow in featureResults){
+        for (GPKGFeatureRow *featureRow in featureResults) {
             GPKGGeometryData *geometryData = [featureRow geometry];
-            if(geometryData != nil && !geometryData.empty){
+            if (geometryData != nil && !geometryData.empty) {
                 SFGeometry *geometry = geometryData.geometry;
                 GPKGMapShape *shape = [converter toShapeWithGeometry:geometry];
                 GPKGMapShape *mapShape = [GPKGMapShapeConverter addMapShape:shape toMapView:mapView];
                 // ...
+                // Track the map shape to remove it at a later time
+                [mapShape removeFromMapView:mapView];
             }
         }
-    }@finally {
+    } @finally {
         [converter destroy];
         [featureResults close];
     }
@@ -97,19 +100,19 @@
     GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:tileTable];
     GPKGRowResultSet *tileResults = [tileDao results:[tileDao queryForAll]];
     @try {
-        for(GPKGTileRow *tileRow in tileResults){
+        for (GPKGTileRow *tileRow in tileResults) {
             NSData *tileData = [tileRow tileData];
             UIImage *tileImage = [tileRow tileDataImage];
             // ...
         }
-    }@finally {
+    } @finally {
         [tileResults close];
     }
     
     // Retrieve Tiles by XYZ
     NSObject<GPKGTileRetriever> *retriever = [[GPKGGeoPackageTileRetriever alloc] initWithTileDao:tileDao];
     GPKGGeoPackageTile *geoPackageTile = [retriever tileWithX:2 andY:2 andZoom:2];
-    if(geoPackageTile != nil){
+    if (geoPackageTile != nil) {
         NSData *tileData = geoPackageTile.data;
         UIImage *tileImage = [GPKGImageConverter toImage:tileData];
         // ...
@@ -118,7 +121,7 @@
     // Retrieve Tiles by Bounding Box
     GPKGTileCreator *tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     GPKGGeoPackageTile *geoPackageTile2 = [tileCreator tileWithBoundingBox:[[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMinLatitudeDouble:0.0 andMaxLongitudeDouble:0.0 andMaxLatitudeDouble:66.513260]];
-    if(geoPackageTile2 != nil){
+    if (geoPackageTile2 != nil) {
         NSData *tileData = geoPackageTile2.data;
         UIImage *tileImage = [GPKGImageConverter toImage:tileData];
         // ...
@@ -140,12 +143,16 @@
     // Query Indexed Features in paginated chunks
     GPKGFeatureIndexResults *indexResults = [indexer queryForChunkWithBoundingBox:boundingBox inProjection:projection andLimit:50];
     GPKGRowPaginatedResults *paginatedResults = [indexer paginate:indexResults];
-    for(GPKGFeatureRow *featureRow in paginatedResults){
-        GPKGGeometryData *geometryData = [featureRow geometry];
-        if(geometryData != nil && !geometryData.empty){
-            SFGeometry *geometry = geometryData.geometry;
-            // ...
+    @try {
+        for (GPKGFeatureRow *featureRow in paginatedResults) {
+            GPKGGeometryData *geometryData = [featureRow geometry];
+            if (geometryData != nil && !geometryData.empty) {
+                SFGeometry *geometry = geometryData.geometry;
+                // ...
+            }
         }
+    } @finally {
+        [paginatedResults close];
     }
     
     // Feature Tile Overlay (dynamically draw tiles from features)
@@ -158,6 +165,22 @@
     [featureOverlay setMinZoom:[NSNumber numberWithInt:[featureDao zoomLevel]]];
     [mapView addOverlay:featureOverlay];
 
+    // Feature Overlay Query (query the features represented by tiles)
+    GPKGFeatureOverlayQuery *featureOverlayQuery = [[GPKGFeatureOverlayQuery alloc] initWithBoundedOverlay:featureOverlay andFeatureTiles:featureTiles];
+    [featureOverlayQuery calculateStylePixelBounds];
+    GPKGBoundingBox *featureBounds = [featureDao boundingBox];
+    indexResults = [featureOverlayQuery queryFeaturesWithBoundingBox:featureBounds];
+    @try {
+        for (GPKGFeatureRow *featureRow in indexResults) {
+            SFGeometry *geometry = [featureRow geometryValue];
+            if (geometry != nil) {
+                // ...
+            }
+        }
+    } @finally {
+        [indexResults close];
+    }
+
     // URL Tile Generator (generate tiles from a URL)
     GPKGTileGenerator *urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:0 andMaxZoom:0 andBoundingBox:boundingBox andProjection:projection];
     int urlTileCount = [urlTileGenerator generateTiles];
@@ -165,6 +188,11 @@
     // Feature Tile Generator (generate tiles from features)
     GPKGTileGenerator *featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"tiles_%@", featureTable] andFeatureTiles:featureTiles andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];
     int featureTileCount = [featureTileGenerator generateTiles];
+
+    // Remove and close map overlays
+    [mapView removeOverlay:tileOverlay];
+    [mapView removeOverlay:featureOverlay];
+    [featureTiles close];
 
     // Close database when done
     [geoPackage close];

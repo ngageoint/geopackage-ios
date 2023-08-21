@@ -46,6 +46,12 @@
     return self;
 }
 
+-(void) close{
+    if(_featureTiles != nil){
+        [_featureTiles close];
+    }
+}
+
 -(GPKGBoundedOverlay *) boundedOverlay{
     return _boundedOverlay;
 }

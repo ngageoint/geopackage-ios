@@ -56,6 +56,11 @@
 -(instancetype) initWithBoundedOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles;
 
 /**
+ * Close the feature tiles connection
+ */
+-(void) close;
+
+/**
  *  Get the bounded overlay
  *
  *  @return bounded overlay

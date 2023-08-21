@@ -27,6 +27,12 @@
     return self;
 }
 
+-(void) close{
+    if(_featureTiles != nil){
+        [_featureTiles close];
+    }
+}
+
 -(GPKGBoundingBox *) webMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
     return [self.featureTiles expandBoundingBox:self.webMercatorBoundingBox withTileBoundingBox:requestWebMercatorBoundingBox];
 }

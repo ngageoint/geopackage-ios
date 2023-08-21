@@ -121,7 +121,9 @@
 }
 
 -(void) close{
-    [_featureTiles close];
+    if(_featureTiles != nil){
+        [_featureTiles close];
+    }
 }
 
 @end
