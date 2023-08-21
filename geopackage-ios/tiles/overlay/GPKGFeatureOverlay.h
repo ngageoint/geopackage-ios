@@ -29,11 +29,6 @@
 -(instancetype) initWithFeatureTiles: (GPKGFeatureTiles *) featureTiles;
 
 /**
- * Close the feature tiles connection
- */
--(void) close;
-
-/**
  *  Ignore drawing tiles if they exist in the tile tables represented by the tile daos
  *
  *  @param tileDaos tile daos

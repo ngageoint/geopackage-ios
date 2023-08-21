@@ -36,6 +36,11 @@
 -(instancetype) init;
 
 /**
+ * Close any overlay connections
+ */
+-(void) close;
+
+/**
  *  Set the bounding box, provided as the indicated projection
  *
  *  @param boundingBox bounding box

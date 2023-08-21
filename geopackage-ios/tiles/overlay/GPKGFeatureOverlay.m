@@ -28,6 +28,7 @@
 }
 
 -(void) close{
+    [super close];
     if(_featureTiles != nil){
         [_featureTiles close];
     }

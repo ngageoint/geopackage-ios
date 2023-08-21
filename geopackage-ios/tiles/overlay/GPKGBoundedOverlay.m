@@ -17,6 +17,10 @@
     return self;
 }
 
+-(void) close{
+
+}
+
 -(void) setBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
     SFPGeometryTransform *projectionToWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.webMercatorBoundingBox = [boundingBox transform:projectionToWebMercator];
@@ -25,8 +29,9 @@
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     SFPGeometryTransform *webMercatorToProjection = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
-    return [self.webMercatorBoundingBox transform:webMercatorToProjection];
+    GPKGBoundingBox *boundingBox = [self.webMercatorBoundingBox transform:webMercatorToProjection];
     [webMercatorToProjection destroy];
+    return boundingBox;
 }
 
 /**
