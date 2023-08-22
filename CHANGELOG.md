@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 8.0.4 (TBD)
+
+* TBD
+
 ## [8.0.3](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.3) (08-22-2023)
 
 * GPKGBoundedOverlay close method for embedded connections and memory
