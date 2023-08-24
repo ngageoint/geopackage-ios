@@ -45,6 +45,13 @@
     return self;
 }
 
+-(void) close{
+    [super close];
+    for (GPKGBoundedOverlay *overlay in self.overlays) {
+        [overlay close];
+    }
+}
+
 -(void) addOverlay: (GPKGBoundedOverlay *) overlay{
     if(self.overlays.count == 0){
         self.tileSize = overlay.tileSize;
