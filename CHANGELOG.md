@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 8.0.4 (TBD)
 
-* TBD
+* NGA Feature Style Extension icon table name column fix
 
 ## [8.0.3](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.3) (08-22-2023)
 

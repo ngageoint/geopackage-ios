@@ -9,7 +9,7 @@
 #import "GPKGIconTable.h"
 
 NSString * const GPKG_IT_TABLE_NAME = @"nga_icon";
-NSString * const GPKG_IT_COLUMN_NAME = @"nga_icon";
+NSString * const GPKG_IT_COLUMN_NAME = @"name";
 NSString * const GPKG_IT_COLUMN_DESCRIPTION = @"description";
 NSString * const GPKG_IT_COLUMN_WIDTH = @"width";
 NSString * const GPKG_IT_COLUMN_HEIGHT = @"height";
