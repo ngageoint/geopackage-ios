@@ -33,7 +33,12 @@
 }
 
 -(GPKGUserTable *) createTableWithName: (NSString *) tableName andColumns: (NSArray *) columns{
-    return [[GPKGFeatureTable alloc] initWithTable:tableName andGeometryColumn:self.columnName andColumns:columns];
+    GPKGFeatureTable *table = [[GPKGFeatureTable alloc] initWithTable:tableName andGeometryColumn:self.columnName andColumns:columns];
+    GPKGFeatureColumn *geometryColumn = [table geometryColumn];
+    if (geometryColumn != nil && geometryColumn.geometryType == SF_NONE) {
+        [geometryColumn setGeometryType:SF_GEOMETRY];
+    }
+    return table;
 }
 
 -(GPKGUserColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
