@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -433,8 +433,6 @@
 		042FC8F41B964DA200549A4B /* import_db.gpkg in Resources */ = {isa = PBXBuildFile; fileRef = 042FC8E11B964DA200549A4B /* import_db.gpkg */; };
 		042FC8F51B964DA200549A4B /* tile.png in Resources */ = {isa = PBXBuildFile; fileRef = 042FC8E21B964DA200549A4B /* tile.png */; };
 		042FC8F61B964DA200549A4B /* GPKGFeatureTileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 042FC8E61B964DA200549A4B /* GPKGFeatureTileUtils.m */; };
-		042FC8F81B964E6900549A4B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FC8F71B964E6900549A4B /* libsqlite3.dylib */; };
-		042FC8F91B964F6100549A4B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FC8F71B964E6900549A4B /* libsqlite3.dylib */; };
 		0431EDEE1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0431EDEC1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h */; };
 		0431EDEF1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */; };
 		04329B9A2056ABC100F3EBBE /* GPKGTileScaling.h in Headers */ = {isa = PBXBuildFile; fileRef = 04329B982056ABC100F3EBBE /* GPKGTileScaling.h */; };
@@ -1751,7 +1749,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042FC8F81B964E6900549A4B /* libsqlite3.dylib in Frameworks */,
 				F00EDED0F13CF198F9106DCF /* libPods-geopackage-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1760,7 +1757,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042FC8F91B964F6100549A4B /* libsqlite3.dylib in Frameworks */,
 				042FC6EC1B964BC800549A4B /* geopackage_ios.framework in Frameworks */,
 				B580828E5A8F00EA9623989B /* libPods-geopackage-iosTests.a in Frameworks */,
 			);
@@ -3917,7 +3913,8 @@
 		042FC6D71B964BC800549A4B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = NGA;
 				TargetAttributes = {
 					042FC6DF1B964BC800549A4B = {
@@ -4659,9 +4656,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = "geopackage-ios/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
 				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.geopackage;
 				PRODUCT_NAME = geopackage_ios;
 				SKIP_INSTALL = YES;
@@ -4677,9 +4681,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = "geopackage-ios/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
 				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.geopackage;
 				PRODUCT_NAME = geopackage_ios;
 				SKIP_INSTALL = YES;
@@ -4701,7 +4712,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "geopackage-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = geopackage_iosTests;
 				STRIP_PNG_TEXT = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "geopackage-iosTests/geopackage-iosTests-Bridging-Header.h";
@@ -4721,7 +4736,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "geopackage-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = geopackage_iosTests;
 				STRIP_PNG_TEXT = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "geopackage-iosTests/geopackage-iosTests-Bridging-Header.h";
