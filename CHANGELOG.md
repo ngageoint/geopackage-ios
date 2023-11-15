@@ -4,9 +4,17 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.4 (TBD)
+## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 
+* Module definition
 * NGA Feature Style Extension icon table name column fix
+* Geometry column generic type of BLOB support as base geometry
+* sf-wkb-ios version 4.1.3
+* sf-wkt-ios version 2.1.3
+* sf-proj-ios version 6.0.2
+* ogc-api-features-json-ios version 4.2.4
+* color-ios 1.0.2
+* tiff-ios 4.0.2
 
 ## [8.0.3](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.3) (08-22-2023)
 

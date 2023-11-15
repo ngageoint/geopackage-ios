@@ -662,6 +662,7 @@
 		04A1CE2E1D1059D500731963 /* GPKGTileCreatorImageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */; };
 		04A1CE311D1087F800731963 /* webMercator.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A1CE2F1D1087F800731963 /* webMercator.png */; };
 		04A1CE321D1087F800731963 /* wgs84.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A1CE301D1087F800731963 /* wgs84.png */; };
+		04AB381C2B03FD1100523E1E /* geopackage_ios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB381B2B03FD1100523E1E /* geopackage_ios.swift */; };
 		04AC5ED1291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AC5ECF291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.h */; };
 		04AC5ED2291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AC5ED0291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.m */; };
 		04AC5ED6291C4F06005CAB9D /* GPKGDgiwgDataTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AC5ED4291C4F06005CAB9D /* GPKGDgiwgDataTypes.h */; };
@@ -1572,6 +1573,7 @@
 		04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGTileCreatorImageTest.m; sourceTree = "<group>"; };
 		04A1CE2F1D1087F800731963 /* webMercator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webMercator.png; sourceTree = "<group>"; };
 		04A1CE301D1087F800731963 /* wgs84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wgs84.png; sourceTree = "<group>"; };
+		04AB381B2B03FD1100523E1E /* geopackage_ios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geopackage_ios.swift; sourceTree = "<group>"; };
 		04AC5ECF291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGCrsWktExtensionVersions.h; sourceTree = "<group>"; };
 		04AC5ED0291AA5BD005CAB9D /* GPKGCrsWktExtensionVersions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGCrsWktExtensionVersions.m; sourceTree = "<group>"; };
 		04AC5ED4291C4F06005CAB9D /* GPKGDgiwgDataTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGDgiwgDataTypes.h; sourceTree = "<group>"; };
@@ -2274,6 +2276,7 @@
 				042FC7781B964D8C00549A4B /* GPKGUtils.h */,
 				042FC7791B964D8C00549A4B /* GPKGUtils.m */,
 				042FC6E51B964BC800549A4B /* geopackage_ios.h */,
+				04AB381B2B03FD1100523E1E /* geopackage_ios.swift */,
 				048EC17D1BD563E4008426A7 /* GPKGDateConverter.h */,
 				048EC17E1BD563E4008426A7 /* GPKGDateConverter.m */,
 				0431EDEC1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h */,
@@ -3919,6 +3922,7 @@
 				TargetAttributes = {
 					042FC6DF1B964BC800549A4B = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 1500;
 					};
 					042FC6EA1B964BC800549A4B = {
 						CreatedOnToolsVersion = 6.4;
@@ -4217,6 +4221,7 @@
 				042FC8A01B964D8C00549A4B /* GPKGTileMatrixSetDao.m in Sources */,
 				042FC8651B964D8C00549A4B /* GPKGIOUtils.m in Sources */,
 				0413B1131F6AE20C0075916A /* GPKGFeatureShapes.m in Sources */,
+				04AB381C2B03FD1100523E1E /* geopackage_ios.swift in Sources */,
 				0447FA131CDAA40500418104 /* GPKGMetadataExtension.m in Sources */,
 				0409CCD020D9AB7E0069B797 /* GPKGUserCustomDao.m in Sources */,
 				046417DF1BCC11D9007624D4 /* GPKGFeatureIndexManager.m in Sources */,
@@ -4651,6 +4656,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AD31F4358B5434D052BEDFD7 /* Pods-geopackage-ios.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4669,6 +4675,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.geopackage;
 				PRODUCT_NAME = geopackage_ios;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -4676,6 +4684,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E72669562C5CE4964BD9B88 /* Pods-geopackage-ios.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -4694,6 +4703,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mil.nga.geopackage;
 				PRODUCT_NAME = geopackage_ios;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -4701,6 +4711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 316F133D9F4C3C4631556BC9 /* Pods-geopackage-iosTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4729,6 +4740,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2238D6F65D3DC8F0551140F1 /* Pods-geopackage-iosTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (

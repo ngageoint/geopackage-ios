@@ -34,12 +34,12 @@ Include this repository by specifying it in a Podfile using a supported option.
 
 Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 
-    pod 'geopackage-ios', '~> 8.0.3'
+    pod 'geopackage-ios', '~> 8.0.4'
 
 Pull from GitHub via CocoaPods:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '8.0.3'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '8.0.4'
 
 Include as local project:
 
@@ -413,7 +413,7 @@ Open geopackage-ios.xcworkspace in Xcode or build from command line:
 
 Run tests from Xcode or from command line:
 
-    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 14'
+    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 15'
 
 ### Remote Dependencies ###
 
