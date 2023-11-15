@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 8.0.5 (TBD)
+
+* TBD
+
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 
 * Module definition
