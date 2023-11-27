@@ -24,7 +24,7 @@ The GeoPackage SDK provides the ability to manage GeoPackage files providing rea
 
 **IMPORTANT** -
 Be sure your Mac has the `autoconf`, `automake`, and `glibtoolize` utilities.  These are required to build
-the [proj4-ios](https://cocoapods.org/?q=proj4-ios) dependency.  Without them, `pod install` will fail.  The easiest way to get these is to [`brew install`](https://brew.sh/) them:
+the [PROJ](https://github.com/ngageoint/PROJ) dependency.  Without them, `pod install` will fail.  The easiest way to get these is to [`brew install`](https://brew.sh/) them:
 ```
 brew install automake
 brew install libtool
@@ -35,6 +35,11 @@ Include this repository by specifying it in a Podfile using a supported option.
 Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 
     pod 'geopackage-ios', '~> 8.0.4'
+
+If you use `use_modular_headers!` in your Podfile, disable modular headers for the [PROJ](https://github.com/ngageoint/PROJ) dependency:
+
+    pod 'geopackage-ios', '~> 8.0.4'
+    pod 'PROJ', :modular_headers => false
 
 Pull from GitHub via CocoaPods:
 
