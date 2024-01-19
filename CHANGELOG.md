@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 8.0.5 (TBD)
 
-* TBD
+* ogc-api-features-json-ios version 4.2.5
 
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 
