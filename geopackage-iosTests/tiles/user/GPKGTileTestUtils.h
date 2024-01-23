@@ -39,4 +39,11 @@
  */
 +(void)testTileMatrixBoundingBox: (GPKGGeoPackage *) geoPackage;
 
+/**
+ * Test bounds query on any table as a user custom dao
+ *
+ * @param geoPackage
+ */
++(void)testBoundsQuery: (GPKGGeoPackage *) geoPackage;
+
 @end

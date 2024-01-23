@@ -33,14 +33,6 @@
     return (GPKGUserCustomColumns *) super.columns;
 }
 
--(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
--(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUserCustomRow *userCustomRow = [super mutableCopyWithZone:zone];
     return userCustomRow;

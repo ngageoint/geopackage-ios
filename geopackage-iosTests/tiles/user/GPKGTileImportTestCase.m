@@ -27,4 +27,8 @@
     [GPKGTileTestUtils testTileMatrixBoundingBox:self.geoPackage];
 }
 
+- (void)testBoundsQuery {
+    [GPKGTileTestUtils testBoundsQuery:self.geoPackage];
+}
+
 @end

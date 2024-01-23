@@ -29,14 +29,6 @@
     return self;
 }
 
--(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
--(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
 -(int) zoomLevelColumnIndex{
     return _tileColumns.zoomLevelIndex;
 }

@@ -58,13 +58,11 @@
 }
 
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+    return value;
 }
 
 -(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+    return value;
 }
 
 -(NSString *) tableName{

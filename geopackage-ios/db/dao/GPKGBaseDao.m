@@ -2314,6 +2314,10 @@
     return whereString;
 }
 
+-(NSString *) buildWhereNullWithField: (NSString *) field{
+    return [NSString stringWithFormat:@"%@ is null", [GPKGSqlUtils quoteWrapName:field]];
+}
+
 -(NSString *) buildWhereWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     
     NSMutableString *whereString = [NSMutableString string];
@@ -2325,7 +2329,7 @@
             [whereString appendString:[self buildWhereWithField:field andValue:value.value]];
         }
     }else{
-        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:nil]];
+        [whereString appendString:[self buildWhereNullWithField:field]];
     }
     
     return whereString;
@@ -2341,7 +2345,7 @@
         }
         [whereString appendString:[self buildWhereLikeWithField:field andValue:value.value]];
     }else{
-        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:nil]];
+        [whereString appendString:[self buildWhereNullWithField:field]];
     }
     
     return whereString;
@@ -2433,6 +2437,141 @@
     }
 
     return args;
+}
+
+-(NSString *) buildWhereWithField: (NSString *) field andRange: (GPKGColumnRange *) range{
+    return [self buildWhereWithMinField:field andMaxField:field andRange:range];
+}
+
+-(NSString *) buildWhereWithMinField: (NSString *) minField andMaxField: (NSString *) maxField andRange: (GPKGColumnRange *) range{
+    NSMutableString *where = [NSMutableString string];
+    if(range != nil && (range.min != nil || range.max != nil)){
+        if(range.min != nil){
+            [where appendFormat:@"%@ >= ?", [GPKGSqlUtils quoteWrapName:maxField]];
+        }
+        if(range.max != nil){
+            if(where.length > 0){
+                [where appendString:@" and "];
+            }
+            [where appendFormat:@"%@ <= ?", [GPKGSqlUtils quoteWrapName:minField]];
+        }
+    }else{
+        [where appendFormat:@"%@", [self buildWhereNullWithField:minField]];
+        if([minField caseInsensitiveCompare:maxField] != NSOrderedSame){
+            [where appendFormat:@" and %@", [self buildWhereNullWithField:maxField]];
+        }
+    }
+    return where;
+}
+
+-(NSArray *) buildWhereArgsWithRange: (GPKGColumnRange *) range{
+    NSMutableArray *args = [NSMutableArray array];
+    if(range != nil){
+        if(range.min != nil){
+            double minValue = [range.min doubleValue];
+            if(range.tolerance != nil){
+                minValue -= [range.tolerance doubleValue];
+            }
+            [args addObject:[[NSDecimalNumber alloc] initWithDouble:minValue]];
+        }
+        if(range.max != nil){
+            double maxValue = [range.max doubleValue];
+            if(range.tolerance != nil){
+                maxValue += [range.tolerance doubleValue];
+            }
+            [args addObject:[[NSDecimalNumber alloc] initWithDouble:maxValue]];
+        }
+    }
+    return [args count] == 0 ? nil : args;
+}
+
+-(NSString *) buildWhereWithField1: (NSString *) field1 andRange1: (GPKGColumnRange *) range1 andField2: (NSString *) field2 andRange2: (GPKGColumnRange *) range2{
+    return [self buildWhereWithMinField1:field1 andMaxField1:field1 andRange1:range1 andMinField2:field2 andMaxField2:field2 andRange2:range2];
+}
+
+-(NSString *) buildWhereWithMinField1: (NSString *) minField1 andMaxField1: (NSString *) maxField1 andRange1: (GPKGColumnRange *) range1 andMinField2: (NSString *) minField2 andMaxField2: (NSString *) maxField2 andRange2: (GPKGColumnRange *) range2{
+    NSMutableString *where = [NSMutableString string];
+    [where appendString:[self buildWhereWithMinField:minField1 andMaxField:maxField1 andRange:range1]];
+    [where appendString:@" and "];
+    [where appendString:[self buildWhereWithMinField:minField2 andMaxField:maxField2 andRange:range2]];
+    return where;
+}
+
+-(NSArray *) buildWhereArgsWithRange1: (GPKGColumnRange *) range1 andRange2: (GPKGColumnRange *) range2{
+    NSMutableArray *args = [NSMutableArray array];
+    NSArray *range1Args = [self buildWhereArgsWithRange:range1];
+    if(range1Args != nil){
+        for(NSObject *arg in range1Args){
+            [args addObject:arg];
+        }
+    }
+    NSArray *range2Args = [self buildWhereArgsWithRange:range2];
+    if(range2Args != nil){
+        for(NSObject *arg in range2Args){
+            [args addObject:arg];
+        }
+    }
+    return [args count] == 0 ? nil : args;
+}
+
+-(NSString *) buildWhereWithXField: (NSString *) xField andYField: (NSString *) yField andEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self buildWhereWithMinXField:xField andMinYField:yField andMaxXField:xField andMaxYField:yField andEnvelope:envelope];
+}
+
+-(NSString *) buildWhereWithMinXField: (NSString *) minXField andMinYField: (NSString *) minYField andMaxXField: (NSString *) maxXField andMaxYField: (NSString *) maxYField andEnvelope: (SFGeometryEnvelope *) envelope{
+    GPKGColumnRange *xRange = [self xRangeWithEnvelope:envelope];
+    GPKGColumnRange *yRange = [self yRangeWithEnvelope:envelope];
+    return [self buildWhereWithMinField1:minXField andMaxField1:maxXField andRange1:xRange andMinField2:minYField andMaxField2:maxYField andRange2:yRange];
+}
+
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self buildWhereArgsWithEnvelope:envelope andTolerance:nil];
+}
+
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance{
+    return [self buildWhereArgsWithEnvelope:envelope andXTolerance:tolerance andYTolerance:tolerance];
+}
+
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope andXTolerance: (NSNumber *) xTolerance andYTolerance: (NSNumber *) yTolerance{
+    GPKGColumnRange *xRange = [self xRangeWithEnvelope:envelope andTolerance:xTolerance];
+    GPKGColumnRange *yRange = [self yRangeWithEnvelope:envelope andTolerance:yTolerance];
+    return [self buildWhereArgsWithRange1:xRange andRange2:yRange];
+}
+
+-(GPKGColumnRange *) xRangeWithEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self xRangeWithEnvelope:envelope andTolerance:nil];
+}
+
+-(GPKGColumnRange *) xRangeWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance{
+    return [[GPKGColumnRange alloc] initWithMin:envelope.minX andMax:envelope.maxX andTolerance:tolerance];
+}
+
+-(GPKGColumnRange *) yRangeWithEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self yRangeWithEnvelope:envelope andTolerance:nil];
+}
+
+-(GPKGColumnRange *) yRangeWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance{
+    return [[GPKGColumnRange alloc] initWithMin:envelope.minY andMax:envelope.maxY andTolerance:tolerance];
+}
+
+-(NSString *) buildWhereWithLonField: (NSString *) lonField andLatField: (NSString *) latField andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self buildWhereWithMinLonField:lonField andMinLatField:latField andMaxLonField:lonField andMaxLatField:latField andBoundingBox:boundingBox];
+}
+
+-(NSString *) buildWhereWithMinLonField: (NSString *) minLonField andMinLatField: (NSString *) minLatField andMaxLonField: (NSString *) maxLonField andMaxLatField: (NSString *) maxLatField andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self buildWhereWithMinXField:minLonField andMinYField:minLatField andMaxXField:maxLonField andMaxYField:maxLatField andEnvelope:[boundingBox buildEnvelope]];
+}
+
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self buildWhereArgsWithBoundingBox:boundingBox andTolerance:nil];
+}
+
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (NSNumber *) tolerance{
+    return [self buildWhereArgsWithBoundingBox:boundingBox andLonTolerance:tolerance andLatTolerance:tolerance];
+}
+
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox andLonTolerance: (NSNumber *) lonTolerance andLatTolerance: (NSNumber *) latTolerance{
+    return [self buildWhereArgsWithEnvelope:[boundingBox buildEnvelope] andXTolerance:lonTolerance andYTolerance:latTolerance];
 }
 
 -(int) count{

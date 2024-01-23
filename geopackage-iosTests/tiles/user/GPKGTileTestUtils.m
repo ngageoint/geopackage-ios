@@ -250,10 +250,10 @@
                 if([totalTileGrid equals:tileGrid]){
                     [GPKGTestUtils assertTrue:[totalBoundingBox equals:boundingBox]];
                 }else{
-                    [GPKGTestUtils assertTrue:[totalBoundingBox.minLongitude doubleValue] <= [boundingBox.minLongitude doubleValue]];
-                    [GPKGTestUtils assertTrue:[totalBoundingBox.maxLongitude doubleValue] >= [boundingBox.maxLongitude doubleValue]];
-                    [GPKGTestUtils assertTrue:[totalBoundingBox.minLatitude doubleValue] <= [boundingBox.minLatitude doubleValue]];
-                    [GPKGTestUtils assertTrue:[totalBoundingBox.maxLatitude doubleValue] >= [boundingBox.maxLatitude doubleValue]];
+                    [GPKGTestUtils assertTrue:[totalBoundingBox minLongitudeValue] <= [boundingBox minLongitudeValue]];
+                    [GPKGTestUtils assertTrue:[totalBoundingBox maxLongitudeValue] >= [boundingBox maxLongitudeValue]];
+                    [GPKGTestUtils assertTrue:[totalBoundingBox minLatitudeValue] <= [boundingBox minLatitudeValue]];
+                    [GPKGTestUtils assertTrue:[totalBoundingBox maxLatitudeValue] >= [boundingBox maxLatitudeValue]];
                 }
                 
                 BOOL minYDeleted = NO;
@@ -332,6 +332,217 @@
         [results close];
     }
     
+}
+
++(void)testBoundsQuery: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+
+    if([tileMatrixSetDao tableExists]){
+        
+        GPKGUserCustomDao *dao = [geoPackage userCustomDaoWithTableName:GPKG_TMS_TABLE_NAME];
+        
+        GPKGResultSet *results = [tileMatrixSetDao queryForAll];
+        
+        while([results moveToNext]){
+            GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao object:results];
+            
+            NSString *tableName = tileMatrixSet.tableName;
+
+            GPKGBoundingBox *boundingBox = [tileMatrixSet boundingBox];
+            
+            GPKGResultSet *results = [self queryWithDAO:dao andBoundingBox:boundingBox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+            
+            double midLon = [boundingBox minLongitudeValue] + (([boundingBox maxLongitudeValue] - [boundingBox minLongitudeValue]) / 2.0);
+            double midLat = [boundingBox minLatitudeValue] + (([boundingBox maxLatitudeValue] - [boundingBox minLatitudeValue]) / 2.0);
+            
+            GPKGBoundingBox *bbox = [boundingBox mutableCopy];
+            [bbox setMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:midLon]];
+            [bbox setMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:midLat]];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+            
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitude:[[NSDecimalNumber alloc] initWithDouble:midLon]];
+            [bbox setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:midLat]];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:midLon - 0.000001];
+            [bbox setMinLatitudeValue:midLat - 0.000001];
+            [bbox setMaxLongitudeValue:midLon + 0.000001];
+            [bbox setMaxLatitudeValue:midLat + 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:midLon];
+            [bbox setMinLatitudeValue:[boundingBox minLatitudeValue] - 0.000001];
+            [bbox setMaxLongitudeValue:[boundingBox maxLongitudeValue] + 0.000001];
+            [bbox setMaxLatitudeValue:midLat];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 0.000001];
+            [bbox setMinLatitudeValue:midLat];
+            [bbox setMaxLongitudeValue:midLon];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue]];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 1.0];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 0.000001];
+            [bbox setMaxLongitudeValue:[boundingBox minLongitudeValue] + 0.00000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 1.0];
+            [bbox setMaxLongitudeValue:[boundingBox minLongitudeValue] - 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 0.000001];
+            [bbox setMinLatitudeValue:[boundingBox minLatitudeValue] - 0.000001];
+            [bbox setMaxLongitudeValue:[boundingBox maxLongitudeValue] + 0.000001];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:midLon - 0.000001];
+            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
+            [bbox setMaxLongitudeValue:midLon + 0.000001];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 1.0];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox andLonTolerance:nil andLatTolerance:[NSNumber numberWithDouble:0.00001]];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 1.0];
+            [bbox setMinLatitudeValue:midLat - 0.000001];
+            [bbox setMaxLongitudeValue:[boundingBox minLongitudeValue] - 0.000001];
+            [bbox setMaxLatitudeValue:midLat + 0.000001];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+            
+            results = [self queryWithDAO:dao andBoundingBox:bbox andLonTolerance:[NSNumber numberWithDouble:0.00001] andLatTolerance:nil];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+
+            bbox = [boundingBox mutableCopy];
+            [bbox setMinLongitudeValue:[boundingBox minLongitudeValue] - 2.0];
+            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue] + 1.0];
+            [bbox setMaxLongitudeValue:[boundingBox minLongitudeValue] - 1.0];
+            [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 2.0];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+
+            results = [self queryWithDAO:dao andBoundingBox:bbox andLonTolerance:nil andLatTolerance:[NSNumber numberWithDouble:1.0]];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+            
+            results = [self queryWithDAO:dao andBoundingBox:bbox andLonTolerance:[NSNumber numberWithDouble:1.0] andLatTolerance:nil];
+            [GPKGTestUtils assertFalse:[self containsTable:tableName inResults:results withDao:dao]];
+            
+            results = [self queryWithDAO:dao andBoundingBox:bbox andLonTolerance:[NSNumber numberWithDouble:1.00000001] andLatTolerance:[NSNumber numberWithDouble:1.00000001]];
+            [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
+            
+        }
+        
+    }
+    
+}
+
+/**
+ * Query for the bounding box
+ *
+ * @param dao
+ *            data access object
+ * @param boundingBox
+ *            bounding box
+ * @return results
+ */
++(GPKGResultSet *) queryWithDAO: (GPKGUserCustomDao *) dao andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryWithDAO:dao andBoundingBox:boundingBox andLonTolerance:nil andLatTolerance:nil];
+}
+
+/**
+ * Query for the bounding box
+ *
+ * @param dao
+ *            data access object
+ * @param boundingBox
+ *            bounding box
+ * @param lonTolerance
+ *            longitude tolerance
+ * @param latTolerance
+ *            latitude tolerance
+ * @return results
+ */
++(GPKGResultSet *) queryWithDAO: (GPKGUserCustomDao *) dao andBoundingBox: (GPKGBoundingBox *) boundingBox andLonTolerance: (NSNumber *) lonTolerance andLatTolerance: (NSNumber *) latTolerance{
+
+    NSString *where = [dao buildWhereWithMinLonField:GPKG_TMS_COLUMN_MIN_X andMinLatField:GPKG_TMS_COLUMN_MIN_Y andMaxLonField:GPKG_TMS_COLUMN_MAX_X andMaxLatField:GPKG_TMS_COLUMN_MAX_Y andBoundingBox:boundingBox];
+    NSArray *args = [dao buildWhereArgsWithBoundingBox:boundingBox andLonTolerance:lonTolerance andLatTolerance:latTolerance];
+
+    return [dao queryWhere:where andWhereArgs:args];
+}
+
+/**
+ * Check if the table name was found in the results
+ *
+ * @param tableName
+ *            table name
+ * @param results
+ *            results
+ * @return true if in results
+ */
++(BOOL) containsTable: (NSString *) tableName inResults: (GPKGResultSet *) results withDao: (GPKGUserCustomDao *) dao{
+    
+    BOOL found = NO;
+    
+    @try {
+        while([results moveToNext]){
+            GPKGUserCustomRow *row = [dao row:results];
+            if([[row valueWithColumnName:GPKG_TMS_COLUMN_TABLE_NAME] isEqual:tableName]){
+                found = YES;
+                break;
+            }
+        }
+    } @finally {
+        [results close];
+    }
+    
+    return found;
 }
 
 @end
