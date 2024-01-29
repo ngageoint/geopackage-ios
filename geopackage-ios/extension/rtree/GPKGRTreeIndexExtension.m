@@ -34,10 +34,13 @@ NSString * const GPKG_PROP_RTREE_INDEX_DROP = @"drop";
 NSString * const GPKG_PROP_RTREE_INDEX_DROP_FORCE = @"drop_force";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_BASE = @"trigger";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME = @"insert";
-NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1"; // replaced by update6 and update7
 NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE2_NAME = @"update2";
-NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3"; // replaced by update5
 NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME = @"update4";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME = @"update5";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME = @"update6";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME = @"update7";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_DELETE_NAME = @"delete";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP = @"trigger.drop";
 
@@ -355,10 +358,13 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) createAllTriggersWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
     [self createInsertTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
-    [self createUpdate1TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    // [self createUpdate1TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createUpdate2TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
-    [self createUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    // [self createUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createUpdate4TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate5TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate6TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate7TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createDeleteTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     
 }
@@ -390,6 +396,24 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) createUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
     NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME];
     [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
@@ -501,6 +525,9 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
     [self dropUpdate2TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropUpdate4TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate5TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate6TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate7TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropDeleteTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     
 }
@@ -523,6 +550,18 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 
 -(void) dropUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
     [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+}
+
+-(void) dropUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME];
+}
+
+-(void) dropUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME];
+}
+
+-(void) dropUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME];
 }
 
 -(void) dropDeleteTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{

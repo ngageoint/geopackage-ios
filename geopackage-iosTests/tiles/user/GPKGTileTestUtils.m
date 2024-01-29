@@ -399,7 +399,7 @@
             [GPKGTestUtils assertTrue:[self containsTable:tableName inResults:results withDao:dao]];
 
             bbox = [boundingBox mutableCopy];
-            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue]];
+            [bbox setMinLatitudeValue:[boundingBox maxLatitudeValue] - 0.000001];
             [bbox setMaxLatitudeValue:[boundingBox maxLatitudeValue] + 0.000001];
 
             results = [self queryWithDAO:dao andBoundingBox:bbox];
