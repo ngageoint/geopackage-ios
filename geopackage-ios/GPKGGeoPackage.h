@@ -1018,4 +1018,12 @@
  */
 -(void) createUserTable: (GPKGUserTable *) table;
 
+/**
+ * Save the table schema using the {@link SchemaExtension}
+ *
+ * @param table
+ *            user table
+ */
+-(void) saveSchema: (GPKGUserTable *) table;
+
 @end

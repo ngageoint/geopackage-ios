@@ -99,8 +99,8 @@
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:additionalColumns];
 }
 
-+(NSArray *) featureColumns{
-    NSMutableArray *columns = [NSMutableArray array];
++(NSArray<GPKGFeatureColumn *> *) featureColumns{
+    NSMutableArray<GPKGFeatureColumn *> *columns = [NSMutableArray array];
     
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:NO andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:8 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:NO andDefaultValue:nil] toArray:columns];

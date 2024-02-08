@@ -92,6 +92,13 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
 -(BOOL) createDataColumnsTable;
 
 /**
+ * Create the Data Columns extension record if it does not already exist
+ *
+ * @return extension
+ */
+-(GPKGExtensions *) createDataColumnsRecord;
+
+/**
  * Get a Data Column Constraints DAO
  *
  * @return Data Column Constraints DAO
@@ -124,5 +131,13 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
  * @return true if created
  */
 -(BOOL) createDataColumnConstraintsTable;
+
+/**
+ * Create the Data Column Constraints extension record if it does not
+ * already exist
+ *
+ * @return extension
+ */
+-(GPKGExtensions *) createDataColumnConstraintsRecord;
 
 @end

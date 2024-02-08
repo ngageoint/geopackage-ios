@@ -259,6 +259,10 @@
     [self.userColumns alterColumn:column];
 }
 
+-(BOOL) hasSchema{
+    return _userColumns != nil && [_userColumns hasSchema];
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUserTable *userTable = [[[self class] allocWithZone:zone] initWithUserTable:self];
     return userTable;

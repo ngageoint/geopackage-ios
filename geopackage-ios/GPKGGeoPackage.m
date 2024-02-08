@@ -16,6 +16,7 @@
 #import "GPKGAlterTable.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGExtensionManager.h"
+#import "GPKGSchemaExtension.h"
 
 @interface GPKGGeoPackage()
 
@@ -489,6 +490,8 @@
         // Create new geometry columns
         [geometryColumns setContents:contents];
         [[self geometryColumnsDao] create:geometryColumns];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:geometryColumns.tableName];
@@ -577,6 +580,8 @@
         [tileMatrixSet setMaxX:tileMatrixSetBoundingBox.maxLongitude];
         [tileMatrixSet setMaxY:tileMatrixSetBoundingBox.maxLatitude];
         [[self tileMatrixSetDao] create:tileMatrixSet];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:tableName];
@@ -617,6 +622,8 @@
         [[self contentsDao] create:contents];
         
         [table setContents:contents];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:tableName];
@@ -1110,6 +1117,14 @@
     [self verifyWritable];
     
     [self.tableCreator createUserTable:table];
+}
+
+-(void) saveSchema: (GPKGUserTable *) table{
+    if([table hasSchema]){
+        GPKGSchemaExtension *schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:self];
+        GPKGDataColumnsDao *dataColumnsDao = [schemaExtension dataColumnsDao];
+        [dataColumnsDao saveSchemaWithTable:table];
+    }
 }
 
 -(GPKGSpatialReferenceSystem *) srs: (NSNumber *) srsId{

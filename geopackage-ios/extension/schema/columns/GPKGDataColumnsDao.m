@@ -8,6 +8,7 @@
 
 #import "GPKGDataColumnsDao.h"
 #import "GPKGContentsDao.h"
+#import "GPKGGeoPackageTableCreator.h"
 
 @implementation GPKGDataColumnsDao
 
@@ -119,7 +120,7 @@
 }
 
 -(GPKGContentsDao *) contentsDao{
-    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
+    return [GPKGContentsDao createWithDatabase:self.database];
 }
 
 -(GPKGDataColumns *) dataColumnByTableName: tableName andColumnName: columnName {
@@ -140,6 +141,93 @@
     NSString *where = [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName];
     NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     return [self deleteWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) deleteByTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
+    NSString *where = [NSString stringWithFormat:@"%@ and %@",
+                              [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName],
+                              [self buildWhereWithField:GPKG_DC_COLUMN_COLUMN_NAME andValue:columnName]];
+    NSArray *whereArgs = [NSArray arrayWithObjects:tableName, columnName, nil];
+    return [self deleteWhere:where andWhereArgs:whereArgs];
+}
+
+-(void) saveSchemaWithTable: (GPKGUserTable *) table{
+    [self saveSchemaWithColumns:[table userColumns]];
+}
+
+-(void) saveSchemaWithColumns: (GPKGUserColumns *) columns{
+    [self saveSchemaWithTable:columns.tableName andColumns:[columns columns]];
+}
+
+-(void) saveSchemaWithTable: (NSString *) table andColumns: (NSArray<GPKGUserColumn *> *) columns{
+    
+    for(GPKGUserColumn *column in columns){
+        [self saveSchemaWithTable:table andColumn:column];
+    }
+    
+}
+
+-(void) saveSchemaWithTable: (NSString *) table andColumn: (GPKGUserColumn *) column{
+    
+    NSString *columnName = column.name;
+    
+    GPKGDataColumns *schema = [column schema];
+    GPKGDataColumns *existing = [self schemaByTable:table andColumn:columnName];
+    
+    if(schema != nil){
+        [schema setTableName:table];
+        [schema setColumnName:columnName];
+        if(![self tableExists]){
+            [[self tableCreator] createDataColumns];
+        }
+        [self createOrUpdate:schema];
+    }else if(existing != nil){
+        [self deleteByTableName:table andColumnName:columnName];
+    }
+    
+}
+
+-(void) loadSchemaWithTable: (GPKGUserTable *) table{
+    [self loadSchemaWithColumns:[table userColumns]];
+}
+
+-(void) loadSchemaWithColumns: (GPKGUserColumns *) columns{
+    [self loadSchemaWithTable:columns.tableName andColumns:[columns columns]];
+}
+
+-(void) loadSchemaWithTable: (NSString *) table andColumns: (NSArray<GPKGUserColumn *> *) columns{
+    
+    if([self tableExists]){
+        
+        for(GPKGUserColumn *column in columns){
+            
+            [self loadSchemaWithTable:table andColumn:column];
+            
+        }
+        
+    }
+    
+}
+
+-(void) loadSchemaWithTable: (NSString *) table andColumn: (GPKGUserColumn *) column{
+    
+    [column setSchema:[self schemaByTable:table andColumn:column.name]];
+    
+}
+
+-(GPKGDataColumns *) schemaByTable: table andColumn: column{
+    
+    GPKGDataColumns *schema = nil;
+    
+    if([self tableExists]){
+        schema = [self dataColumnByTableName:table andColumnName:column];
+    }
+    
+    return schema;
+}
+
+-(GPKGGeoPackageTableCreator *) tableCreator{
+    return [[GPKGGeoPackageTableCreator alloc] initWithDatabase:self.database];
 }
 
 @end

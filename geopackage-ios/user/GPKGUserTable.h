@@ -406,4 +406,11 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  */
 -(void) alterColumn: (GPKGUserColumn *) column;
 
+/**
+ * Check if any columns have an in-memory data columns schema
+ *
+ * @return true if has a column schema
+ */
+-(BOOL) hasSchema;
+
 @end

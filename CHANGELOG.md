@@ -9,6 +9,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * GeoPackage user version 1.4.0
 * R-tree update trigger modifications
 * DAO column range support (including geometry envelopes & bounding boxes) to build where clauses & args for queries
+* User Column integrated Data Columns Schema support
 * ogc-api-features-json-ios version 4.2.5
 
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
