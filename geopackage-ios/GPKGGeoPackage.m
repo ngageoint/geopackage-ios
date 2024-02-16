@@ -813,7 +813,43 @@
 }
 
 -(GPKGUserCustomDao *) userCustomDaoWithTable: (GPKGUserCustomTable *) table{
+    
+    if(table.contents == nil){
+        GPKGContentsDao *dao = [self contentsDao];
+        GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:[table tableName]];
+        [table setContents:contents];
+    }
     return [[GPKGUserCustomDao alloc] initWithDatabase:self.database andTable:table];
+}
+
+-(GPKGUserDao *) userDaoWithTableName: (NSString *) tableName{
+    
+    GPKGUserDao *dao = nil;
+    
+    if(![self isContentsTable:tableName]){
+        [NSException raise:@"No Contents" format:@"No contents for user table: %@", tableName];
+    }
+    enum GPKGContentsDataType dataType = [self dataTypeOfTable:tableName];
+    if(dataType != -1){
+        switch(dataType){
+            case GPKG_CDT_ATTRIBUTES:
+                dao = [self attributesDaoWithTableName:tableName];
+                break;
+            case GPKG_CDT_FEATURES:
+                dao = [self featureDaoWithTableName:tableName];
+                break;
+            case GPKG_CDT_TILES:
+                dao = [self tileDaoWithTableName:tableName];
+                break;
+            default:
+                [NSException raise:@"Unsupported" format:@"Unsupported data type: %@, table: %@", [GPKGContentsDataTypes name:dataType], tableName];
+                break;
+        }
+    }else{
+        dao = [self userCustomDaoWithTableName:tableName];
+    }
+    
+    return dao;
 }
 
 -(void) execSQL: (NSString *) sql{

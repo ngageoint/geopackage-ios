@@ -28,4 +28,6 @@
 
 +(void) testTableTypes: (GPKGGeoPackage *) geoPackage;
 
++(void) testUserDao: (GPKGGeoPackage *) geoPackage;
+
 @end

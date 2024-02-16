@@ -855,6 +855,14 @@
 -(GPKGUserCustomDao *) userCustomDaoWithTable: (GPKGUserCustomTable *) table;
 
 /**
+ * Get a User DAO from a table
+ *
+ * @param tableName table name
+ * @return user dao
+ */
+-(GPKGUserDao *) userDaoWithTableName: (NSString *) tableName;
+
+/**
  *  Execute the sql on the GeoPackage database
  *
  *  @param sql sql

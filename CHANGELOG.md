@@ -11,6 +11,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * DAO column range support (including geometry envelopes & bounding boxes) to build where clauses & args for queries
 * User Column integrated Data Columns Schema support
 * ogc-api-features-json-ios version 4.2.5
+* Get abstract User DAO by table name
+* Set User Custom DAO contents
+* Get Tile Overlays and Bounded Overlays by tile table, feature table, or user DAO
 
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 

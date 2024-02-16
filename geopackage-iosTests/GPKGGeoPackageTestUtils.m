@@ -14,6 +14,7 @@
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGCoverageData.h"
+#import "GPKGTableInfo.h"
 
 @implementation GPKGGeoPackageTestUtils
 
@@ -516,6 +517,43 @@
         }
 
         previousType = type;
+    }
+    
+}
+
++(void) testUserDao: (GPKGGeoPackage *) geoPackage{
+    
+    NSArray<NSString *> *tables = [geoPackage tables];
+    for(NSString *table in tables){
+        GPKGUserDao *dao = [geoPackage userDaoWithTableName:table];
+        [GPKGTestUtils assertNotNil:dao];
+        enum GPKGContentsDataType dataType = [geoPackage dataTypeOfTable:table];
+        GPKGTableInfo *tableInfo = [GPKGTableInfo infoWithConnection:geoPackage.database andTable:table];
+        [GPKGTestUtils assertEqualIntWithValue:[tableInfo numColumns] andValue2:[dao columnCount]];
+        GPKGContents *contents = [dao contents];
+        [GPKGTestUtils assertNotNil:contents];
+        if(dataType == -1){
+            [GPKGTestUtils assertTrue:[dao isKindOfClass:[GPKGUserCustomDao class]]];
+            [GPKGTestUtils assertNotNil:contents.dataType];
+        }else{
+            switch(dataType){
+                case GPKG_CDT_ATTRIBUTES:
+                    [GPKGTestUtils assertTrue:[dao isKindOfClass:[GPKGAttributesDao class]]];
+                    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[contents contentsDataType]];
+                    break;
+                case GPKG_CDT_FEATURES:
+                    [GPKGTestUtils assertTrue:[dao isKindOfClass:[GPKGFeatureDao class]]];
+                    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[contents contentsDataType]];
+                    break;
+                case GPKG_CDT_TILES:
+                    [GPKGTestUtils assertTrue:[dao isKindOfClass:[GPKGTileDao class]]];
+                    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_TILES andValue2:[contents contentsDataType]];
+                    break;
+                default:
+                    [GPKGTestUtils fail:[NSString stringWithFormat:@"Unsupported data type: %@", [GPKGContentsDataTypes name:dataType]]];
+                    break;
+            }
+        }
     }
     
 }
