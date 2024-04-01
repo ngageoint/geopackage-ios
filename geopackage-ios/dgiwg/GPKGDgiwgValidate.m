@@ -122,6 +122,10 @@
                     [mdErrors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_M_TABLE_NAME andColumn:GPKG_M_COLUMN_MIME_TYPE andValue:metadata.mimeType andConstraint:GPKG_DGIWG_METADATA_MIME_TYPE andRequirement:GPKG_DGIWG_REQ_METADATA_GPKG andKey:[self primaryKeyOfMetadata:metadata]]];
                 }
                 
+                if(metadata.metadata == nil || metadata.metadata.length == 0){
+                    [mdErrors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_M_TABLE_NAME andColumn:GPKG_M_COLUMN_METADATA andValue:metadata.metadata andConstraint:GPKG_DGIWG_DMF_BASE_URI andRequirement:GPKG_DGIWG_REQ_METADATA_GPKG andKey:[self primaryKeyOfMetadata:metadata]]];
+                }
+                
                 if([reference.referenceScope caseInsensitiveCompare:GPKG_RST_GEOPACKAGE_NAME] != NSOrderedSame){
                     [mdErrors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_MR_TABLE_NAME andColumn:GPKG_MR_COLUMN_REFERENCE_SCOPE andValue:reference.referenceScope andConstraint:GPKG_RST_GEOPACKAGE_NAME andRequirement:GPKG_DGIWG_REQ_METADATA_ROW andKeys:[self primaryKeysOfMetadataReference:reference]]];
                 }
@@ -208,19 +212,19 @@
 
                 NSString *crsBounds = [NSString stringWithFormat:@"CRS %@ Bounds: %@", [crs authorityAndCode], boundingBox];
 
-                if([tileMatrixSet.minX doubleValue] < [boundingBox.minLongitude doubleValue]){
+                if([tileMatrixSet.minX doubleValue] < [boundingBox.minLongitude doubleValue] - tileMatrixSetBoundsTolerance){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MIN_X andNumber:tileMatrixSet.minX andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
                 }
 
-                if([tileMatrixSet.minY doubleValue] < [boundingBox.minLatitude doubleValue]){
+                if([tileMatrixSet.minY doubleValue] < [boundingBox.minLatitude doubleValue] - tileMatrixSetBoundsTolerance){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MIN_Y andNumber:tileMatrixSet.minY andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
                 }
                 
-                if([tileMatrixSet.maxX doubleValue] > [boundingBox.maxLongitude doubleValue]){
+                if([tileMatrixSet.maxX doubleValue] > [boundingBox.maxLongitude doubleValue] + tileMatrixSetBoundsTolerance){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MAX_X andNumber:tileMatrixSet.maxX andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
                 }
 
-                if([tileMatrixSet.maxY doubleValue] > [boundingBox.maxLatitude doubleValue]){
+                if([tileMatrixSet.maxY doubleValue] > [boundingBox.maxLatitude doubleValue] + tileMatrixSetBoundsTolerance){
                     [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_TMS_TABLE_NAME andColumn:GPKG_TMS_COLUMN_MAX_Y andNumber:tileMatrixSet.maxY andConstraint:crsBounds andRequirement:GPKG_DGIWG_REQ_VALIDITY_DATA_VALIDITY andKey:[self primaryKeyOfTileMatrixSet:tileMatrixSet]]];
                 }
 
@@ -464,6 +468,30 @@
         }
         if(definition == nil || definitionTrimmed.length == 0 || [definitionTrimmed caseInsensitiveCompare:GPKG_UNDEFINED_DEFINITION] == NSOrderedSame){
             [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:[crs type] == CRS_TYPE_COMPOUND ? [GPKGProperties valueOfProperty:@"geopackage.extensions.crs_wkt.definition.column_name"] : GPKG_SRS_COLUMN_DEFINITION andValue:definition andConstraint:@"Missing required coordinate reference system well-known text definition" andRequirement:GPKG_DGIWG_REQ_CRS_WKT andKey:[self primaryKeyOfSRS:srs]]];
+        }else{
+            CRSObject *definitionCrs = nil;
+            @try {
+                definitionCrs = [CRSReader read:definition];
+            } @catch (NSException *e) {
+                [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:GPKG_SRS_COLUMN_DEFINITION andValue:definition andConstraint:[NSString stringWithFormat:@"Failed to read coordinate reference system definition: %@", [e description]] andRequirement:GPKG_DGIWG_REQ_CRS_WKT andKey:[self primaryKeyOfSRS:srs]]];
+            }
+            if(definitionCrs != nil){
+                if([definitionCrs hasIdentifiers]){
+                    BOOL found = NO;
+                    for(CRSIdentifier *identifier in definitionCrs.identifiers){
+                        if([[crs authority] caseInsensitiveCompare:identifier.name] == NSOrderedSame
+                           && [[NSString stringWithFormat:@"%d", [crs code]] caseInsensitiveCompare:identifier.uniqueIdentifier] == NSOrderedSame){
+                            found = YES;
+                            break;
+                        }
+                    }
+                    if(!found){
+                        for(CRSIdentifier *identifier in definitionCrs.identifiers){
+                            [errors addError:[[GPKGDgiwgValidationError alloc] initWithTable:GPKG_SRS_TABLE_NAME andColumn:GPKG_SRS_COLUMN_DEFINITION andValue:[identifier description] andConstraint:[[[CRSIdentifier alloc] initWithName:[crs authority] andUniqueIdentifier:[NSString stringWithFormat:@"%d", [crs code]]] description] andRequirement:GPKG_DGIWG_REQ_CRS_WKT andKey:[self primaryKeyOfSRS:srs]]];
+                        }
+                    }
+                }
+            }
         }
         
         if([srs.srsName caseInsensitiveCompare:[crs name]] != NSOrderedSame){

@@ -14,6 +14,13 @@
  */
 static double pixelSizeValidationDelta = .00000000001;
 
+
+/**
+ * Tile Matrix Set bounds tolerance in meters. 1 meter as defined in
+ * "Conformance Class Bounding Box (bbox)".
+ */
+static double tileMatrixSetBoundsTolerance = 1.0;
+
 /**
  * Performs DGIWG (Defence Geospatial Information Working Group) GeoPackage
  * validations
