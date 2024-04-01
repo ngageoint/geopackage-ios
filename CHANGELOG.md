@@ -10,6 +10,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * R-tree update trigger modifications
 * DAO column range support (including geometry envelopes & bounding boxes) to build where clauses & args for queries
 * User Column integrated Data Columns Schema support
+* sf-wkb-ios version 4.1.4
+* sf-wkt-ios version 2.1.4
+* sf-proj-ios version 6.0.3
 * ogc-api-features-json-ios version 4.2.5
 * Get abstract User DAO by table name
 * Set User Custom DAO contents
