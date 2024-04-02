@@ -33,6 +33,11 @@
 @property (nonatomic) BOOL continueOnError;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
@@ -51,6 +56,28 @@
  *  @return new feature index manager
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param featureTable feature table
+ *  @param geodesic     index using geodesic bounds
+ *
+ *  @return new feature index manager
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable andGeodesic: (BOOL) geodesic;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature data access object
+ *  @param geodesic     index using geodesic bounds
+ *
+ *  @return new feature index manager
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
 
 /**
  *  Close the index connections

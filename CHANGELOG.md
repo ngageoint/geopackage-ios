@@ -17,6 +17,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Get abstract User DAO by table name
 * Set User Custom DAO contents
 * Get Tile Overlays and Bounded Overlays by tile table, feature table, or user DAO
+* Feature Tiles geodesic draw support
+* Feature Index Manager, RTree Index, Feature Table Index, Feature Indexer, and Manual query geodesic support
 
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 

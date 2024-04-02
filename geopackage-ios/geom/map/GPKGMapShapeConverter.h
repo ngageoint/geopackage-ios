@@ -47,6 +47,12 @@
 @property (nonatomic) NSDecimalNumber *simplifyTolerance;
 
 /**
+ * Max distance allowed between geodesic path points
+ * Default is nil resulting in no geodesic geometries
+ */
+@property (nonatomic) NSDecimalNumber *geodesicMaxDistance;
+
+/**
  *  Initialize
  *
  *  @return new map shape converter
@@ -78,6 +84,13 @@
  *  @param simplifyTolerance simplify tolerance in meters
  */
 -(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance;
+
+/**
+ *  Set the max distance allowed between geodesic path points
+ *
+ *  @param geodesicMaxDistance geodesic max distance
+ */
+-(void) setGeodesicMaxDistanceAsDouble: (double) geodesicMaxDistance;
 
 /**
  *  Transform a projection WKB point to WGS84

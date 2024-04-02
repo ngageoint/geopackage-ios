@@ -42,6 +42,11 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 @property (nonatomic) double tolerance;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
@@ -50,6 +55,17 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *  @return new feature table index
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature data access object
+ *  @param geodesic index using geodesic bounds
+ *
+ *  @return new feature table index
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
 
 /**
  *  Get the Feature DAO

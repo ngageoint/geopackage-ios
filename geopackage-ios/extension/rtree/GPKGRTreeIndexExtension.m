@@ -9,6 +9,7 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGProperties.h"
 #import "GPKGIOUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_RTREE_INDEX_PREFIX = @"rtree_";
@@ -57,15 +58,22 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 @property (nonatomic, strong) NSString *geometryColumnSubstitute;
 @property (nonatomic, strong) NSString *pkColumnSubstitute;
 @property (nonatomic, strong) NSString *triggerSubstitute;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, PROJProjection *> *projections;
 
 @end
 
 @implementation GPKGRTreeIndexExtension
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self initWithGeoPackage:geoPackage andGeodesic:NO];
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.connection = geoPackage.database;
+        self.geodesic = geodesic;
+        self.projections = [NSMutableDictionary dictionary];
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_RTREE_INDEX_EXTENSION_NAME];
         self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
         
@@ -259,6 +267,50 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 /**
+ * Expand the vertical bounds of a geometry envelope by geodesic bounds
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param srsId
+ *            spatial reference system id
+ * @return geometry envelope
+ */
+-(SFGeometryEnvelope *) geodesicEnvelope: (SFGeometryEnvelope *) envelope withSrsId: (int) srsId{
+    
+    SFGeometryEnvelope *result = envelope;
+    if(_geodesic){
+        PROJProjection *projection = [self projectionWithSrsId:srsId];
+        result = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:projection];
+    }
+    
+    return result;
+}
+
+/**
+ * Get the projection of the spatial reference system id
+ *
+ * @param srsId
+ *            spatial reference system id
+ * @return projection
+ */
+-(PROJProjection *) projectionWithSrsId: (int) srsId{
+    NSNumber *srsIdNumber = [NSNumber numberWithInt:srsId];
+    PROJProjection *projection = [_projections objectForKey:srsIdNumber];
+    if(projection == nil){
+        @try {
+            GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[[self.geoPackage spatialReferenceSystemDao] queryForIdObject:srsIdNumber];
+            if(srs != nil){
+                projection = [srs projection];
+                [_projections setObject:projection forKey:srsIdNumber];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Failed to retrieve projection through querying srs id: %d, error: %@", srsId, exception);
+        }
+    }
+    return projection;
+}
+
+/**
  *  Min X SQL function
  */
 void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
@@ -272,6 +324,7 @@ void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    // TODO Support geodesic indexing by calling geodesicEnvelope with an instance reference to this GPGKRTreeIndexExtension?
     NSDecimalNumber *minY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minY;
     sqlite3_result_double(context, [minY doubleValue]);
 }
@@ -290,6 +343,7 @@ void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void maxYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    // TODO Support geodesic indexing by calling geodesicEnvelope with an instance reference to this GPGKRTreeIndexExtension?
     NSDecimalNumber *maxY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxY;
     sqlite3_result_double(context, [maxY doubleValue]);
 }

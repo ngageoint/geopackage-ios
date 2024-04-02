@@ -12,7 +12,11 @@
 @implementation GPKGRTreeIndexExtensionCreateTest
 
 - (void)testRTree {
-    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage];
+    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage andGeodesic:NO];
+}
+
+- (void)testRTreeGeodesic {
+    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage andGeodesic:YES];
 }
 
 -(BOOL) allowEmptyFeatures{

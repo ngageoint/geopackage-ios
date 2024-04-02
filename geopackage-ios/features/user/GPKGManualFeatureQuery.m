@@ -8,6 +8,7 @@
 
 #import "GPKGManualFeatureQuery.h"
 #import "GPKGSqlUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 @interface GPKGManualFeatureQuery ()
 
@@ -18,9 +19,14 @@
 @implementation GPKGManualFeatureQuery
 
 -(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao{
+    return [self initWithFeatureDao:featureDao andGeodesic:NO];
+}
+
+-(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
+        self.geodesic = geodesic;
         self.chunkLimit = 1000;
         self.tolerance = .00000000000001;
     }
@@ -174,6 +180,10 @@
                 GPKGFeatureRow *featureRow = [self.featureDao row:resultSet];
                 SFGeometryEnvelope *featureEnvelope = [featureRow geometryEnvelope];
                 if (featureEnvelope != nil) {
+                    
+                    if(_geodesic){
+                        featureEnvelope = [SFPProjectionGeometryUtils geodesicEnvelope:featureEnvelope inProjection:[_featureDao projection]];
+                    }
                     
                     if (envelope == nil) {
                         envelope = featureEnvelope;
@@ -562,6 +572,10 @@
                 SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
                 if (envelope != nil) {
                     
+                    if(_geodesic){
+                        envelope = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:[_featureDao projection]];
+                    }
+                    
                     double minXMax = MAX(minX, [envelope.minX doubleValue]);
                     double maxXMin = MIN(maxX, [envelope.maxX doubleValue]);
                     double minYMax = MAX(minY, [envelope.minY doubleValue]);
@@ -881,6 +895,10 @@
                 SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
                 if (envelope != nil) {
 
+                    if(_geodesic){
+                        envelope = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:[_featureDao projection]];
+                    }
+                    
                     double minXMax = MAX(minX, [envelope.minX doubleValue]);
                     double maxXMin = MIN(maxX, [envelope.maxX doubleValue]);
                     double minYMax = MAX(minY, [envelope.minY doubleValue]);

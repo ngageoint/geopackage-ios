@@ -126,6 +126,11 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
 @property (nonatomic) BOOL simplifyGeometries;
 
 /**
+ * Draw geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  * Scale factor from pixels to map points
  */
 @property (nonatomic) float scale;
@@ -153,11 +158,32 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *  Initialize
  *
  *  @param featureDao feature dao
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
+
+/**
+ *  Initialize
+ *
+ *  @param featureDao feature dao
  *  @param scale      scale factor
  *
  *  @return new feature tiles
  */
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale;
+
+/**
+ *  Initialize
+ *
+ *  @param featureDao feature dao
+ *  @param scale      scale factor
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andGeodesic: (BOOL) geodesic;
 
 /**
  *  Initialize
@@ -169,6 +195,18 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *  @return new feature tiles
  */
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height;
+
+/**
+ *  Initialize
+ *
+ *  @param featureDao feature dao
+ *  @param width      drawn tile width
+ *  @param height     drawn tile height
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic;
 
 /**
  *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
@@ -183,11 +221,32 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
  *  @param geoPackage GeoPackage
  *  @param featureDao feature dao
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
+
+/**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
  *  @param scale      scale factor
  *
  *  @return new feature tiles
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale;
+
+/**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
+ *  @param scale      scale factor
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andGeodesic: (BOOL) geodesic;
 
 /**
  *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
@@ -204,6 +263,18 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
  *  @param geoPackage GeoPackage
  *  @param featureDao feature dao
+ *  @param width      drawn tile width
+ *  @param height     drawn tile height
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic;
+
+/**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
  *  @param scale      scale factor
  *  @param width      drawn tile width
  *  @param height     drawn tile height
@@ -211,6 +282,19 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *  @return new feature tiles
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andWidth: (int) width andHeight: (int) height;
+
+/**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
+ *  @param scale      scale factor
+ *  @param width      drawn tile width
+ *  @param height     drawn tile height
+ *  @param geodesic   draw geometries using geodesic lines
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic;
 
 /**
  *  Get the feature dao

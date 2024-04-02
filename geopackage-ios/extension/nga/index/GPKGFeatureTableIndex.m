@@ -12,6 +12,7 @@
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGGeometryIndexTableCreator.h"
 #import "GPKGNGAExtensions.h"
+#import "SFPProjectionGeometryUtils.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
 NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.extensions.geometry_index";
@@ -32,6 +33,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 @implementation GPKGFeatureTableIndex
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
+    return [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:NO];
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.featureDao = featureDao;
@@ -40,6 +45,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
         self.columnName = [featureDao geometryColumnName];
+        self.geodesic = geodesic;
         self.tableIndexDao = [self tableIndexDao];
         self.geometryIndexDao = [self geometryIndexDao];
         self.chunkLimit = 1000;
@@ -172,6 +178,11 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         
         // Create the new index row
         if(envelope != nil){
+            
+            if(_geodesic){
+                envelope = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:[self projection]];
+            }
+            
             GPKGGeometryIndex *geometryIndex = [self.geometryIndexDao populateWithTableIndex:tableIndex andGeomId:geomId andEnvelope:envelope];
             [self.geometryIndexDao createOrUpdate:geometryIndex];
             indexed = YES;

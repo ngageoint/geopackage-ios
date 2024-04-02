@@ -37,6 +37,11 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 @property (nonatomic, strong) NSString *definition;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
@@ -44,6 +49,16 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *  @return new instance
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param geodesic index using geodesic bounds
+ *
+ *  @return new instance
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic;
 
 /**
  *  Get a RTree Index Table DAO for the feature table

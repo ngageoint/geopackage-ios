@@ -39,6 +39,11 @@
 @property (nonatomic) BOOL detailedInfoPrintFeatures;
 
 /**
+ * Query geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  * Initializer
  *
  * @param featureDao feature dao
@@ -52,6 +57,23 @@
  * @param featureStyles feature table styles
  */
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andStyles: (GPKGFeatureTableStyles *) featureStyles;
+
+/**
+ * Initializer
+ *
+ * @param featureDao feature dao
+ * @param geodesic   geodesic check flag
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
+
+/**
+ * Initializer
+ *
+ * @param featureDao feature dao
+ * @param featureStyles feature table styles
+ * @param geodesic   geodesic check flag
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andStyles: (GPKGFeatureTableStyles *) featureStyles andGeodesic: (BOOL) geodesic;
 
 /**
  *  Get the geometry type

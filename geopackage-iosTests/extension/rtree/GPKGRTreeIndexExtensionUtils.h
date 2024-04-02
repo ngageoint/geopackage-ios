@@ -18,6 +18,6 @@
  *
  * @param geoPackage GeoPackage
  */
-+(void) testRTreeWithGeoPackage: (GPKGGeoPackage *) geoPackage;
++(void) testRTreeWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic;
 
 @end

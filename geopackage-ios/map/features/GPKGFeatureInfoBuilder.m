@@ -32,11 +32,22 @@
 }
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andStyles: (GPKGFeatureTableStyles *) featureStyles{
+    self = [self initWithFeatureDao:featureDao andStyles:featureStyles andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
+    self = [self initWithFeatureDao:featureDao andStyles:nil andGeodesic:geodesic];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andStyles: (GPKGFeatureTableStyles *) featureStyles andGeodesic: (BOOL) geodesic{
     self = [super init];
     if(self != nil){
         
         self.featureDao = featureDao;
         self.featureStyles = featureStyles;
+        self.geodesic = geodesic;
         
         self.geometryType = [featureDao geometryType];
         
@@ -353,6 +364,12 @@
         NSMutableArray<NSDecimalNumber *> *sortedDistances = [NSMutableArray array];
         
         GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
+        
+        // Set the geodesic max distance for drawing geometries as geodesic lines
+        if(_geodesic){
+            double maxDistance = [GPKGMapUtils toleranceDistanceInMapView:mapView];
+            [converter setGeodesicMaxDistanceAsDouble:maxDistance];
+        }
         
         for (GPKGFeatureRow *featureRow in results) {
             

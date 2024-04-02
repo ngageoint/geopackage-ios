@@ -136,7 +136,7 @@
     PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
 
     // Index Features
-    GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+    GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:NO];
     [indexer setIndexLocation:GPKG_FIT_RTREE];
     int indexedCount = [indexer index];
     
@@ -156,7 +156,7 @@
     }
     
     // Feature Tile Overlay (dynamically draw tiles from features)
-    GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+    GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao andGeodesic:NO];
     [featureTiles setMaxFeaturesPerTile:[NSNumber numberWithInt:1000]];
     GPKGNumberFeaturesTile *numberFeaturesTile = [[GPKGNumberFeaturesTile alloc] init];
     [featureTiles setMaxFeaturesTileDraw:numberFeaturesTile];
