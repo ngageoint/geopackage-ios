@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.5 (TBD)
+## [8.0.5](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.5) (04-10-2024)
 
 * GeoPackage user version 1.4.0
 * R-tree update trigger modifications

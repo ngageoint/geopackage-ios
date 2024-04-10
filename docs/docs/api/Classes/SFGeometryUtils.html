@@ -17,7 +17,7 @@
     <a title="SFGeometryUtils Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 8.0.4 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 8.0.5 Docs</a> (83% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -290,6 +290,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGColumnRange.html">GPKGColumnRange</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnValue.html">GPKGColumnValue</a>
@@ -1376,6 +1379,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFPGeometryTransform.html">SFPGeometryTransform</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SFPProjectionGeometryUtils.html">SFPProjectionGeometryUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFPoint.html">SFPoint</a>
@@ -4035,6 +4041,9 @@
                 <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_EARTH_RADIUS">SF_EARTH_RADIUS</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -4292,6 +4301,9 @@
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@pj_release">pj_release</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:GPKGDgiwgValidate.h@tileMatrixSetBoundsTolerance">tileMatrixSetBoundsTolerance</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -4409,6 +4421,9 @@
                 <a href="../Enums/GPKGTileScalingType.html">GPKGTileScalingType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/PJ_CARTESIAN_CS_2D_TYPE.html">PJ_CARTESIAN_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/PJ_CATEGORY.html">PJ_CATEGORY</a>
               </li>
               <li class="nav-group-task">
@@ -4421,6 +4436,12 @@
                 <a href="../Enums/PJ_DIRECTION.html">PJ_DIRECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/PJ_ELLIPSOIDAL_CS_2D_TYPE.html">PJ_ELLIPSOIDAL_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PJ_ELLIPSOIDAL_CS_3D_TYPE.html">PJ_ELLIPSOIDAL_CS_3D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/PJ_GUESSED_WKT_DIALECT.html">PJ_GUESSED_WKT_DIALECT</a>
               </li>
               <li class="nav-group-task">
@@ -4431,6 +4452,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/PJ_TYPE.html">PJ_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PJ_UNIT_TYPE.html">PJ_UNIT_TYPE</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/PJ_WKT_TYPE.html">PJ_WKT_TYPE</a>
@@ -4533,6 +4557,9 @@
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Type%20Definitions/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_CONTEXT">PJ_CONTEXT</a>
               </li>
               <li class="nav-group-task">
@@ -4585,6 +4612,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Type%20Definitions/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_PRIME_MERIDIANS">PJ_PRIME_MERIDIANS</a>
@@ -4657,6 +4687,12 @@
           <li class="nav-group-name">
             <a href="../Functions.html">Functions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_alter_id">proj_alter_id</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_alter_name">proj_alter_name</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_angular_input">proj_angular_input</a>
               </li>
@@ -4775,7 +4811,13 @@
                 <a href="../Functions.html#/c:@F@proj_context_use_proj4_init_rules">proj_context_use_proj4_init_rules</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_convert_conversion_to_other_method">proj_convert_conversion_to_other_method</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_coord">proj_coord</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_coordinate_metadata_create">proj_coordinate_metadata_create</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_coordinate_metadata_get_epoch">proj_coordinate_metadata_get_epoch</a>
@@ -4820,10 +4862,244 @@
                 <a href="../Functions.html#/c:@F@proj_create_argv">proj_create_argv</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_cartesian_2D_cs">proj_create_cartesian_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_compound_crs">proj_create_compound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion">proj_create_conversion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_albers_equal_area">proj_create_conversion_albers_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_american_polyconic">proj_create_conversion_american_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_azimuthal_equidistant">proj_create_conversion_azimuthal_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_bonne">proj_create_conversion_bonne</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_cassini_soldner">proj_create_conversion_cassini_soldner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_i">proj_create_conversion_eckert_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_ii">proj_create_conversion_eckert_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_iii">proj_create_conversion_eckert_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_iv">proj_create_conversion_eckert_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_v">proj_create_conversion_eckert_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_vi">proj_create_conversion_eckert_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equal_earth">proj_create_conversion_equal_earth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_conic">proj_create_conversion_equidistant_conic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical">proj_create_conversion_equidistant_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical_spherical">proj_create_conversion_equidistant_cylindrical_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gall">proj_create_conversion_gall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gauss_schreiber_transverse_mercator">proj_create_conversion_gauss_schreiber_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_x">proj_create_conversion_geostationary_satellite_sweep_x</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_y">proj_create_conversion_geostationary_satellite_sweep_y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gnomonic">proj_create_conversion_gnomonic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_goode_homolosine">proj_create_conversion_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_guam_projection">proj_create_conversion_guam_projection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin">proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_a">proj_create_conversion_hotine_oblique_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_b">proj_create_conversion_hotine_oblique_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_international_map_world_polyconic">proj_create_conversion_international_map_world_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_interrupted_goode_homolosine">proj_create_conversion_interrupted_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_krovak">proj_create_conversion_krovak</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_krovak_north_oriented">proj_create_conversion_krovak_north_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_laborde_oblique_mercator">proj_create_conversion_laborde_oblique_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_azimuthal_equal_area">proj_create_conversion_lambert_azimuthal_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp">proj_create_conversion_lambert_conic_conformal_1sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp_variant_b">proj_create_conversion_lambert_conic_conformal_1sp_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp">proj_create_conversion_lambert_conic_conformal_2sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_belgium">proj_create_conversion_lambert_conic_conformal_2sp_belgium</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_michigan">proj_create_conversion_lambert_conic_conformal_2sp_michigan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area">proj_create_conversion_lambert_cylindrical_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area_spherical">proj_create_conversion_lambert_cylindrical_equal_area_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mercator_variant_a">proj_create_conversion_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mercator_variant_b">proj_create_conversion_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_miller_cylindrical">proj_create_conversion_miller_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mollweide">proj_create_conversion_mollweide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_new_zealand_mapping_grid">proj_create_conversion_new_zealand_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_oblique_stereographic">proj_create_conversion_oblique_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_orthographic">proj_create_conversion_orthographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_a">proj_create_conversion_polar_stereographic_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_b">proj_create_conversion_polar_stereographic_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_pole_rotation_grib_convention">proj_create_conversion_pole_rotation_grib_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_pole_rotation_netcdf_cf_convention">proj_create_conversion_pole_rotation_netcdf_cf_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_popular_visualisation_pseudo_mercator">proj_create_conversion_popular_visualisation_pseudo_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_quadrilateralized_spherical_cube">proj_create_conversion_quadrilateralized_spherical_cube</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_robinson">proj_create_conversion_robinson</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_sinusoidal">proj_create_conversion_sinusoidal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_spherical_cross_track_height">proj_create_conversion_spherical_cross_track_height</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_stereographic">proj_create_conversion_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_transverse_mercator">proj_create_conversion_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_transverse_mercator_south_oriented">proj_create_conversion_transverse_mercator_south_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_tunisia_mapping_grid">proj_create_conversion_tunisia_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_tunisia_mining_grid">proj_create_conversion_tunisia_mining_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_two_point_equidistant">proj_create_conversion_two_point_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_utm">proj_create_conversion_utm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_van_der_grinten">proj_create_conversion_van_der_grinten</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_vertical_perspective">proj_create_conversion_vertical_perspective</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_i">proj_create_conversion_wagner_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_ii">proj_create_conversion_wagner_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_iii">proj_create_conversion_wagner_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_iv">proj_create_conversion_wagner_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_v">proj_create_conversion_wagner_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_vi">proj_create_conversion_wagner_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_vii">proj_create_conversion_wagner_vii</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_crs_to_crs">proj_create_crs_to_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_crs_to_crs_from_pj">proj_create_crs_to_crs_from_pj</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_cs">proj_create_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_derived_geographic_crs">proj_create_derived_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_ellipsoidal_2D_cs">proj_create_ellipsoidal_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_ellipsoidal_3D_cs">proj_create_ellipsoidal_3D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_engineering_crs">proj_create_engineering_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_from_database">proj_create_from_database</a>
@@ -4835,10 +5111,61 @@
                 <a href="../Functions.html#/c:@F@proj_create_from_wkt">proj_create_from_wkt</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geocentric_crs">proj_create_geocentric_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geocentric_crs_from_datum">proj_create_geocentric_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geographic_crs">proj_create_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geographic_crs_from_datum">proj_create_geographic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_operation_factory_context">proj_create_operation_factory_context</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_operations">proj_create_operations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_projected_crs">proj_create_projected_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_transformation">proj_create_transformation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_vertical_crs">proj_create_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_vertical_crs_ex">proj_create_vertical_crs_ex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_cs_angular_unit">proj_crs_alter_cs_angular_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_cs_linear_unit">proj_crs_alter_cs_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_geodetic_crs">proj_crs_alter_geodetic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_parameters_linear_unit">proj_crs_alter_parameters_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_crs">proj_crs_create_bound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_crs_to_WGS84">proj_crs_create_bound_crs_to_WGS84</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_vertical_crs">proj_crs_create_bound_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_projected_3D_crs_from_2D">proj_crs_create_projected_3D_crs_from_2D</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_demote_to_2D">proj_crs_demote_to_2D</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_get_coordinate_system">proj_crs_get_coordinate_system</a>
@@ -4865,10 +5192,16 @@
                 <a href="../Functions.html#/c:@F@proj_crs_get_sub_crs">proj_crs_get_sub_crs</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_has_point_motion_operation">proj_crs_has_point_motion_operation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_info_list_destroy">proj_crs_info_list_destroy</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_is_derived">proj_crs_is_derived</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_promote_to_3D">proj_crs_promote_to_3D</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_cs_get_axis_count">proj_cs_get_axis_count</a>
@@ -5054,6 +5387,9 @@
                 <a href="../Functions.html#/c:@F@proj_is_deprecated">proj_is_deprecated</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_is_derived_crs">proj_is_derived_crs</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_is_download_needed">proj_is_download_needed</a>
               </li>
               <li class="nav-group-task">
@@ -5144,6 +5480,9 @@
                 <a href="../Functions.html#/c:@F@proj_prime_meridian_get_parameters">proj_prime_meridian_get_parameters</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_query_geodetic_crs_from_datum">proj_query_geodetic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_roundtrip">proj_roundtrip</a>
               </li>
               <li class="nav-group-task">
@@ -5209,6 +5548,9 @@
                 <a href="../Structs.html#/c:@S@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/PJ_ELLPS.html">PJ_ELLPS</a>
               </li>
               <li class="nav-group-task">
@@ -5249,6 +5591,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PJ_PRIME_MERIDIANS.html">PJ_PRIME_MERIDIANS</a>
@@ -5335,7 +5680,7 @@
             <p>Utilities for Geometry objects</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L19-L1229">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L19-L1339">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -5395,7 +5740,7 @@
                         <p>dimension (0, 1, or 2)</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L29">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5465,7 +5810,7 @@
                         <p>distance</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L40">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5523,7 +5868,138 @@
                         <p>distance</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L49">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L49">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)distanceHaversineBetweenPoint1:andPoint2:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceHaversineBetweenPoint1:andPoint2:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)distanceHaversineBetweenPoint1:andPoint2:">+distanceHaversineBetweenPoint1:<wbr>andPoint2:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the distance in meters between two points in degrees using the
+ Haversine formula</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">distanceHaversineBetweenPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span>
+                               <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceHaversineBetweenPoint1</span><span class="p">(</span><span class="n">_</span> <span class="nv">point1</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andPoint2</span> <span class="nv">point2</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance in meters</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)distanceHaversineOfLine:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceHaversineOfLine:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)distanceHaversineOfLine:">+distanceHaversineOfLine:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the distance in meters between the end points of a line in degrees
+ using the Haversine formula</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">distanceHaversineOfLine</span><span class="p">:(</span><span class="n"><a href="../Classes/SFLine.html">SFLine</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">line</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceHaversine</span><span class="p">(</span><span class="n">of</span> <span class="nv">line</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFLine.html">SFLine</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>line</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>line</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance in meters</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5593,7 +6069,7 @@
                         <p>bearing angle in degrees between 0 and 360</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L60">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L82">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5652,7 +6128,7 @@
      exclusively</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L70">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L92">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5710,7 +6186,7 @@
                         <p>true if north bearing</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L79">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5768,7 +6244,7 @@
                         <p>true if east bearing</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L88">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5826,7 +6302,7 @@
                         <p>true if south bearing</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L97">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5884,7 +6360,149 @@
                         <p>true if west bearing</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L106">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L128">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicMidpointBetweenPoint1:andPoint2:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicMidpointBetweenPoint1:andPoint2:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicMidpointBetweenPoint1:andPoint2:">+geodesicMidpointBetweenPoint1:<wbr>andPoint2:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the geodesic midpoint in degrees between two points in degrees</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicMidpointBetweenPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span>
+                                 <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicMidpointBetweenPoint1</span><span class="p">(</span><span class="n">_</span> <span class="nv">point1</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andPoint2</span> <span class="nv">point2</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic midpoint in degrees</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L139">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicMidpointRadiansBetweenPoint1:andPoint2:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicMidpointRadiansBetweenPoint1:andPoint2:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicMidpointRadiansBetweenPoint1:andPoint2:">+geodesicMidpointRadiansBetweenPoint1:<wbr>andPoint2:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the geodesic midpoint in radians between two points in radians</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicMidpointRadiansBetweenPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span>
+                                        <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicMidpointRadiansBetweenPoint1</span><span class="p">(</span><span class="n">_</span> <span class="nv">point1</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andPoint2</span> <span class="nv">point2</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic midpoint in radians</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L150">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5942,7 +6560,7 @@
                         <p>radians</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L115">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6000,7 +6618,123 @@
                         <p>degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L124">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L168">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)degreesToRadiansWithPoint:"></a>
+                    <a name="//apple_ref/objc/Method/+degreesToRadiansWithPoint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)degreesToRadiansWithPoint:">+degreesToRadiansWithPoint:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convert point in degrees to radians</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">degreesToRadiansWithPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">degreesToRadians</span><span class="p">(</span><span class="n">with</span> <span class="nv">point</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point in degrees</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>point in radians</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L177">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)radiansToDegreesWithPoint:"></a>
+                    <a name="//apple_ref/objc/Method/+radiansToDegreesWithPoint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)radiansToDegreesWithPoint:">+radiansToDegreesWithPoint:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convert point in radians to degrees</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">radiansToDegreesWithPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">radiansToDegrees</span><span class="p">(</span><span class="n">with</span> <span class="nv">point</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point in radians</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>point in degrees</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L186">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6061,7 +6795,7 @@
                         <p>centroid point</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L136">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L198">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6122,7 +6856,7 @@
                         <p>centroid point</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L148">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6178,7 +6912,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L158">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L220">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6234,7 +6968,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L168">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L230">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6311,7 +7045,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L189">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L251">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6367,7 +7101,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L199">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L261">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6423,7 +7157,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L209">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L271">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6499,7 +7233,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L229">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L291">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6572,7 +7306,295 @@
                         <p>simplified points</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L242">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L304">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicPathOfLine:withMaxDistance:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicPathOfLine:withMaxDistance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicPathOfLine:withMaxDistance:">+geodesicPathOfLine:<wbr>withMaxDistance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a geodesic path of a line string in degrees with a max distance
+ between any two path points</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicPathOfLine</span><span class="p">:(</span><span class="n"><a href="../Classes/SFLineString.html">SFLineString</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lineString</span>
+                           <span class="nf">withMaxDistance</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxDistance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicPath</span><span class="p">(</span><span class="n">ofLine</span> <span class="nv">lineString</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFLineString.html">SFLineString</a></span><span class="o">!</span><span class="p">,</span> <span class="n">withMaxDistance</span> <span class="nv">maxDistance</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="p">]</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lineString</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>line string in degrees</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxDistance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>max distance allowed between path points</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic path of points</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L316">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicPathOfPoints:withMaxDistance:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicPathOfPoints:withMaxDistance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicPathOfPoints:withMaxDistance:">+geodesicPathOfPoints:<wbr>withMaxDistance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a geodesic path of points in degrees with a max distance between
+ any two path points</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicPathOfPoints</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">points</span>
+                             <span class="nf">withMaxDistance</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxDistance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicPath</span><span class="p">(</span><span class="n">of</span> <span class="nv">points</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="n">withMaxDistance</span> <span class="nv">maxDistance</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="p">]</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>points</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>points in degrees</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxDistance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>max distance allowed between path points</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic path of points</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L328">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicPathBetweenPoint1:andPoint2:withMaxDistance:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicPathBetweenPoint1:andPoint2:withMaxDistance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicPathBetweenPoint1:andPoint2:withMaxDistance:">+geodesicPathBetweenPoint1:<wbr>andPoint2:<wbr>withMaxDistance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a geodesic path between the two points in degrees with a max
+ distance between any two path points</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicPathBetweenPoint1</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point1</span>
+                                        <span class="nf">andPoint2</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">point2</span>
+                                  <span class="nf">withMaxDistance</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">maxDistance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicPathBetweenPoint1</span><span class="p">(</span><span class="n">_</span> <span class="nv">point1</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andPoint2</span> <span class="nv">point2</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">withMaxDistance</span> <span class="nv">maxDistance</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="p">]</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>point 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>maxDistance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>max distance allowed between path points</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic path of points</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L342">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SFGeometryUtils(cm)geodesicEnvelope:"></a>
+                    <a name="//apple_ref/objc/Method/+geodesicEnvelope:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SFGeometryUtils(cm)geodesicEnvelope:">+geodesicEnvelope:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Expand the vertical bounds of a geometry envelope in degrees by including
+ geodesic bounds</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">geodesicEnvelope</span><span class="p">:(</span><span class="n"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">envelope</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">geodesicEnvelope</span><span class="p">(</span><span class="n">_</span> <span class="nv">envelope</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>envelope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry envelope in degrees</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geodesic expanded geometry envelope in degrees</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L352">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6657,7 +7679,7 @@
                         <p>distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L256">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L366">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6727,7 +7749,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L267">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L377">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6811,7 +7833,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L280">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L390">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6881,7 +7903,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L291">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L401">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6965,7 +7987,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L304">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L414">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7035,7 +8057,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L315">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L425">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7119,7 +8141,7 @@
                         <p>true if in the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L328">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L438">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7189,7 +8211,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L339">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L449">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7273,7 +8295,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L352">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L462">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7343,7 +8365,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L363">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L473">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7427,7 +8449,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L376">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L486">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7497,7 +8519,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L387">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L497">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7581,7 +8603,7 @@
                         <p>true if on the polygon edge</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L400">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L510">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7640,7 +8662,7 @@
                         <p>true if the first and last points are the same</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L410">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L520">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7699,7 +8721,7 @@
                         <p>true if the first and last points are the same</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L420">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L530">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7758,7 +8780,7 @@
                         <p>true if the first and last points are the same</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L430">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L540">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7828,7 +8850,7 @@
                         <p>true if on the line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L441">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L551">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7912,7 +8934,7 @@
                         <p>true if on the line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L454">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L564">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7982,7 +9004,7 @@
                         <p>true if on the line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L465">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L575">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8066,7 +9088,7 @@
                         <p>true if on the line</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L478">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L588">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8150,7 +9172,7 @@
                         <p>true if on the path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L491">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L601">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8247,7 +9269,7 @@
                         <p>true if on the path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L506">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L616">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8317,7 +9339,7 @@
                         <p>intersection point or null if no intersection</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L517">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L627">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8414,7 +9436,7 @@
                         <p>intersection point or null if no intersection</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L532">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L642">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8472,7 +9494,7 @@
                         <p>geometry in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L541">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L651">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8530,7 +9552,7 @@
                         <p>point in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L550">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L660">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8600,7 +9622,7 @@
                         <p>point in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L561">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L671">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8658,7 +9680,7 @@
                         <p>multi point in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L570">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L680">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8716,7 +9738,7 @@
                         <p>line string in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L579">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L689">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8774,7 +9796,7 @@
                         <p>line in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L588">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L698">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8833,7 +9855,7 @@
                         <p>multi line string in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L597">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L707">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8891,7 +9913,7 @@
                         <p>polygon in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L606">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L716">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8950,7 +9972,7 @@
                         <p>multi polygon in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L615">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L725">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9009,7 +10031,7 @@
                         <p>circular string in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L624">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L734">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9068,7 +10090,7 @@
                         <p>compound curve in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L633">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L743">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9127,7 +10149,7 @@
                         <p>curve polygon in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L642">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L752">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9186,7 +10208,7 @@
                         <p>polyhedral surface in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L651">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L761">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9244,7 +10266,7 @@
                         <p>TIN in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L660">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L770">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9302,7 +10324,7 @@
                         <p>triangle in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L669">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L779">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9360,7 +10382,7 @@
                         <p>geometry in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L678">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L788">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9418,7 +10440,7 @@
                         <p>point in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L687">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L797">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9488,7 +10510,7 @@
                         <p>point in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L698">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L808">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9546,7 +10568,7 @@
                         <p>multi point in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L707">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L817">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9604,7 +10626,7 @@
                         <p>line string in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L716">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L826">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9662,7 +10684,7 @@
                         <p>line in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L725">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L835">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9721,7 +10743,7 @@
                         <p>multi line string in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L734">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L844">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9779,7 +10801,7 @@
                         <p>polygon in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L743">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L853">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9838,7 +10860,7 @@
                         <p>multi polygon in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L752">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L862">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9897,7 +10919,7 @@
                         <p>circular string in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L761">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L871">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9956,7 +10978,7 @@
                         <p>compound curve in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L770">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L880">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10015,7 +11037,7 @@
                         <p>curve polygon in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L779">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L889">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10074,7 +11096,7 @@
                         <p>polyhedral surface in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L788">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L898">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10132,7 +11154,7 @@
                         <p>TIN in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L797">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L907">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10190,7 +11212,7 @@
                         <p>triangle in degrees</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L806">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L916">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10229,7 +11251,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L813">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L923">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10269,7 +11291,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L821">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L931">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10308,7 +11330,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L828">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L938">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10347,7 +11369,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L835">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L945">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10407,7 +11429,7 @@
                         <p>cropped geometry in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L846">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L956">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10480,7 +11502,7 @@
                         <p>cropped geometry in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L859">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L969">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10551,7 +11573,7 @@
                         <p>cropped point or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L870">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L980">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10624,7 +11646,7 @@
                         <p>cropped points in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L883">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L993">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10695,7 +11717,7 @@
                         <p>cropped multi point or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L894">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1004">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10768,7 +11790,7 @@
                         <p>cropped line string in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L907">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1017">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10840,7 +11862,7 @@
                         <p>cropped line in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L920">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1030">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10913,7 +11935,7 @@
                         <p>cropped multi line string in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L933">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1043">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10986,7 +12008,7 @@
                         <p>cropped polygon in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L946">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1056">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11059,7 +12081,7 @@
                         <p>cropped multi polygon in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L959">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1069">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11132,7 +12154,7 @@
                         <p>cropped circular string in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L972">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1082">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11205,7 +12227,7 @@
                         <p>cropped compound curve in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L985">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1095">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11278,7 +12300,7 @@
                         <p>cropped curve polygon in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L998">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11352,7 +12374,7 @@
                         <p>cropped polyhedral surface in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1011">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1121">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11424,7 +12446,7 @@
                         <p>cropped TIN in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1024">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1134">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11497,7 +12519,7 @@
                         <p>cropped triangle in meters or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1037">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1147">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11568,7 +12590,7 @@
                         <p>true if equal</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1049">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1159">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11653,7 +12675,7 @@
                         <p>true if equal</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1063">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11726,7 +12748,7 @@
                         <p>true if contains</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1076">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1186">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11799,7 +12821,7 @@
                         <p>true if contains</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1089">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11857,7 +12879,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1101">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1211">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11916,7 +12938,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1114">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1224">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11973,7 +12995,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1125">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12032,7 +13054,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1138">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1248">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12103,7 +13125,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1152">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1262">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12161,7 +13183,7 @@
                         <p>true if has z</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1161">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1271">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12219,7 +13241,7 @@
                         <p>true if has m</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1170">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1280">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12280,7 +13302,7 @@
                         <p>list of increasing parent types</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1181">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1291">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12339,7 +13361,7 @@
      type)</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1191">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12398,7 +13420,7 @@
                         <p>child type hierarchy, null if no children</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1200">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1310">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12456,7 +13478,7 @@
                         <p>child geometry types, empty list if no child types</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1209">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1319">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12514,7 +13536,7 @@
                         <p>encoded dta</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1218">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1328">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12572,7 +13594,7 @@
                         <p>geometry</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1227">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/Pods/sf-ios/sf-ios/util/SFGeometryUtils.h#L1337">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12582,7 +13604,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2023 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2023-11-27)</p>
+          <p>&copy; 2024 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2024-04-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

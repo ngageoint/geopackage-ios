@@ -25,6 +25,18 @@
 -(instancetype)initWithFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs;
 
 /**
+ *  Initialize
+ *
+ *  @param function connection function
+ *  @param name function name
+ *  @param numArgs number of function arguments
+ *  @param userData user data
+ *
+ *  @return new connection function
+ */
+-(instancetype)initWithFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs andUserData: (NSObject *) userData;
+
+/**
  *  Get the function
  *
  *  @return function
@@ -44,5 +56,12 @@
  *  @return function arguments count
  */
 -(int) numArgs;
+
+/**
+ *  Get the user data
+ *
+ *  @return user data
+ */
+-(NSObject *) userData;
 
 @end

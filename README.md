@@ -34,17 +34,17 @@ Include this repository by specifying it in a Podfile using a supported option.
 
 Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 
-    pod 'geopackage-ios', '~> 8.0.4'
+    pod 'geopackage-ios', '~> 8.0.5'
 
 If you use `use_modular_headers!` in your Podfile, disable modular headers for the [PROJ](https://github.com/ngageoint/PROJ) dependency:
 
-    pod 'geopackage-ios', '~> 8.0.4'
+    pod 'geopackage-ios', '~> 8.0.5'
     pod 'PROJ', :modular_headers => false
 
 Pull from GitHub via CocoaPods:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '8.0.4'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '8.0.5'
 
 Include as local project:
 

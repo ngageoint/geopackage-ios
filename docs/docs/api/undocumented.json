@@ -3369,1282 +3369,1996 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 720,
+      "line": 722,
       "symbol": "proj_context_errno",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 721,
+      "line": 723,
       "symbol": "proj_errno",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 722,
+      "line": 724,
       "symbol": "proj_errno_set",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 723,
+      "line": 725,
       "symbol": "proj_errno_reset",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 724,
+      "line": 726,
       "symbol": "proj_errno_restore",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 725,
+      "line": 727,
       "symbol": "proj_errno_string",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 727,
+      "line": 729,
       "symbol": "proj_context_errno_string",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 729,
+      "line": 731,
       "symbol": "proj_log_level",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 730,
+      "line": 732,
       "symbol": "proj_log_func",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 734,
+      "line": 736,
       "symbol": "proj_factors",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 737,
+      "line": 739,
       "symbol": "proj_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 738,
+      "line": 740,
       "symbol": "proj_pj_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 739,
+      "line": 741,
       "symbol": "proj_grid_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 740,
+      "line": 742,
       "symbol": "proj_init_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 744,
+      "line": 746,
       "symbol": "proj_list_operations",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 745,
+      "line": 747,
       "symbol": "proj_list_ellps",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 746,
+      "line": 748,
       "symbol": "proj_list_units",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 748,
+      "line": 750,
       "symbol": "proj_list_angular_units",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 750,
+      "line": 752,
       "symbol": "proj_list_prime_meridians",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 758,
+      "line": 760,
       "symbol": "proj_torad",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 759,
+      "line": 761,
       "symbol": "proj_todeg",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 761,
+      "line": 763,
       "symbol": "proj_dmstor",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 762,
+      "line": 764,
       "symbol": "proj_rtodms",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 764,
+      "line": 766,
       "symbol": "proj_rtodms2",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 767,
+      "line": 769,
       "symbol": "proj_cleanup",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 807,
+      "line": 809,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_ELLIPSOID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 807,
+      "line": 809,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_ELLIPSOID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 808,
+      "line": 810,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_PRIME_MERIDIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 808,
+      "line": 810,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_PRIME_MERIDIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 809,
+      "line": 811,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_DATUM",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 809,
+      "line": 811,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_DATUM",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 810,
+      "line": 812,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_CRS",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 810,
+      "line": 812,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_CRS",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 811,
+      "line": 813,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_COORDINATE_OPERATION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 811,
+      "line": 813,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_COORDINATE_OPERATION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 812,
+      "line": 814,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY.PJ_CATEGORY_DATUM_ENSEMBLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 812,
+      "line": 814,
       "symbol": "PJ_CATEGORY.PJ_CATEGORY_DATUM_ENSEMBLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 817,
+      "line": 819,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_UNKNOWN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 817,
+      "line": 819,
       "symbol": "PJ_TYPE.PJ_TYPE_UNKNOWN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 819,
+      "line": 821,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_ELLIPSOID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 819,
+      "line": 821,
       "symbol": "PJ_TYPE.PJ_TYPE_ELLIPSOID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 821,
+      "line": 823,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_PRIME_MERIDIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 821,
+      "line": 823,
       "symbol": "PJ_TYPE.PJ_TYPE_PRIME_MERIDIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 823,
+      "line": 825,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_GEODETIC_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 823,
+      "line": 825,
       "symbol": "PJ_TYPE.PJ_TYPE_GEODETIC_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 824,
+      "line": 826,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 824,
+      "line": 826,
       "symbol": "PJ_TYPE.PJ_TYPE_DYNAMIC_GEODETIC_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 825,
+      "line": 827,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_VERTICAL_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 825,
+      "line": 827,
       "symbol": "PJ_TYPE.PJ_TYPE_VERTICAL_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 826,
+      "line": 828,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 826,
+      "line": 828,
       "symbol": "PJ_TYPE.PJ_TYPE_DYNAMIC_VERTICAL_REFERENCE_FRAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 827,
+      "line": 829,
       "symbol": "PJ_TYPE.PJ_TYPE.PJ_TYPE_DATUM_ENSEMBLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 827,
+      "line": 829,
       "symbol": "PJ_TYPE.PJ_TYPE_DATUM_ENSEMBLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 976,
+      "line": 978,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_UNKNOWN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 976,
+      "line": 978,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_UNKNOWN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 978,
+      "line": 980,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_CARTESIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 978,
+      "line": 980,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_CARTESIAN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 979,
+      "line": 981,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_ELLIPSOIDAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 979,
+      "line": 981,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_ELLIPSOIDAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 980,
+      "line": 982,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_VERTICAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 980,
+      "line": 982,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_VERTICAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 981,
+      "line": 983,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_SPHERICAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 981,
+      "line": 983,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_SPHERICAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 982,
+      "line": 984,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_ORDINAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 982,
+      "line": 984,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_ORDINAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 983,
+      "line": 985,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_PARAMETRIC",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 983,
+      "line": 985,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_PARAMETRIC",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 984,
+      "line": 986,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_DATETIMETEMPORAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 984,
+      "line": 986,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_DATETIMETEMPORAL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 985,
+      "line": 987,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_TEMPORALCOUNT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 985,
+      "line": 987,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_TEMPORALCOUNT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 986,
+      "line": 988,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_TEMPORALMEASURE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 986,
+      "line": 988,
       "symbol": "PJ_COORDINATE_SYSTEM_TYPE.PJ_CS_TYPE_TEMPORALMEASURE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1135,
+      "line": 1137,
       "symbol": "PJ_OBJ_LIST",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1135,
+      "line": 1137,
       "symbol": "PJ_OBJ_LIST",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1138,
+      "line": 1140,
       "symbol": "proj_string_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1140,
+      "line": 1142,
       "symbol": "proj_context_set_autoclose_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1143,
+      "line": 1145,
       "symbol": "proj_context_set_database_path",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1147,
+      "line": 1149,
       "symbol": "proj_context_get_database_path",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1149,
+      "line": 1151,
       "symbol": "proj_context_get_database_metadata",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1152,
+      "line": 1154,
       "symbol": "proj_context_get_database_structure",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1155,
+      "line": 1157,
       "symbol": "proj_context_guess_wkt_dialect",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1158,
+      "line": 1160,
       "symbol": "proj_create_from_wkt",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1163,
+      "line": 1165,
       "symbol": "proj_create_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1168,
+      "line": 1170,
       "symbol": "proj_uom_get_info_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1172,
+      "line": 1174,
       "symbol": "proj_grid_get_info_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1177,
+      "line": 1179,
       "symbol": "proj_clone",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1179,
+      "line": 1181,
       "symbol": "proj_create_from_name",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1185,
+      "line": 1187,
       "symbol": "proj_get_type",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1187,
+      "line": 1189,
       "symbol": "proj_is_deprecated",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1189,
+      "line": 1191,
       "symbol": "proj_get_non_deprecated",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1191,
+      "line": 1193,
       "symbol": "proj_is_equivalent_to",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1194,
+      "line": 1196,
       "symbol": "proj_is_equivalent_to_with_ctx",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1198,
+      "line": 1200,
       "symbol": "proj_is_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1200,
+      "line": 1202,
       "symbol": "proj_get_name",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1202,
+      "line": 1204,
       "symbol": "proj_get_id_auth_name",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1204,
+      "line": 1206,
       "symbol": "proj_get_id_code",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1206,
+      "line": 1208,
       "symbol": "proj_get_remarks",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1208,
+      "line": 1210,
       "symbol": "proj_get_domain_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1210,
+      "line": 1212,
       "symbol": "proj_get_scope",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1212,
+      "line": 1214,
       "symbol": "proj_get_scope_ex",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1214,
+      "line": 1216,
       "symbol": "proj_get_area_of_use",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1221,
+      "line": 1223,
       "symbol": "proj_get_area_of_use_ex",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1228,
+      "line": 1230,
       "symbol": "proj_as_wkt",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1231,
+      "line": 1233,
       "symbol": "proj_as_proj_string",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1235,
+      "line": 1237,
       "symbol": "proj_as_projjson",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1238,
+      "line": 1240,
       "symbol": "proj_get_source_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1240,
+      "line": 1242,
       "symbol": "proj_get_target_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1242,
+      "line": 1244,
       "symbol": "proj_identify",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1247,
+      "line": 1249,
       "symbol": "proj_get_geoid_models_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1251,
+      "line": 1253,
       "symbol": "proj_int_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1255,
+      "line": 1257,
       "symbol": "proj_get_authorities_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1257,
+      "line": 1259,
       "symbol": "proj_get_codes_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1262,
+      "line": 1264,
       "symbol": "proj_get_celestial_body_list_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1265,
+      "line": 1267,
       "symbol": "proj_celestial_body_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1267,
+      "line": 1269,
       "symbol": "proj_get_crs_list_parameters_create",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1269,
+      "line": 1271,
       "symbol": "proj_get_crs_list_parameters_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1272,
+      "line": 1274,
       "symbol": "proj_get_crs_info_list_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1277,
+      "line": 1279,
       "symbol": "proj_crs_info_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1279,
+      "line": 1281,
       "symbol": "proj_get_units_from_database",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1285,
+      "line": 1287,
       "symbol": "proj_unit_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1289,
+      "line": 1291,
       "symbol": "PJ_INSERT_SESSION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1289,
+      "line": 1291,
       "symbol": "PJ_INSERT_SESSION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1292,
+      "line": 1294,
       "symbol": "proj_insert_object_session_create",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1294,
+      "line": 1296,
       "symbol": "proj_insert_object_session_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1297,
+      "line": 1299,
       "symbol": "proj_get_insert_statements",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1302,
+      "line": 1304,
       "symbol": "proj_suggests_code_for",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1306,
+      "line": 1308,
       "symbol": "proj_string_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1310,
+      "line": 1312,
       "symbol": "PJ_OPERATION_FACTORY_CONTEXT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1310,
+      "line": 1312,
       "symbol": "PJ_OPERATION_FACTORY_CONTEXT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1313,
+      "line": 1315,
       "symbol": "proj_create_operation_factory_context",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1316,
+      "line": 1318,
       "symbol": "proj_operation_factory_context_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1319,
+      "line": 1321,
       "symbol": "proj_operation_factory_context_set_desired_accuracy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1323,
+      "line": 1325,
       "symbol": "proj_operation_factory_context_set_area_of_interest",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1328,
+      "line": 1330,
       "symbol": "proj_operation_factory_context_set_area_of_interest_name",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1332,
+      "line": 1334,
       "symbol": "proj_operation_factory_context_set_crs_extent_use",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1336,
+      "line": 1338,
       "symbol": "proj_operation_factory_context_set_spatial_criterion",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1340,
+      "line": 1342,
       "symbol": "proj_operation_factory_context_set_grid_availability_use",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1344,
+      "line": 1346,
       "symbol": "proj_operation_factory_context_set_use_proj_alternative_grid_names",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1349,
+      "line": 1351,
       "symbol": "proj_operation_factory_context_set_allow_use_intermediate_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1353,
+      "line": 1355,
       "symbol": "proj_operation_factory_context_set_allowed_intermediate_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1357,
+      "line": 1359,
       "symbol": "proj_operation_factory_context_set_discard_superseded",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1360,
+      "line": 1362,
       "symbol": "proj_operation_factory_context_set_allow_ballpark_transformations",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1365,
+      "line": 1367,
       "symbol": "proj_create_operations",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1370,
+      "line": 1372,
       "symbol": "proj_list_get_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1372,
+      "line": 1374,
       "symbol": "proj_list_get",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1375,
+      "line": 1377,
       "symbol": "proj_list_destroy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1377,
+      "line": 1379,
       "symbol": "proj_get_suggested_operation",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1384,
+      "line": 1386,
       "symbol": "proj_crs_is_derived",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1386,
+      "line": 1388,
       "symbol": "proj_crs_get_geodetic_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1388,
+      "line": 1390,
       "symbol": "proj_crs_get_horizontal_datum",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1390,
+      "line": 1392,
       "symbol": "proj_crs_get_sub_crs",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1392,
+      "line": 1394,
       "symbol": "proj_crs_get_datum",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1394,
+      "line": 1396,
       "symbol": "proj_crs_get_datum_ensemble",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1396,
+      "line": 1398,
       "symbol": "proj_crs_get_datum_forced",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1398,
+      "line": 1400,
+      "symbol": "proj_crs_has_point_motion_operation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1403,
       "symbol": "proj_datum_ensemble_get_member_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1401,
+      "line": 1406,
       "symbol": "proj_datum_ensemble_get_accuracy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1404,
+      "line": 1409,
       "symbol": "proj_datum_ensemble_get_member",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1408,
+      "line": 1413,
       "symbol": "proj_dynamic_datum_get_frame_reference_epoch",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1411,
+      "line": 1416,
       "symbol": "proj_crs_get_coordinate_system",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1413,
+      "line": 1418,
       "symbol": "proj_cs_get_type",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1416,
+      "line": 1421,
       "symbol": "proj_cs_get_axis_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1418,
+      "line": 1423,
       "symbol": "proj_cs_get_axis_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1424,
+      "line": 1429,
       "symbol": "proj_get_ellipsoid",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1426,
+      "line": 1431,
       "symbol": "proj_ellipsoid_get_parameters",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1432,
+      "line": 1437,
       "symbol": "proj_get_celestial_body_name",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1435,
+      "line": 1440,
       "symbol": "proj_get_prime_meridian",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1437,
+      "line": 1442,
       "symbol": "proj_prime_meridian_get_parameters",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1443,
+      "line": 1448,
       "symbol": "proj_crs_get_coordoperation",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1445,
+      "line": 1450,
       "symbol": "proj_coordoperation_get_method_info",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1449,
+      "line": 1454,
       "symbol": "proj_coordoperation_is_instantiable",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1452,
+      "line": 1457,
       "symbol": "proj_coordoperation_has_ballpark_transformation",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1455,
+      "line": 1460,
       "symbol": "proj_coordoperation_get_param_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1458,
+      "line": 1463,
       "symbol": "proj_coordoperation_get_param_index",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1462,
+      "line": 1467,
       "symbol": "proj_coordoperation_get_param",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1469,
+      "line": 1474,
       "symbol": "proj_coordoperation_get_grid_used_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1472,
+      "line": 1477,
       "symbol": "proj_coordoperation_get_grid_used",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1478,
+      "line": 1483,
       "symbol": "proj_coordoperation_get_accuracy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1481,
+      "line": 1486,
       "symbol": "proj_coordoperation_get_towgs84_values",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1485,
+      "line": 1490,
       "symbol": "proj_coordoperation_create_inverse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1487,
+      "line": 1492,
       "symbol": "proj_concatoperation_get_step_count",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1490,
+      "line": 1495,
       "symbol": "proj_concatoperation_get_step",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
-      "line": 1494,
+      "line": 1499,
+      "symbol": "proj_coordinate_metadata_create",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1502,
       "symbol": "proj_coordinate_metadata_get_epoch",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1621,
+      "symbol": "proj_create_cartesian_2D_cs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1626,
+      "symbol": "proj_create_ellipsoidal_2D_cs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1631,
+      "symbol": "proj_create_ellipsoidal_3D_cs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1638,
+      "symbol": "proj_query_geodetic_crs_from_datum",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1642,
+      "symbol": "proj_create_geographic_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1648,
+      "symbol": "proj_create_geographic_crs_from_datum",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1653,
+      "symbol": "proj_create_geocentric_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1660,
+      "symbol": "proj_create_geocentric_crs_from_datum",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1664,
+      "symbol": "proj_create_derived_geographic_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1670,
+      "symbol": "proj_is_derived_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1672,
+      "symbol": "proj_alter_name",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1674,
+      "symbol": "proj_alter_id",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1677,
+      "symbol": "proj_crs_alter_geodetic_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1680,
+      "symbol": "proj_crs_alter_cs_angular_unit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1686,
+      "symbol": "proj_crs_alter_cs_linear_unit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1692,
+      "symbol": "proj_crs_alter_parameters_linear_unit",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1697,
+      "symbol": "proj_crs_promote_to_3D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1700,
+      "symbol": "proj_crs_create_projected_3D_crs_from_2D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1705,
+      "symbol": "proj_crs_demote_to_2D",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1708,
+      "symbol": "proj_create_engineering_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1710,
+      "symbol": "proj_create_vertical_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1715,
+      "symbol": "proj_create_vertical_crs_ex",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1723,
+      "symbol": "proj_create_compound_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1726,
+      "symbol": "proj_create_conversion",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1733,
+      "symbol": "proj_create_transformation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1740,
+      "symbol": "proj_convert_conversion_to_other_method",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1745,
+      "symbol": "proj_create_projected_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1750,
+      "symbol": "proj_crs_create_bound_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1754,
+      "symbol": "proj_crs_create_bound_crs_to_WGS84",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1757,
+      "symbol": "proj_crs_create_bound_vertical_crs",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1763,
+      "symbol": "proj_create_conversion_utm",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1765,
+      "symbol": "proj_create_conversion_transverse_mercator",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1771,
+      "symbol": "proj_create_conversion_gauss_schreiber_transverse_mercator",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1777,
+      "symbol": "proj_create_conversion_transverse_mercator_south_oriented",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1783,
+      "symbol": "proj_create_conversion_two_point_equidistant",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1790,
+      "symbol": "proj_create_conversion_tunisia_mapping_grid",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1796,
+      "symbol": "proj_create_conversion_tunisia_mining_grid",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1802,
+      "symbol": "proj_create_conversion_albers_equal_area",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1810,
+      "symbol": "proj_create_conversion_lambert_conic_conformal_1sp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1816,
+      "symbol": "proj_create_conversion_lambert_conic_conformal_1sp_variant_b",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1823,
+      "symbol": "proj_create_conversion_lambert_conic_conformal_2sp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1831,
+      "symbol": "proj_create_conversion_lambert_conic_conformal_2sp_michigan",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1839,
+      "symbol": "proj_create_conversion_lambert_conic_conformal_2sp_belgium",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1847,
+      "symbol": "proj_create_conversion_azimuthal_equidistant",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1853,
+      "symbol": "proj_create_conversion_guam_projection",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1859,
+      "symbol": "proj_create_conversion_bonne",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1865,
+      "symbol": "proj_create_conversion_lambert_cylindrical_equal_area_spherical",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1871,
+      "symbol": "proj_create_conversion_lambert_cylindrical_equal_area",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1877,
+      "symbol": "proj_create_conversion_cassini_soldner",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1883,
+      "symbol": "proj_create_conversion_equidistant_conic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1890,
+      "symbol": "proj_create_conversion_eckert_i",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1896,
+      "symbol": "proj_create_conversion_eckert_ii",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1902,
+      "symbol": "proj_create_conversion_eckert_iii",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1908,
+      "symbol": "proj_create_conversion_eckert_iv",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1914,
+      "symbol": "proj_create_conversion_eckert_v",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1920,
+      "symbol": "proj_create_conversion_eckert_vi",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1926,
+      "symbol": "proj_create_conversion_equidistant_cylindrical",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1932,
+      "symbol": "proj_create_conversion_equidistant_cylindrical_spherical",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1938,
+      "symbol": "proj_create_conversion_gall",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1946,
+      "symbol": "proj_create_conversion_goode_homolosine",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1952,
+      "symbol": "proj_create_conversion_interrupted_goode_homolosine",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1958,
+      "symbol": "proj_create_conversion_geostationary_satellite_sweep_x",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1964,
+      "symbol": "proj_create_conversion_geostationary_satellite_sweep_y",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1970,
+      "symbol": "proj_create_conversion_gnomonic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1976,
+      "symbol": "proj_create_conversion_hotine_oblique_mercator_variant_a",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1984,
+      "symbol": "proj_create_conversion_hotine_oblique_mercator_variant_b",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 1992,
+      "symbol": "proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2001,
+      "symbol": "proj_create_conversion_laborde_oblique_mercator",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2008,
+      "symbol": "proj_create_conversion_international_map_world_polyconic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2015,
+      "symbol": "proj_create_conversion_krovak_north_oriented",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2024,
+      "symbol": "proj_create_conversion_krovak",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2033,
+      "symbol": "proj_create_conversion_lambert_azimuthal_equal_area",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2039,
+      "symbol": "proj_create_conversion_miller_cylindrical",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2045,
+      "symbol": "proj_create_conversion_mercator_variant_a",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2051,
+      "symbol": "proj_create_conversion_mercator_variant_b",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2057,
+      "symbol": "proj_create_conversion_popular_visualisation_pseudo_mercator",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2063,
+      "symbol": "proj_create_conversion_mollweide",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2069,
+      "symbol": "proj_create_conversion_new_zealand_mapping_grid",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2075,
+      "symbol": "proj_create_conversion_oblique_stereographic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2081,
+      "symbol": "proj_create_conversion_orthographic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2087,
+      "symbol": "proj_create_conversion_american_polyconic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2093,
+      "symbol": "proj_create_conversion_polar_stereographic_variant_a",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2099,
+      "symbol": "proj_create_conversion_polar_stereographic_variant_b",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2105,
+      "symbol": "proj_create_conversion_robinson",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2111,
+      "symbol": "proj_create_conversion_sinusoidal",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2117,
+      "symbol": "proj_create_conversion_stereographic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2123,
+      "symbol": "proj_create_conversion_van_der_grinten",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2129,
+      "symbol": "proj_create_conversion_wagner_i",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2135,
+      "symbol": "proj_create_conversion_wagner_ii",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2141,
+      "symbol": "proj_create_conversion_wagner_iii",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2147,
+      "symbol": "proj_create_conversion_wagner_iv",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2153,
+      "symbol": "proj_create_conversion_wagner_v",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2159,
+      "symbol": "proj_create_conversion_wagner_vi",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2165,
+      "symbol": "proj_create_conversion_wagner_vii",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2171,
+      "symbol": "proj_create_conversion_quadrilateralized_spherical_cube",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2177,
+      "symbol": "proj_create_conversion_spherical_cross_track_height",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2183,
+      "symbol": "proj_create_conversion_equal_earth",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2189,
+      "symbol": "proj_create_conversion_vertical_perspective",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2196,
+      "symbol": "proj_create_conversion_pole_rotation_grib_convention",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/PROJ/src/proj.h",
+      "line": 2201,
+      "symbol": "proj_create_conversion_pole_rotation_netcdf_cf_convention",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
       "warning": "undocumented"
     },
@@ -8934,7 +9648,7 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/SFGeometryConstants.h",
-      "line": 81,
+      "line": 86,
       "symbol": "SFGeometryConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"

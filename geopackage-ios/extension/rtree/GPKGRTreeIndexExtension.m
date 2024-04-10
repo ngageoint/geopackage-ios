@@ -222,9 +222,6 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     if(data != nil){
         envelope = [data getOrBuildEnvelope];
     }
-    if(envelope == nil){
-        envelope = [SFGeometryEnvelope envelope];
-    }
     return envelope;
 }
 
@@ -315,8 +312,12 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
  */
 void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *minX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minX;
-    sqlite3_result_double(context, [minX doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double minX = 0;
+    if(envelope != nil && envelope.minX != nil){
+        minX = [envelope minXValue];
+    }
+    sqlite3_result_double(context, minX);
 }
 
 /**
@@ -324,9 +325,23 @@ void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    // TODO Support geodesic indexing by calling geodesicEnvelope with an instance reference to this GPGKRTreeIndexExtension?
-    NSDecimalNumber *minY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minY;
-    sqlite3_result_double(context, [minY doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double minY = 0;
+    if(envelope != nil){
+        if(data.srsId != nil){
+            int srsId = [data.srsId intValue];
+            if(srsId > 0){
+                GPKGRTreeIndexExtension *rtree = (__bridge GPKGRTreeIndexExtension *)(sqlite3_user_data(context));
+                if(rtree != nil){
+                    envelope = [rtree geodesicEnvelope:envelope withSrsId:srsId];
+                }
+            }
+        }
+        if(envelope.minY != nil){
+            minY = [envelope minYValue];
+        }
+    }
+    sqlite3_result_double(context, minY);
 }
 
 /**
@@ -334,8 +349,12 @@ void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *maxX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxX;
-    sqlite3_result_double(context, [maxX doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double maxX = 0;
+    if(envelope != nil && envelope.maxX != nil){
+        maxX = [envelope maxXValue];
+    }
+    sqlite3_result_double(context, maxX);
 }
 
 /**
@@ -343,9 +362,23 @@ void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void maxYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    // TODO Support geodesic indexing by calling geodesicEnvelope with an instance reference to this GPGKRTreeIndexExtension?
-    NSDecimalNumber *maxY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxY;
-    sqlite3_result_double(context, [maxY doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double maxY = 0;
+    if(envelope != nil){
+        if(data.srsId != nil){
+            int srsId = [data.srsId intValue];
+            if(srsId > 0){
+                GPKGRTreeIndexExtension *rtree = (__bridge GPKGRTreeIndexExtension *)(sqlite3_user_data(context));
+                if(rtree != nil){
+                    envelope = [rtree geodesicEnvelope:envelope withSrsId:srsId];
+                }
+            }
+        }
+        if(envelope.maxY != nil){
+            maxY = [envelope maxYValue];
+        }
+    }
+    sqlite3_result_double(context, maxY);
 }
 
 /**
@@ -728,7 +761,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
  * @param name function name
  */
 -(GPKGConnectionFunction *) buildFunction: (void *) function withName: (NSString *) name{
-    return [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:1];
+    return [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:1 andUserData:self];
 }
 
 /**

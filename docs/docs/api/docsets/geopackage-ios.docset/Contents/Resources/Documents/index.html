@@ -16,7 +16,7 @@
     <a title="geopackage-ios  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">geopackage-ios 8.0.4 Docs</a> (84% documented)</p>
+        <p><a href="index.html">geopackage-ios 8.0.5 Docs</a> (83% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -289,6 +289,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGColumnRange.html">GPKGColumnRange</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGColumnValue.html">GPKGColumnValue</a>
@@ -1375,6 +1378,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/SFPGeometryTransform.html">SFPGeometryTransform</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/SFPProjectionGeometryUtils.html">SFPProjectionGeometryUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/SFPoint.html">SFPoint</a>
@@ -4034,6 +4040,9 @@
                 <a href="Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@SF_EARTH_RADIUS">SF_EARTH_RADIUS</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -4291,6 +4300,9 @@
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@pj_release">pj_release</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:GPKGDgiwgValidate.h@tileMatrixSetBoundsTolerance">tileMatrixSetBoundsTolerance</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -4408,6 +4420,9 @@
                 <a href="Enums/GPKGTileScalingType.html">GPKGTileScalingType</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/PJ_CARTESIAN_CS_2D_TYPE.html">PJ_CARTESIAN_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/PJ_CATEGORY.html">PJ_CATEGORY</a>
               </li>
               <li class="nav-group-task">
@@ -4420,6 +4435,12 @@
                 <a href="Enums/PJ_DIRECTION.html">PJ_DIRECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/PJ_ELLIPSOIDAL_CS_2D_TYPE.html">PJ_ELLIPSOIDAL_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/PJ_ELLIPSOIDAL_CS_3D_TYPE.html">PJ_ELLIPSOIDAL_CS_3D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/PJ_GUESSED_WKT_DIALECT.html">PJ_GUESSED_WKT_DIALECT</a>
               </li>
               <li class="nav-group-task">
@@ -4430,6 +4451,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/PJ_TYPE.html">PJ_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/PJ_UNIT_TYPE.html">PJ_UNIT_TYPE</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/PJ_WKT_TYPE.html">PJ_WKT_TYPE</a>
@@ -4532,6 +4556,9 @@
                 <a href="Type%20Definitions.html#/c:proj.h@T@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="Type%20Definitions/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Type%20Definitions.html#/c:proj.h@T@PJ_CONTEXT">PJ_CONTEXT</a>
               </li>
               <li class="nav-group-task">
@@ -4584,6 +4611,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Type%20Definitions/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Type%20Definitions/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="Type%20Definitions.html#/c:proj.h@T@PJ_PRIME_MERIDIANS">PJ_PRIME_MERIDIANS</a>
@@ -4656,6 +4686,12 @@
           <li class="nav-group-name">
             <a href="Functions.html">Functions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_alter_id">proj_alter_id</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_alter_name">proj_alter_name</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_angular_input">proj_angular_input</a>
               </li>
@@ -4774,7 +4810,13 @@
                 <a href="Functions.html#/c:@F@proj_context_use_proj4_init_rules">proj_context_use_proj4_init_rules</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_convert_conversion_to_other_method">proj_convert_conversion_to_other_method</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_coord">proj_coord</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_coordinate_metadata_create">proj_coordinate_metadata_create</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_coordinate_metadata_get_epoch">proj_coordinate_metadata_get_epoch</a>
@@ -4819,10 +4861,244 @@
                 <a href="Functions.html#/c:@F@proj_create_argv">proj_create_argv</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_cartesian_2D_cs">proj_create_cartesian_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_compound_crs">proj_create_compound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion">proj_create_conversion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_albers_equal_area">proj_create_conversion_albers_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_american_polyconic">proj_create_conversion_american_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_azimuthal_equidistant">proj_create_conversion_azimuthal_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_bonne">proj_create_conversion_bonne</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_cassini_soldner">proj_create_conversion_cassini_soldner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_i">proj_create_conversion_eckert_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_ii">proj_create_conversion_eckert_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_iii">proj_create_conversion_eckert_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_iv">proj_create_conversion_eckert_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_v">proj_create_conversion_eckert_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_eckert_vi">proj_create_conversion_eckert_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_equal_earth">proj_create_conversion_equal_earth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_equidistant_conic">proj_create_conversion_equidistant_conic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical">proj_create_conversion_equidistant_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical_spherical">proj_create_conversion_equidistant_cylindrical_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_gall">proj_create_conversion_gall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_gauss_schreiber_transverse_mercator">proj_create_conversion_gauss_schreiber_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_x">proj_create_conversion_geostationary_satellite_sweep_x</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_y">proj_create_conversion_geostationary_satellite_sweep_y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_gnomonic">proj_create_conversion_gnomonic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_goode_homolosine">proj_create_conversion_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_guam_projection">proj_create_conversion_guam_projection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin">proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_a">proj_create_conversion_hotine_oblique_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_b">proj_create_conversion_hotine_oblique_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_international_map_world_polyconic">proj_create_conversion_international_map_world_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_interrupted_goode_homolosine">proj_create_conversion_interrupted_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_krovak">proj_create_conversion_krovak</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_krovak_north_oriented">proj_create_conversion_krovak_north_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_laborde_oblique_mercator">proj_create_conversion_laborde_oblique_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_azimuthal_equal_area">proj_create_conversion_lambert_azimuthal_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp">proj_create_conversion_lambert_conic_conformal_1sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp_variant_b">proj_create_conversion_lambert_conic_conformal_1sp_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp">proj_create_conversion_lambert_conic_conformal_2sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_belgium">proj_create_conversion_lambert_conic_conformal_2sp_belgium</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_michigan">proj_create_conversion_lambert_conic_conformal_2sp_michigan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area">proj_create_conversion_lambert_cylindrical_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area_spherical">proj_create_conversion_lambert_cylindrical_equal_area_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_mercator_variant_a">proj_create_conversion_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_mercator_variant_b">proj_create_conversion_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_miller_cylindrical">proj_create_conversion_miller_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_mollweide">proj_create_conversion_mollweide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_new_zealand_mapping_grid">proj_create_conversion_new_zealand_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_oblique_stereographic">proj_create_conversion_oblique_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_orthographic">proj_create_conversion_orthographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_a">proj_create_conversion_polar_stereographic_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_b">proj_create_conversion_polar_stereographic_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_pole_rotation_grib_convention">proj_create_conversion_pole_rotation_grib_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_pole_rotation_netcdf_cf_convention">proj_create_conversion_pole_rotation_netcdf_cf_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_popular_visualisation_pseudo_mercator">proj_create_conversion_popular_visualisation_pseudo_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_quadrilateralized_spherical_cube">proj_create_conversion_quadrilateralized_spherical_cube</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_robinson">proj_create_conversion_robinson</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_sinusoidal">proj_create_conversion_sinusoidal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_spherical_cross_track_height">proj_create_conversion_spherical_cross_track_height</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_stereographic">proj_create_conversion_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_transverse_mercator">proj_create_conversion_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_transverse_mercator_south_oriented">proj_create_conversion_transverse_mercator_south_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_tunisia_mapping_grid">proj_create_conversion_tunisia_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_tunisia_mining_grid">proj_create_conversion_tunisia_mining_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_two_point_equidistant">proj_create_conversion_two_point_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_utm">proj_create_conversion_utm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_van_der_grinten">proj_create_conversion_van_der_grinten</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_vertical_perspective">proj_create_conversion_vertical_perspective</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_i">proj_create_conversion_wagner_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_ii">proj_create_conversion_wagner_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_iii">proj_create_conversion_wagner_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_iv">proj_create_conversion_wagner_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_v">proj_create_conversion_wagner_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_vi">proj_create_conversion_wagner_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_conversion_wagner_vii">proj_create_conversion_wagner_vii</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_create_crs_to_crs">proj_create_crs_to_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_create_crs_to_crs_from_pj">proj_create_crs_to_crs_from_pj</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_cs">proj_create_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_derived_geographic_crs">proj_create_derived_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_ellipsoidal_2D_cs">proj_create_ellipsoidal_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_ellipsoidal_3D_cs">proj_create_ellipsoidal_3D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_engineering_crs">proj_create_engineering_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_create_from_database">proj_create_from_database</a>
@@ -4834,10 +5110,61 @@
                 <a href="Functions.html#/c:@F@proj_create_from_wkt">proj_create_from_wkt</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_geocentric_crs">proj_create_geocentric_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_geocentric_crs_from_datum">proj_create_geocentric_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_geographic_crs">proj_create_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_geographic_crs_from_datum">proj_create_geographic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_create_operation_factory_context">proj_create_operation_factory_context</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_create_operations">proj_create_operations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_projected_crs">proj_create_projected_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_transformation">proj_create_transformation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_vertical_crs">proj_create_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_create_vertical_crs_ex">proj_create_vertical_crs_ex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_alter_cs_angular_unit">proj_crs_alter_cs_angular_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_alter_cs_linear_unit">proj_crs_alter_cs_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_alter_geodetic_crs">proj_crs_alter_geodetic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_alter_parameters_linear_unit">proj_crs_alter_parameters_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_create_bound_crs">proj_crs_create_bound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_create_bound_crs_to_WGS84">proj_crs_create_bound_crs_to_WGS84</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_create_bound_vertical_crs">proj_crs_create_bound_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_create_projected_3D_crs_from_2D">proj_crs_create_projected_3D_crs_from_2D</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_demote_to_2D">proj_crs_demote_to_2D</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_crs_get_coordinate_system">proj_crs_get_coordinate_system</a>
@@ -4864,10 +5191,16 @@
                 <a href="Functions.html#/c:@F@proj_crs_get_sub_crs">proj_crs_get_sub_crs</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_has_point_motion_operation">proj_crs_has_point_motion_operation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_crs_info_list_destroy">proj_crs_info_list_destroy</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_crs_is_derived">proj_crs_is_derived</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_crs_promote_to_3D">proj_crs_promote_to_3D</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_cs_get_axis_count">proj_cs_get_axis_count</a>
@@ -5053,6 +5386,9 @@
                 <a href="Functions.html#/c:@F@proj_is_deprecated">proj_is_deprecated</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_is_derived_crs">proj_is_derived_crs</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_is_download_needed">proj_is_download_needed</a>
               </li>
               <li class="nav-group-task">
@@ -5143,6 +5479,9 @@
                 <a href="Functions.html#/c:@F@proj_prime_meridian_get_parameters">proj_prime_meridian_get_parameters</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@proj_query_geodetic_crs_from_datum">proj_query_geodetic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@proj_roundtrip">proj_roundtrip</a>
               </li>
               <li class="nav-group-task">
@@ -5208,6 +5547,9 @@
                 <a href="Structs.html#/c:@S@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/PJ_ELLPS.html">PJ_ELLPS</a>
               </li>
               <li class="nav-group-task">
@@ -5248,6 +5590,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Structs/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/PJ_PRIME_MERIDIANS.html">PJ_PRIME_MERIDIANS</a>
@@ -5349,17 +5694,17 @@ brew install libtool
 <p>Include this repository by specifying it in a Podfile using a supported option.</p>
 
 <p>Pull from <a href="https://cocoapods.org/pods/geopackage-ios">CocoaPods</a>:</p>
-<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 8.0.4'
+<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 8.0.5'
 </code></pre>
 
 <p>If you use <code>use_modular_headers!</code> in your Podfile, disable modular headers for the <a href="https://github.com/ngageoint/PROJ">PROJ</a> dependency:</p>
-<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 8.0.4'
+<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 8.0.5'
 pod 'PROJ', :modular_headers =&gt; false
 </code></pre>
 
 <p>Pull from GitHub via CocoaPods:</p>
 <pre class="highlight plaintext"><code>pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :branch =&gt; 'master'
-pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '8.0.4'
+pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '8.0.5'
 </code></pre>
 
 <p>Include as local project:</p>
@@ -5475,7 +5820,7 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="n">PROJProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WEB_MERCATOR</span><span class="p">];</span>
 
 <span class="c1">// Index Features</span>
-<span class="n">GPKGFeatureIndexManager</span> <span class="o">*</span><span class="n">indexer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureIndexManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andFeatureDao</span><span class="p">:</span><span class="n">featureDao</span><span class="p">];</span>
+<span class="n">GPKGFeatureIndexManager</span> <span class="o">*</span><span class="n">indexer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureIndexManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andFeatureDao</span><span class="p">:</span><span class="n">featureDao</span> <span class="n">andGeodesic</span><span class="o">:</span><span class="nb">NO</span><span class="p">];</span>
 <span class="p">[</span><span class="n">indexer</span> <span class="nf">setIndexLocation</span><span class="p">:</span><span class="n">GPKG_FIT_RTREE</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">indexedCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span> <span class="nf">index</span><span class="p">];</span>
 
@@ -5495,7 +5840,7 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="p">}</span>
 
 <span class="c1">// Feature Tile Overlay (dynamically draw tiles from features)</span>
-<span class="n">GPKGFeatureTiles</span> <span class="o">*</span><span class="n">featureTiles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTiles</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span><span class="n">featureDao</span><span class="p">];</span>
+<span class="n">GPKGFeatureTiles</span> <span class="o">*</span><span class="n">featureTiles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTiles</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span><span class="n">featureDao</span> <span class="nf">andGeodesic</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 <span class="p">[</span><span class="n">featureTiles</span> <span class="nf">setMaxFeaturesPerTile</span><span class="p">:[</span><span class="n">NSNumber</span> <span class="nf">numberWithInt</span><span class="p">:</span><span class="mi">1000</span><span class="p">]];</span>
 <span class="n">GPKGNumberFeaturesTile</span> <span class="o">*</span><span class="n">numberFeaturesTile</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGNumberFeaturesTile</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
 <span class="p">[</span><span class="n">featureTiles</span> <span class="nf">setMaxFeaturesTileDraw</span><span class="p">:</span><span class="n">numberFeaturesTile</span><span class="p">];</span>
@@ -5739,7 +6084,7 @@ pod install
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2023 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2023-11-27)</p>
+          <p>&copy; 2024 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2024-04-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
