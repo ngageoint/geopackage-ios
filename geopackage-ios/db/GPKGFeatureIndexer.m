@@ -23,12 +23,16 @@
 @implementation GPKGFeatureIndexer
 
 -(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao{
+    return [self initWithFeatureDao:featureDao andGeodesic:NO];
+}
+
+-(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
     self = [super init];
     if(self){
         self.featureDao = featureDao;
         self.featureRowSync = [[GPKGUserRowSync alloc] init];
         self.db = featureDao.metadataDb;
-        self.geometryMetadataDataSource = [self.db geometryMetadataDao];
+        self.geometryMetadataDataSource = [self.db geometryMetadataDaoWithGeodesic:geodesic andProjection:[featureDao projection]];
         self.chunkLimit = 1000;
     }
     return self;
@@ -40,6 +44,14 @@
 
 -(void) close{
     
+}
+
+-(BOOL) isGeodesic{
+    return self.geometryMetadataDataSource.geodesic;
+}
+
+-(void) setGeodesic: (BOOL) geodesic{
+    [self.geometryMetadataDataSource setGeodesic:geodesic];
 }
 
 -(int) index{

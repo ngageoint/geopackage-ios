@@ -43,6 +43,7 @@
 #import "GPKGTableCreator.h"
 #import "GPKGTableMapping.h"
 #import "GPKGBaseDao.h"
+#import "GPKGColumnRange.h"
 #import "GPKGColumnValue.h"
 #import "GPKGColumnValues.h"
 #import "GPKGSQLiteMaster.h"

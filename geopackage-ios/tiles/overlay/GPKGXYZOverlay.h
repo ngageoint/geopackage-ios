@@ -8,6 +8,7 @@
 
 #import "GPKGTileDao.h"
 #import "GPKGBoundedOverlay.h"
+#import "GPKGTileRetriever.h"
 
 /**
  * XYZ Overlay, assumes XYZ tiles
@@ -22,5 +23,12 @@
  *  @return new xyz overlay
  */
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao;
+
+/**
+ *  Get the tile retriever
+ *
+ *  @return retriever
+ */
+-(NSObject<GPKGTileRetriever> *) retriever;
 
 @end

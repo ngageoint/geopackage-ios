@@ -18,30 +18,42 @@
 @implementation GPKGFeatureTileGeneratorTest
 
 -(void) testTileGenerator{
-    [self testTileGeneratorWithIndex:NO andUseIcon:NO andMaxFeatures:NO];
+    [self testTileGeneratorWithIndex:NO andUseIcon:NO andMaxFeatures:NO andGeodesic:NO];
 }
 
 -(void) testTileGeneratorWithIndex{
-    [self testTileGeneratorWithIndex:YES andUseIcon:NO andMaxFeatures:NO];
+    [self testTileGeneratorWithIndex:YES andUseIcon:NO andMaxFeatures:NO andGeodesic:NO];
 }
 
 -(void) testTileGeneratorWithIcon{
-    [self testTileGeneratorWithIndex:NO andUseIcon:YES andMaxFeatures:NO];
+    [self testTileGeneratorWithIndex:NO andUseIcon:YES andMaxFeatures:NO andGeodesic:NO];
 }
 
 -(void) testTileGeneratorWithMaxFeatures{
-    [self testTileGeneratorWithIndex:NO andUseIcon:NO andMaxFeatures:YES];
+    [self testTileGeneratorWithIndex:NO andUseIcon:NO andMaxFeatures:YES andGeodesic:NO];
+}
+
+-(void) testTileGeneratorWithGeodesic{
+    [self testTileGeneratorWithIndex:NO andUseIcon:NO andMaxFeatures:NO andGeodesic:YES];
 }
 
 -(void) testTileGeneratorWithIndexAndIcon{
-    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:NO];
+    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:NO andGeodesic:NO];
+}
+
+-(void) testTileGeneratorWithIndexAndIconAndGeodesic{
+    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:NO andGeodesic:YES];
 }
 
 -(void) testTileGeneratorWithIndexAndIconAndMaxFeatures{
-    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:YES];
+    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:YES andGeodesic:NO];
 }
 
--(void) testTileGeneratorWithIndex: (BOOL) index andUseIcon: (BOOL) useIcon andMaxFeatures: (BOOL) maxFeatures{
+-(void) testTileGeneratorWithIndexAndIconAndMaxFeaturesAndGeodesic{
+    [self testTileGeneratorWithIndex:YES andUseIcon:YES andMaxFeatures:YES andGeodesic:YES];
+}
+
+-(void) testTileGeneratorWithIndex: (BOOL) index andUseIcon: (BOOL) useIcon andMaxFeatures: (BOOL) maxFeatures andGeodesic: (BOOL) geodesic{
  
     int minZoom = 0;
     int maxZoom = 4;
@@ -50,12 +62,12 @@
     
     int num = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
+    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon andGeodesic:geodesic];
     
     @try{
     
         if(index){
-            GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
+            GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:self.geoPackage andFeatureDao:featureDao andGeodesic:geodesic];
             [featureTiles setIndexManager:indexManager];
             [indexManager setIndexLocation:GPKG_FIT_GEOPACKAGE];
             int indexed = [indexManager index];

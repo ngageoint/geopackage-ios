@@ -37,6 +37,11 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 @property (nonatomic, strong) NSString *definition;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
@@ -44,6 +49,16 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *  @return new instance
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param geodesic index using geodesic bounds
+ *
+ *  @return new instance
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic;
 
 /**
  *  Get a RTree Index Table DAO for the feature table
@@ -268,7 +283,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *
  * <pre>
  * Conditions: Insertion of non-empty geometry
- * Actions   : Insert record into rtree
+ * Actions   : Insert record into R-tree
  * </pre>
  *
  * @param tableName
@@ -286,7 +301,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  * <pre>
  * Conditions: Update of geometry column to non-empty geometry
  *             No row ID change
- * Actions   : Update record in rtree
+ * Actions   : Update record in R-tree
  * </pre>
  *
  * @param tableName
@@ -295,8 +310,9 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            geometry column name
  * @param idColumnName
  *            id column name
+ * @deprecated replaced by update6 and update7
  */
--(void) createUpdate1TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
+-(void) createUpdate1TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName __attribute__((deprecated));
 
 /**
  * Create update 2 trigger
@@ -304,7 +320,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  * <pre>
  * Conditions: Update of geometry column to empty geometry
  *             No row ID change
- * Actions   : Remove record from rtree
+ * Actions   : Remove record from R-tree
  * </pre>
  *
  * @param tableName
@@ -323,8 +339,8 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  * Conditions: Update of any column
  *             Row ID change
  *             Non-empty geometry
- * Actions   : Remove record from rtree for old &lt;i&gt;
- *             Insert record into rtree for new &lt;i&gt;
+ * Actions   : Remove record from R-tree for old &lt;i&gt;
+ *             Insert record into R-tree for new &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -333,8 +349,9 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            geometry column name
  * @param idColumnName
  *            id column name
+ * @deprecated replaced by update5
  */
--(void) createUpdate3TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
+-(void) createUpdate3TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName __attribute__((deprecated));
 
 /**
  * Create update 4 trigger
@@ -343,7 +360,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  * Conditions: Update of any column
  *             Row ID change
  *             Empty geometry
- * Actions   : Remove record from rtree for old and new &lt;i&gt;
+ * Actions   : Remove record from R-tree for old and new &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -356,11 +373,65 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 -(void) createUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
 
 /**
+ * Create update 5 trigger
+ *
+ * <pre>
+ * Conditions: Update of any column
+ *             Row ID change
+ *             Non-empty geometry
+ * Actions   : Remove record from R-tree for old &lt;i&gt;
+ *             Insert record into R-tree for new &lt;i&gt;
+ * </pre>
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ * @param idColumnName
+ *            id column name
+ */
+-(void) createUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
+
+/**
+ * Create update 6 trigger
+ *
+ * <pre>
+ * Conditions: Update a non-empty geometry with another non-empty geometry
+ * Actions   : Replace record from R-tree for &lt;i&gt;
+ * </pre>
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ * @param idColumnName
+ *            id column name
+ */
+-(void) createUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
+
+/**
+ * Create update 7 trigger
+ *
+ * <pre>
+ * Conditions: Update a null/empty geometry with a non-empty geometry
+ * Actions   : Insert record into R-tree for new &lt;i&gt;
+ * </pre>
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ * @param idColumnName
+ *            id column name
+ */
+-(void) createUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName;
+
+/**
  * Create delete trigger
  *
  * <pre>
  * Conditions: Row deleted
- * Actions   : Remove record from rtree for old &lt;i&gt;
+ * Actions   : Remove record from R-tree for old &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -531,6 +602,36 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            geometry column name
  */
 -(void) dropUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName;
+
+/**
+ * Drop update 5 trigger
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ */
+-(void) dropUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName;
+
+/**
+ * Drop update 6 trigger
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ */
+-(void) dropUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName;
+
+/**
+ * Drop update 7 trigger
+ *
+ * @param tableName
+ *            table name
+ * @param geometryColumnName
+ *            geometry column name
+ */
+-(void) dropUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName;
 
 /**
  * Drop delete trigger

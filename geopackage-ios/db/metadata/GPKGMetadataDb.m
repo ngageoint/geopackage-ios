@@ -55,6 +55,10 @@
     return [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.connection];
 }
 
+-(GPKGGeometryMetadataDao *) geometryMetadataDaoWithGeodesic: (BOOL) geodesic andProjection: (PROJProjection *) projection{
+    return [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.connection andGeodesic:geodesic andProjection:projection];
+}
+
 +(BOOL) deleteMetadataFile{
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;

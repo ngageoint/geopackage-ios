@@ -9,6 +9,7 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGProperties.h"
 #import "GPKGIOUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_RTREE_INDEX_PREFIX = @"rtree_";
@@ -34,10 +35,13 @@ NSString * const GPKG_PROP_RTREE_INDEX_DROP = @"drop";
 NSString * const GPKG_PROP_RTREE_INDEX_DROP_FORCE = @"drop_force";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_BASE = @"trigger";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME = @"insert";
-NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1"; // replaced by update6 and update7
 NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE2_NAME = @"update2";
-NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3"; // replaced by update5
 NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME = @"update4";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME = @"update5";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME = @"update6";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME = @"update7";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_DELETE_NAME = @"delete";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP = @"trigger.drop";
 
@@ -54,15 +58,22 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 @property (nonatomic, strong) NSString *geometryColumnSubstitute;
 @property (nonatomic, strong) NSString *pkColumnSubstitute;
 @property (nonatomic, strong) NSString *triggerSubstitute;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, PROJProjection *> *projections;
 
 @end
 
 @implementation GPKGRTreeIndexExtension
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self initWithGeoPackage:geoPackage andGeodesic:NO];
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.connection = geoPackage.database;
+        self.geodesic = geodesic;
+        self.projections = [NSMutableDictionary dictionary];
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_RTREE_INDEX_EXTENSION_NAME];
         self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
         
@@ -211,9 +222,6 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     if(data != nil){
         envelope = [data getOrBuildEnvelope];
     }
-    if(envelope == nil){
-        envelope = [SFGeometryEnvelope envelope];
-    }
     return envelope;
 }
 
@@ -256,12 +264,60 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 /**
+ * Expand the vertical bounds of a geometry envelope by geodesic bounds
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param srsId
+ *            spatial reference system id
+ * @return geometry envelope
+ */
+-(SFGeometryEnvelope *) geodesicEnvelope: (SFGeometryEnvelope *) envelope withSrsId: (int) srsId{
+    
+    SFGeometryEnvelope *result = envelope;
+    if(_geodesic){
+        PROJProjection *projection = [self projectionWithSrsId:srsId];
+        result = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:projection];
+    }
+    
+    return result;
+}
+
+/**
+ * Get the projection of the spatial reference system id
+ *
+ * @param srsId
+ *            spatial reference system id
+ * @return projection
+ */
+-(PROJProjection *) projectionWithSrsId: (int) srsId{
+    NSNumber *srsIdNumber = [NSNumber numberWithInt:srsId];
+    PROJProjection *projection = [_projections objectForKey:srsIdNumber];
+    if(projection == nil){
+        @try {
+            GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[[self.geoPackage spatialReferenceSystemDao] queryForIdObject:srsIdNumber];
+            if(srs != nil){
+                projection = [srs projection];
+                [_projections setObject:projection forKey:srsIdNumber];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Failed to retrieve projection through querying srs id: %d, error: %@", srsId, exception);
+        }
+    }
+    return projection;
+}
+
+/**
  *  Min X SQL function
  */
 void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *minX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minX;
-    sqlite3_result_double(context, [minX doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double minX = 0;
+    if(envelope != nil && envelope.minX != nil){
+        minX = [envelope minXValue];
+    }
+    sqlite3_result_double(context, minX);
 }
 
 /**
@@ -269,8 +325,23 @@ void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *minY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minY;
-    sqlite3_result_double(context, [minY doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double minY = 0;
+    if(envelope != nil){
+        if(data.srsId != nil){
+            int srsId = [data.srsId intValue];
+            if(srsId > 0){
+                GPKGRTreeIndexExtension *rtree = (__bridge GPKGRTreeIndexExtension *)(sqlite3_user_data(context));
+                if(rtree != nil){
+                    envelope = [rtree geodesicEnvelope:envelope withSrsId:srsId];
+                }
+            }
+        }
+        if(envelope.minY != nil){
+            minY = [envelope minYValue];
+        }
+    }
+    sqlite3_result_double(context, minY);
 }
 
 /**
@@ -278,8 +349,12 @@ void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *maxX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxX;
-    sqlite3_result_double(context, [maxX doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double maxX = 0;
+    if(envelope != nil && envelope.maxX != nil){
+        maxX = [envelope maxXValue];
+    }
+    sqlite3_result_double(context, maxX);
 }
 
 /**
@@ -287,8 +362,23 @@ void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
  */
 void maxYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
     GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
-    NSDecimalNumber *maxY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxY;
-    sqlite3_result_double(context, [maxY doubleValue]);
+    SFGeometryEnvelope *envelope = [GPKGRTreeIndexExtension envelopeOfGeometryData:data];
+    double maxY = 0;
+    if(envelope != nil){
+        if(data.srsId != nil){
+            int srsId = [data.srsId intValue];
+            if(srsId > 0){
+                GPKGRTreeIndexExtension *rtree = (__bridge GPKGRTreeIndexExtension *)(sqlite3_user_data(context));
+                if(rtree != nil){
+                    envelope = [rtree geodesicEnvelope:envelope withSrsId:srsId];
+                }
+            }
+        }
+        if(envelope.maxY != nil){
+            maxY = [envelope maxYValue];
+        }
+    }
+    sqlite3_result_double(context, maxY);
 }
 
 /**
@@ -355,10 +445,13 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) createAllTriggersWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
     [self createInsertTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
-    [self createUpdate1TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    // [self createUpdate1TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createUpdate2TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
-    [self createUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    // [self createUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createUpdate4TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate5TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate6TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self createUpdate7TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     [self createDeleteTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
     
 }
@@ -390,6 +483,24 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) createUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
     NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+}
+
+-(void) createUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME];
     [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
@@ -501,6 +612,9 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
     [self dropUpdate2TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropUpdate3TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropUpdate4TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate5TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate6TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self dropUpdate7TriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     [self dropDeleteTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName];
     
 }
@@ -523,6 +637,18 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 
 -(void) dropUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
     [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+}
+
+-(void) dropUpdate5TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE5_NAME];
+}
+
+-(void) dropUpdate6TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE6_NAME];
+}
+
+-(void) dropUpdate7TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE7_NAME];
 }
 
 -(void) dropDeleteTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
@@ -635,7 +761,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
  * @param name function name
  */
 -(GPKGConnectionFunction *) buildFunction: (void *) function withName: (NSString *) name{
-    return [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:1];
+    return [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:1 andUserData:self];
 }
 
 /**

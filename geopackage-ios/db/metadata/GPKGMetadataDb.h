@@ -54,6 +54,16 @@
 -(GPKGGeometryMetadataDao *) geometryMetadataDao;
 
 /**
+ *  Get a Geometry Metadata DAO
+ *
+ *  @param geodesic index geodesic geometries flag
+ *  @param projection feature projection
+ *
+ *  @return Geometry Metadata DAO
+ */
+-(GPKGGeometryMetadataDao *) geometryMetadataDaoWithGeodesic: (BOOL) geodesic andProjection: (PROJProjection *) projection;
+
+/**
  *  Delete the metadata database file
  *
  *  @return true if deleted

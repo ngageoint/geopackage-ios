@@ -13,12 +13,20 @@
 @implementation GPKGFeatureIndexerTest
 
 - (void)testIndexer {
+    [self testIndexerWithGeodesic:NO];
+}
+
+- (void)testIndexerGeodesic {
+    [self testIndexerWithGeodesic:YES];
+}
+
+- (void)testIndexerWithGeodesic: (BOOL) geodesic{
     
     GPKGFeatureDao *featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
     
     int initialFeatures = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
+    GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao andGeodesic:geodesic];
     
     GPKGMetadataDb *db= [[GPKGMetadataDb alloc] init];
     @try {

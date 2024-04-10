@@ -18,7 +18,7 @@
 
 +(void)testCreateFeatureTableWithMetadataIdColumnAdditionalColumns: (GPKGGeoPackage *) geoPackage;
 
-+(NSArray *) featureColumns;
++(NSArray<GPKGFeatureColumn *> *) featureColumns;
 
 +(void)testDeleteTables: (GPKGGeoPackage *) geoPackage;
 
@@ -27,5 +27,7 @@
 +(void)testVacuum: (GPKGGeoPackage *) geoPackage;
 
 +(void) testTableTypes: (GPKGGeoPackage *) geoPackage;
+
++(void) testUserDao: (GPKGGeoPackage *) geoPackage;
 
 @end

@@ -41,7 +41,7 @@
         self.featuresInfo = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
         
         GPKGFeatureDao *featureDao = [self.featureTiles featureDao];
-        self.featureInfoBuilder = [[GPKGFeatureInfoBuilder alloc] initWithFeatureDao:featureDao andStyles:featureTiles.featureTableStyles];
+        self.featureInfoBuilder = [[GPKGFeatureInfoBuilder alloc] initWithFeatureDao:featureDao andStyles:featureTiles.featureTableStyles andGeodesic:featureTiles.geodesic];
     }
     return self;
 }

@@ -73,9 +73,9 @@
     return count;
 }
 
-+(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andUseIcon: (BOOL) useIcon{
++(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andUseIcon: (BOOL) useIcon andGeodesic: (BOOL) geodesic{
     
-    GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+    GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao andGeodesic:geodesic];
     
     if(useIcon){
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(5.f, 5.f), NO, 0.0f);

@@ -25,6 +25,11 @@
 @property (nonatomic) double tolerance;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
  *  Initialize
  *
  *  @param featureDao feature DAO
@@ -32,6 +37,16 @@
  *  @return new manual feature query
  */
 -(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao;
+
+/**
+ *  Initialize
+ *
+ *  @param featureDao feature DAO
+ *  @param geodesic index using geodesic bounds
+ *
+ *  @return new manual feature query
+ */
+-(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
 
 /**
  * Get the feature DAO

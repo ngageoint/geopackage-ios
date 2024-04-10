@@ -359,6 +359,8 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         
         [relatedTable setContents:contents];
         
+        [self.geoPackage saveSchema:relatedTable];
+        
         created = YES;
     }
     

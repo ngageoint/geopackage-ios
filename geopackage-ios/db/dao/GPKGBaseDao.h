@@ -7,6 +7,7 @@
 //
 
 #import "GPKGConnection.h"
+#import "GPKGColumnRange.h"
 #import "GPKGColumnValue.h"
 #import "GPKGColumnValues.h"
 #import "GPKGObjectResultSet.h"
@@ -7955,6 +7956,15 @@
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value andOperation: (NSString *) operation;
 
 /**
+ * Build where null clause with field
+ *
+ * @param field
+ *            field
+ * @return where clause
+ */
+-(NSString *) buildWhereNullWithField: (NSString *) field;
+
+/**
  *  Build where clause with field and column value
  *
  *  @param field field
@@ -8040,6 +8050,252 @@
  * @return where args
  */
 -(NSArray<NSString *> *) buildWhereInArgsWithNestedArgs: (NSArray<NSString *> *) nestedArgs andWhereArgs: (NSArray<NSString *> *) whereArgs;
+
+/**
+ * Build where statement for a range on a column
+ *
+ * @param field
+ *            field
+ * @param range
+ *            column range
+ * @return where clause
+ */
+-(NSString *) buildWhereWithField: (NSString *) field andRange: (GPKGColumnRange *) range;
+
+/**
+ * Build where statement for a range on a minimum and maximum column
+ *
+ * @param minField
+ *            minimum field
+ * @param maxField
+ *            maximum field
+ * @param range
+ *            column range
+ * @return where clause
+ */
+-(NSString *) buildWhereWithMinField: (NSString *) minField andMaxField: (NSString *) maxField andRange: (GPKGColumnRange *) range;
+
+/**
+ * Build where (or selection) args for the range
+ *
+ * @param range
+ *            column range
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithRange: (GPKGColumnRange *) range;
+
+/**
+ * Build where statement for ranges on columns
+ *
+ * @param field1
+ *            first field
+ * @param range1
+ *            first range
+ * @param field2
+ *            second field
+ * @param range2
+ *            second range
+ * @return where clause
+ */
+-(NSString *) buildWhereWithField1: (NSString *) field1 andRange1: (GPKGColumnRange *) range1 andField2: (NSString *) field2 andRange2: (GPKGColumnRange *) range2;
+
+/**
+ * Build where statement for ranges on minimum and maximum columns
+ *
+ * @param minField1
+ *            first minimum field
+ * @param maxField1
+ *            first maximum field
+ * @param range1
+ *            first column range
+ * @param minField2
+ *            second minimum field
+ * @param maxField2
+ *            second maximum field
+ * @param range2
+ *            second column range
+ * @return where clause
+ */
+-(NSString *) buildWhereWithMinField1: (NSString *) minField1 andMaxField1: (NSString *) maxField1 andRange1: (GPKGColumnRange *) range1 andMinField2: (NSString *) minField2 andMaxField2: (NSString *) maxField2 andRange2: (GPKGColumnRange *) range2;
+
+/**
+ * Build where (or selection) args for the ranges
+ *
+ * @param range1
+ *            first column range
+ * @param range2
+ *            second column range
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithRange1: (GPKGColumnRange *) range1 andRange2: (GPKGColumnRange *) range2;
+
+/**
+ * Build where statement for a geometry envelope on a x and y field
+ *
+ * @param xField
+ *            x field
+ * @param yField
+ *            y field
+ * @param envelope
+ *            geometry envelope
+ * @return where clause
+ */
+-(NSString *) buildWhereWithXField: (NSString *) xField andYField: (NSString *) yField andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Build where statement for a geometry envelope on x and y range fields
+ *
+ * @param minXField
+ *            min x field
+ * @param minYField
+ *            min y field
+ * @param maxXField
+ *            max x field
+ * @param maxYField
+ *            max y field
+ * @param envelope
+ *            geometry envelope
+ * @return where clause
+ */
+-(NSString *) buildWhereWithMinXField: (NSString *) minXField andMinYField: (NSString *) minYField andMaxXField: (NSString *) maxXField andMaxYField: (NSString *) maxYField andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Build where (or selection) args for the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Build where (or selection) args for the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param tolerance
+ *            tolerance
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance;
+
+/**
+ * Build where (or selection) args for the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param xTolerance
+ *            x tolerance
+ * @param yTolerance
+ *            y tolerance
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithEnvelope: (SFGeometryEnvelope *) envelope andXTolerance: (NSNumber *) xTolerance andYTolerance: (NSNumber *) yTolerance;
+
+/**
+ * Get the x column range of the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @return column range
+ */
+-(GPKGColumnRange *) xRangeWithEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Get the x column range of the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param tolerance
+ *            tolerance
+ * @return column range
+ */
+-(GPKGColumnRange *) xRangeWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance;
+
+/**
+ * Get the y column range of the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @return column range
+ */
+-(GPKGColumnRange *) yRangeWithEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Get the y column range of the geometry envelope
+ *
+ * @param envelope
+ *            geometry envelope
+ * @param tolerance
+ *            tolerance
+ * @return column range
+ */
+-(GPKGColumnRange *) yRangeWithEnvelope: (SFGeometryEnvelope *) envelope andTolerance: (NSNumber *) tolerance;
+
+/**
+ * Build where statement for a bounding box on a longitude and latitude
+ * field
+ *
+ * @param lonField
+ *            longitude field
+ * @param latField
+ *            latitude field
+ * @param boundingBox
+ *            bounding box
+ * @return where clause
+ */
+-(NSString *) buildWhereWithLonField: (NSString *) lonField andLatField: (NSString *) latField andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Build where statement for a bounding box on longitude and latitude range
+ * fields
+ *
+ * @param minLonField
+ *            min longitude field
+ * @param minLatField
+ *            min latitude field
+ * @param maxLonField
+ *            max longitude field
+ * @param maxLatField
+ *            max latitude field
+ * @param boundingBox
+ *            bounding box
+ * @return where clause
+ */
+-(NSString *) buildWhereWithMinLonField: (NSString *) minLonField andMinLatField: (NSString *) minLatField andMaxLonField: (NSString *) maxLonField andMaxLatField: (NSString *) maxLatField andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Build where (or selection) args for the bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Build where (or selection) args for the bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param tolerance
+ *            tolerance
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (NSNumber *) tolerance;
+
+/**
+ * Build where (or selection) args for the bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param lonTolerance
+ *            longitude tolerance
+ * @param latTolerance
+ *            latitude tolerance
+ * @return where args
+ */
+-(NSArray *) buildWhereArgsWithBoundingBox: (GPKGBoundingBox *) boundingBox andLonTolerance: (NSNumber *) lonTolerance andLatTolerance: (NSNumber *) latTolerance;
 
 /**
  *  Get the total result count

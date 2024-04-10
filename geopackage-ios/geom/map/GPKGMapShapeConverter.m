@@ -12,6 +12,7 @@
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"
 #import "SFGeometryUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 @interface GPKGMapShapeConverter ()
 
@@ -68,6 +69,10 @@
 
 -(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance{
     self.simplifyTolerance = [[NSDecimalNumber alloc] initWithDouble:simplifyTolerance];
+}
+
+-(void) setGeodesicMaxDistanceAsDouble: (double) geodesicMaxDistance{
+    self.geodesicMaxDistance = [[NSDecimalNumber alloc] initWithDouble:geodesicMaxDistance];
 }
 
 -(SFPoint *) toWgs84WithPoint: (SFPoint *) point{
@@ -146,6 +151,10 @@
     
     // Try to simplify the number of points in the line string
     NSArray *points = [self simplifyPoints:lineString.points];
+    
+    // Create a geodesic path of points if needed
+    points = [self geodesicPath:points];
+    
     int numPoints = (int) points.count;
     
     MKMapPoint *mapPoints = malloc(sizeof(MKMapPoint)*numPoints);
@@ -227,6 +236,10 @@
         
         // Try to simplify the number of points in the polygon
         NSArray *points = [self simplifyPoints:polygonLineString.points];
+        
+        // Create a geodesic path of points if needed
+        points = [self geodesicPath:points];
+        
         int numPoints = (int) points.count;
         
         MKMapPoint *polygonPoints = malloc(sizeof(MKMapPoint)*numPoints);
@@ -246,6 +259,10 @@
             
             // Try to simplify the number of points in the hole
             NSArray *holePoints = [self simplifyPoints:hole.points];
+            
+            // Create a geodesic path of points if needed
+            holePoints = [self geodesicPath:holePoints];
+            
             int numHolePoints = (int) holePoints.count;
             
             MKMapPoint *polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
@@ -287,6 +304,7 @@
             for(SFLineString *lineString in compoundCurve.lineStrings){
                 SFLineString *compoundCurveLineString = [self shortestDirectionWithLineString:lineString];
                 NSArray *compoundCurvePoints = [self simplifyPoints:compoundCurveLineString.points];
+                compoundCurvePoints = [self geodesicPath:compoundCurvePoints];
                 for(SFPoint *point in compoundCurvePoints){
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                     polygonPoints[index++] = mapPoint;
@@ -296,6 +314,7 @@
             SFLineString *lineString = (SFLineString *)curve;
             lineString = [self shortestDirectionWithLineString:lineString];
             NSArray *points = [self simplifyPoints:lineString.points];
+            points = [self geodesicPath:points];
             numPoints = (int) points.count;
             polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             for(int i = 0; i < numPoints; i++){
@@ -323,6 +342,7 @@
                 for(SFLineString *holeLineString in holeCompoundCurve.lineStrings){
                     SFLineString *compoundCurveHoleLineString = [self shortestDirectionWithLineString:holeLineString];
                     NSArray *compoundCurveHolePoints = [self simplifyPoints:compoundCurveHoleLineString.points];
+                    compoundCurveHolePoints = [self geodesicPath:compoundCurveHolePoints];
                     for(SFPoint *point in compoundCurveHolePoints){
                         MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                         holePoints[index++] = mapPoint;
@@ -334,6 +354,7 @@
                 SFLineString *holeLineString = (SFLineString *)hole;
                 holeLineString = [self shortestDirectionWithLineString:holeLineString];
                 NSArray *holePoints = [self simplifyPoints:holeLineString.points];
+                holePoints = [self geodesicPath:holePoints];
                 int numHolePoints = (int) holePoints.count;
                 MKMapPoint *polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 for(int j = 0; j < numHolePoints; j++){
@@ -469,6 +490,25 @@
     }
     
     return simplifiedPoints;
+}
+
+/**
+ *  When the geodesic max distance is set, create a geodesic path of points.
+ *
+ *  @param points ordered points
+ *
+ *  @return geodesic path points
+ */
+-(NSArray *) geodesicPath: (NSArray *) points{
+    
+    NSArray *geodesicPath;
+    if(self.geodesicMaxDistance != nil){
+        geodesicPath = [SFPProjectionGeometryUtils geodesicPathOfPoints:points withMaxDistance:[self.geodesicMaxDistance doubleValue] inProjection:self.projection];
+    }else{
+        geodesicPath = points;
+    }
+    
+    return geodesicPath;
 }
 
 -(SFLineString *) buildPolygonRingWithPoints: (NSMutableArray<SFPoint *> *) points andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{

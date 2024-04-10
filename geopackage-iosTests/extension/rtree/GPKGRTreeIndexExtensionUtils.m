@@ -14,9 +14,9 @@
 
 @implementation GPKGRTreeIndexExtensionUtils
 
-+(void) testRTreeWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) testRTreeWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic{
     
-    GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
+    GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage andGeodesic:geodesic];
     
     NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){

@@ -26,7 +26,7 @@
 }
 
 /**
- * Test flurstueck
+ * Test lakes
  *
  * @throws SQLException upon failure
  */
@@ -59,7 +59,7 @@
 }
 
 /**
- * Test mage
+ * Test MAGE
  *
  * @throws SQLException upon failure
  */

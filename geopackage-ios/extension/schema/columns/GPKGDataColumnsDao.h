@@ -78,4 +78,98 @@
  */
 -(int) deleteByTableName: (NSString *) tableName;
 
+/**
+ * Delete by table name
+ *
+ * @param tableName
+ *            table name
+ * @param columnName
+ *            column name
+ * @return rows deleted
+ */
+-(int) deleteByTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
+
+/**
+ * Save the table schema
+ *
+ * @param table
+ *            user table
+ */
+-(void) saveSchemaWithTable: (GPKGUserTable *) table;
+
+/**
+ * Save the columns schema
+ *
+ * @param columns
+ *            user columns
+ */
+-(void) saveSchemaWithColumns: (GPKGUserColumns *) columns;
+
+/**
+ * Save the columns schema
+ *
+ * @param table
+ *            table name
+ * @param columns
+ *            user columns
+ */
+-(void) saveSchemaWithTable: (NSString *) table andColumns: (NSArray<GPKGUserColumn *> *) columns;
+
+/**
+ * Save the column schema
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            user column
+ */
+-(void) saveSchemaWithTable: (NSString *) table andColumn: (GPKGUserColumn *) column;
+
+/**
+ * Load the table schema
+ *
+ * @param table
+ *            user table
+ */
+-(void) loadSchemaWithTable: (GPKGUserTable *) table;
+
+/**
+ * Load the columns schema
+ *
+ * @param columns
+ *            user columns
+ */
+-(void) loadSchemaWithColumns: (GPKGUserColumns *) columns;
+
+/**
+ * Load the columns schema
+ *
+ * @param table
+ *            table name
+ * @param columns
+ *            user columns
+ */
+-(void) loadSchemaWithTable: (NSString *) table andColumns: (NSArray<GPKGUserColumn *> *) columns;
+
+/**
+ * Load the column schema
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            user column
+ */
+-(void) loadSchemaWithTable: (NSString *) table andColumn: (GPKGUserColumn *) column;
+
+/**
+ * Get the column schema
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @return column schema or null
+ */
+-(GPKGDataColumns *) schemaByTable: table andColumn: column;
+
 @end

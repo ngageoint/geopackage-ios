@@ -28,14 +28,6 @@
     return self;
 }
 
--(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
--(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
-    return value;
-}
-
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGAttributesRow *attributesRow = [super mutableCopyWithZone:zone];
     attributesRow.attributesTable = _attributesTable;

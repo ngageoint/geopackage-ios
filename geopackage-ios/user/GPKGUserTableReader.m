@@ -9,6 +9,7 @@
 #import "GPKGUserTableReader.h"
 #import "GPKGSQLiteMaster.h"
 #import "GPKGTableInfo.h"
+#import "GPKGDataColumnsDao.h"
 
 @implementation GPKGUserTableReader
 
@@ -40,6 +41,7 @@
     }
     
     GPKGTableConstraints *constraints = [GPKGSQLiteMaster queryForConstraintsWithConnection:db andTable:self.tableName];
+    GPKGDataColumnsDao *dataColumnsDao = [GPKGDataColumnsDao createWithDatabase:db];
     
     for(GPKGTableColumn *tableColumn in [tableInfo columns]){
         if((int)[tableColumn dataType] < 0){
@@ -52,6 +54,12 @@
         if(columnConstraints != nil && [columnConstraints hasConstraints]){
             [column clearConstraintsWithReset:NO];
             [column addColumnConstraints:columnConstraints];
+        }
+        
+        @try {
+            [dataColumnsDao loadSchemaWithTable:self.tableName andColumn:column];
+        } @catch (NSException *exception) {
+            NSLog(@"Failed to load column schema. table: %@, column: %@", self.tableName, column.name);
         }
         
         [columns addObject:column];

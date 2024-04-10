@@ -4,9 +4,21 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.5 (TBD)
+## [8.0.5](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.5) (04-10-2024)
 
-* TBD
+* GeoPackage user version 1.4.0
+* R-tree update trigger modifications
+* DAO column range support (including geometry envelopes & bounding boxes) to build where clauses & args for queries
+* User Column integrated Data Columns Schema support
+* sf-wkb-ios version 4.1.4
+* sf-wkt-ios version 2.1.4
+* sf-proj-ios version 6.0.3
+* ogc-api-features-json-ios version 4.2.5
+* Get abstract User DAO by table name
+* Set User Custom DAO contents
+* Get Tile Overlays and Bounded Overlays by tile table, feature table, or user DAO
+* Feature Tiles geodesic draw support
+* Feature Index Manager, RTree Index, Feature Table Index, Feature Indexer, and Manual query geodesic support
 
 ## [8.0.4](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.4) (11-15-2023)
 

@@ -9,6 +9,7 @@
 #import "GPKGTileDao.h"
 #import "GPKGBoundedOverlay.h"
 #import "GPKGTileScaling.h"
+#import "GPKGTileRetriever.h"
 
 /**
  *  GeoPackage Tile Overlay
@@ -75,5 +76,12 @@
  *  @return new tile dao
  */
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height andScaling: (GPKGTileScaling *) scaling;
+
+/**
+ *  Get the tile retriever
+ *
+ *  @return retriever
+ */
+-(NSObject<GPKGTileRetriever> *) retriever;
 
 @end

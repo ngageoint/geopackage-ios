@@ -308,6 +308,19 @@
     [_columns replaceObjectAtIndex:column.index withObject:column];
 }
 
+-(BOOL) hasSchema{
+    BOOL schema = NO;
+    if(_columns != nil){
+        for(GPKGUserColumn *column in _columns){
+            schema = [column hasSchema];
+            if(schema){
+                break;
+            }
+        }
+    }
+    return schema;
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUserColumns *userColumns = [[[self class] allocWithZone:zone] initWithUserColumns:self];
     return userColumns;

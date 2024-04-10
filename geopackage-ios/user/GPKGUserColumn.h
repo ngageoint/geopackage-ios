@@ -8,6 +8,7 @@
 
 #import "GPKGTableColumn.h"
 #import "GPKGColumnConstraints.h"
+#import "GPKGDataColumns.h"
 
 /**
  * User Column index value
@@ -93,6 +94,11 @@ static int UNIQUE_CONSTRAINT_ORDER = 5;
  *  Data type
  */
 @property (nonatomic) enum GPKGDataType dataType;
+
+/**
+ *  Column in-memory schema, not saved as part of the column, saved using GPKGDataColumnsDao
+ */
+@property (nonatomic, strong) GPKGDataColumns *schema;
 
 /**
  *  Initialize
@@ -410,5 +416,12 @@ static int UNIQUE_CONSTRAINT_ORDER = 5;
  * @return SQL or null
  */
 -(NSString *) buildConstraintSql: (GPKGConstraint *) constraint;
+
+/**
+ * Check if the column has an in-memory data columns schema
+ *
+ * @return true if has column schema
+ */
+-(BOOL) hasSchema;
 
 @end

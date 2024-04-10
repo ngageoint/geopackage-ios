@@ -16,6 +16,7 @@
 #import "GPKGAlterTable.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGExtensionManager.h"
+#import "GPKGSchemaExtension.h"
 
 @interface GPKGGeoPackage()
 
@@ -489,6 +490,8 @@
         // Create new geometry columns
         [geometryColumns setContents:contents];
         [[self geometryColumnsDao] create:geometryColumns];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:geometryColumns.tableName];
@@ -577,6 +580,8 @@
         [tileMatrixSet setMaxX:tileMatrixSetBoundingBox.maxLongitude];
         [tileMatrixSet setMaxY:tileMatrixSetBoundingBox.maxLatitude];
         [[self tileMatrixSetDao] create:tileMatrixSet];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:tableName];
@@ -617,6 +622,8 @@
         [[self contentsDao] create:contents];
         
         [table setContents:contents];
+        
+        [self saveSchema:table];
     }
     @catch (NSException *e) {
         [self deleteTableQuietly:tableName];
@@ -806,7 +813,43 @@
 }
 
 -(GPKGUserCustomDao *) userCustomDaoWithTable: (GPKGUserCustomTable *) table{
+    
+    if(table.contents == nil){
+        GPKGContentsDao *dao = [self contentsDao];
+        GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:[table tableName]];
+        [table setContents:contents];
+    }
     return [[GPKGUserCustomDao alloc] initWithDatabase:self.database andTable:table];
+}
+
+-(GPKGUserDao *) userDaoWithTableName: (NSString *) tableName{
+    
+    GPKGUserDao *dao = nil;
+    
+    if(![self isContentsTable:tableName]){
+        [NSException raise:@"No Contents" format:@"No contents for user table: %@", tableName];
+    }
+    enum GPKGContentsDataType dataType = [self dataTypeOfTable:tableName];
+    if(dataType != -1){
+        switch(dataType){
+            case GPKG_CDT_ATTRIBUTES:
+                dao = [self attributesDaoWithTableName:tableName];
+                break;
+            case GPKG_CDT_FEATURES:
+                dao = [self featureDaoWithTableName:tableName];
+                break;
+            case GPKG_CDT_TILES:
+                dao = [self tileDaoWithTableName:tableName];
+                break;
+            default:
+                [NSException raise:@"Unsupported" format:@"Unsupported data type: %@, table: %@", [GPKGContentsDataTypes name:dataType], tableName];
+                break;
+        }
+    }else{
+        dao = [self userCustomDaoWithTableName:tableName];
+    }
+    
+    return dao;
 }
 
 -(void) execSQL: (NSString *) sql{
@@ -1110,6 +1153,14 @@
     [self verifyWritable];
     
     [self.tableCreator createUserTable:table];
+}
+
+-(void) saveSchema: (GPKGUserTable *) table{
+    if([table hasSchema]){
+        GPKGSchemaExtension *schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:self];
+        GPKGDataColumnsDao *dataColumnsDao = [schemaExtension dataColumnsDao];
+        [dataColumnsDao saveSchemaWithTable:table];
+    }
 }
 
 -(GPKGSpatialReferenceSystem *) srs: (NSNumber *) srsId{

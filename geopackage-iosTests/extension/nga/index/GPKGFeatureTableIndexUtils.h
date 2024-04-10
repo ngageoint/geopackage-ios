@@ -10,7 +10,7 @@
 
 @interface GPKGFeatureTableIndexUtils : NSObject
 
-+(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage;
++(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic;
 
 +(void) testDeleteAllWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 

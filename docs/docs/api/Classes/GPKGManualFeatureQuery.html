@@ -17,7 +17,7 @@
     <a title="GPKGManualFeatureQuery Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 8.0.4 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 8.0.5 Docs</a> (83% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -290,6 +290,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnConstraints.html">GPKGColumnConstraints</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGColumnRange.html">GPKGColumnRange</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGColumnValue.html">GPKGColumnValue</a>
@@ -1376,6 +1379,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFPGeometryTransform.html">SFPGeometryTransform</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SFPProjectionGeometryUtils.html">SFPProjectionGeometryUtils</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SFPoint.html">SFPoint</a>
@@ -4035,6 +4041,9 @@
                 <a href="../Constants.html#/c:@SF_DEGREES_TO_RADIANS">SF_DEGREES_TO_RADIANS</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SF_EARTH_RADIUS">SF_EARTH_RADIUS</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@SF_GEOMETRYCOLLECTION_NAME">SF_GEOMETRYCOLLECTION_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -4292,6 +4301,9 @@
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@pj_release">pj_release</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:GPKGDgiwgValidate.h@tileMatrixSetBoundsTolerance">tileMatrixSetBoundsTolerance</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -4409,6 +4421,9 @@
                 <a href="../Enums/GPKGTileScalingType.html">GPKGTileScalingType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/PJ_CARTESIAN_CS_2D_TYPE.html">PJ_CARTESIAN_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/PJ_CATEGORY.html">PJ_CATEGORY</a>
               </li>
               <li class="nav-group-task">
@@ -4421,6 +4436,12 @@
                 <a href="../Enums/PJ_DIRECTION.html">PJ_DIRECTION</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/PJ_ELLIPSOIDAL_CS_2D_TYPE.html">PJ_ELLIPSOIDAL_CS_2D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PJ_ELLIPSOIDAL_CS_3D_TYPE.html">PJ_ELLIPSOIDAL_CS_3D_TYPE</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/PJ_GUESSED_WKT_DIALECT.html">PJ_GUESSED_WKT_DIALECT</a>
               </li>
               <li class="nav-group-task">
@@ -4431,6 +4452,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/PJ_TYPE.html">PJ_TYPE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PJ_UNIT_TYPE.html">PJ_UNIT_TYPE</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/PJ_WKT_TYPE.html">PJ_WKT_TYPE</a>
@@ -4533,6 +4557,9 @@
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Type%20Definitions/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_CONTEXT">PJ_CONTEXT</a>
               </li>
               <li class="nav-group-task">
@@ -4585,6 +4612,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Type%20Definitions/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Type%20Definitions.html#/c:proj.h@T@PJ_PRIME_MERIDIANS">PJ_PRIME_MERIDIANS</a>
@@ -4657,6 +4687,12 @@
           <li class="nav-group-name">
             <a href="../Functions.html">Functions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_alter_id">proj_alter_id</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_alter_name">proj_alter_name</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_angular_input">proj_angular_input</a>
               </li>
@@ -4775,7 +4811,13 @@
                 <a href="../Functions.html#/c:@F@proj_context_use_proj4_init_rules">proj_context_use_proj4_init_rules</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_convert_conversion_to_other_method">proj_convert_conversion_to_other_method</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_coord">proj_coord</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_coordinate_metadata_create">proj_coordinate_metadata_create</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_coordinate_metadata_get_epoch">proj_coordinate_metadata_get_epoch</a>
@@ -4820,10 +4862,244 @@
                 <a href="../Functions.html#/c:@F@proj_create_argv">proj_create_argv</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_cartesian_2D_cs">proj_create_cartesian_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_compound_crs">proj_create_compound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion">proj_create_conversion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_albers_equal_area">proj_create_conversion_albers_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_american_polyconic">proj_create_conversion_american_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_azimuthal_equidistant">proj_create_conversion_azimuthal_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_bonne">proj_create_conversion_bonne</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_cassini_soldner">proj_create_conversion_cassini_soldner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_i">proj_create_conversion_eckert_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_ii">proj_create_conversion_eckert_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_iii">proj_create_conversion_eckert_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_iv">proj_create_conversion_eckert_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_v">proj_create_conversion_eckert_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_eckert_vi">proj_create_conversion_eckert_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equal_earth">proj_create_conversion_equal_earth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_conic">proj_create_conversion_equidistant_conic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical">proj_create_conversion_equidistant_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_equidistant_cylindrical_spherical">proj_create_conversion_equidistant_cylindrical_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gall">proj_create_conversion_gall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gauss_schreiber_transverse_mercator">proj_create_conversion_gauss_schreiber_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_x">proj_create_conversion_geostationary_satellite_sweep_x</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_geostationary_satellite_sweep_y">proj_create_conversion_geostationary_satellite_sweep_y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_gnomonic">proj_create_conversion_gnomonic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_goode_homolosine">proj_create_conversion_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_guam_projection">proj_create_conversion_guam_projection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin">proj_create_conversion_hotine_oblique_mercator_two_point_natural_origin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_a">proj_create_conversion_hotine_oblique_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_hotine_oblique_mercator_variant_b">proj_create_conversion_hotine_oblique_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_international_map_world_polyconic">proj_create_conversion_international_map_world_polyconic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_interrupted_goode_homolosine">proj_create_conversion_interrupted_goode_homolosine</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_krovak">proj_create_conversion_krovak</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_krovak_north_oriented">proj_create_conversion_krovak_north_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_laborde_oblique_mercator">proj_create_conversion_laborde_oblique_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_azimuthal_equal_area">proj_create_conversion_lambert_azimuthal_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp">proj_create_conversion_lambert_conic_conformal_1sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_1sp_variant_b">proj_create_conversion_lambert_conic_conformal_1sp_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp">proj_create_conversion_lambert_conic_conformal_2sp</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_belgium">proj_create_conversion_lambert_conic_conformal_2sp_belgium</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_conic_conformal_2sp_michigan">proj_create_conversion_lambert_conic_conformal_2sp_michigan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area">proj_create_conversion_lambert_cylindrical_equal_area</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_lambert_cylindrical_equal_area_spherical">proj_create_conversion_lambert_cylindrical_equal_area_spherical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mercator_variant_a">proj_create_conversion_mercator_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mercator_variant_b">proj_create_conversion_mercator_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_miller_cylindrical">proj_create_conversion_miller_cylindrical</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_mollweide">proj_create_conversion_mollweide</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_new_zealand_mapping_grid">proj_create_conversion_new_zealand_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_oblique_stereographic">proj_create_conversion_oblique_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_orthographic">proj_create_conversion_orthographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_a">proj_create_conversion_polar_stereographic_variant_a</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_polar_stereographic_variant_b">proj_create_conversion_polar_stereographic_variant_b</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_pole_rotation_grib_convention">proj_create_conversion_pole_rotation_grib_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_pole_rotation_netcdf_cf_convention">proj_create_conversion_pole_rotation_netcdf_cf_convention</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_popular_visualisation_pseudo_mercator">proj_create_conversion_popular_visualisation_pseudo_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_quadrilateralized_spherical_cube">proj_create_conversion_quadrilateralized_spherical_cube</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_robinson">proj_create_conversion_robinson</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_sinusoidal">proj_create_conversion_sinusoidal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_spherical_cross_track_height">proj_create_conversion_spherical_cross_track_height</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_stereographic">proj_create_conversion_stereographic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_transverse_mercator">proj_create_conversion_transverse_mercator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_transverse_mercator_south_oriented">proj_create_conversion_transverse_mercator_south_oriented</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_tunisia_mapping_grid">proj_create_conversion_tunisia_mapping_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_tunisia_mining_grid">proj_create_conversion_tunisia_mining_grid</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_two_point_equidistant">proj_create_conversion_two_point_equidistant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_utm">proj_create_conversion_utm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_van_der_grinten">proj_create_conversion_van_der_grinten</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_vertical_perspective">proj_create_conversion_vertical_perspective</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_i">proj_create_conversion_wagner_i</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_ii">proj_create_conversion_wagner_ii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_iii">proj_create_conversion_wagner_iii</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_iv">proj_create_conversion_wagner_iv</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_v">proj_create_conversion_wagner_v</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_vi">proj_create_conversion_wagner_vi</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_conversion_wagner_vii">proj_create_conversion_wagner_vii</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_crs_to_crs">proj_create_crs_to_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_crs_to_crs_from_pj">proj_create_crs_to_crs_from_pj</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_cs">proj_create_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_derived_geographic_crs">proj_create_derived_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_ellipsoidal_2D_cs">proj_create_ellipsoidal_2D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_ellipsoidal_3D_cs">proj_create_ellipsoidal_3D_cs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_engineering_crs">proj_create_engineering_crs</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_from_database">proj_create_from_database</a>
@@ -4835,10 +5111,61 @@
                 <a href="../Functions.html#/c:@F@proj_create_from_wkt">proj_create_from_wkt</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geocentric_crs">proj_create_geocentric_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geocentric_crs_from_datum">proj_create_geocentric_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geographic_crs">proj_create_geographic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_geographic_crs_from_datum">proj_create_geographic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_operation_factory_context">proj_create_operation_factory_context</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_create_operations">proj_create_operations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_projected_crs">proj_create_projected_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_transformation">proj_create_transformation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_vertical_crs">proj_create_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_create_vertical_crs_ex">proj_create_vertical_crs_ex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_cs_angular_unit">proj_crs_alter_cs_angular_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_cs_linear_unit">proj_crs_alter_cs_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_geodetic_crs">proj_crs_alter_geodetic_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_alter_parameters_linear_unit">proj_crs_alter_parameters_linear_unit</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_crs">proj_crs_create_bound_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_crs_to_WGS84">proj_crs_create_bound_crs_to_WGS84</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_bound_vertical_crs">proj_crs_create_bound_vertical_crs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_create_projected_3D_crs_from_2D">proj_crs_create_projected_3D_crs_from_2D</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_demote_to_2D">proj_crs_demote_to_2D</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_get_coordinate_system">proj_crs_get_coordinate_system</a>
@@ -4865,10 +5192,16 @@
                 <a href="../Functions.html#/c:@F@proj_crs_get_sub_crs">proj_crs_get_sub_crs</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_has_point_motion_operation">proj_crs_has_point_motion_operation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_info_list_destroy">proj_crs_info_list_destroy</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_crs_is_derived">proj_crs_is_derived</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_crs_promote_to_3D">proj_crs_promote_to_3D</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_cs_get_axis_count">proj_cs_get_axis_count</a>
@@ -5054,6 +5387,9 @@
                 <a href="../Functions.html#/c:@F@proj_is_deprecated">proj_is_deprecated</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_is_derived_crs">proj_is_derived_crs</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_is_download_needed">proj_is_download_needed</a>
               </li>
               <li class="nav-group-task">
@@ -5144,6 +5480,9 @@
                 <a href="../Functions.html#/c:@F@proj_prime_meridian_get_parameters">proj_prime_meridian_get_parameters</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@proj_query_geodetic_crs_from_datum">proj_query_geodetic_crs_from_datum</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@proj_roundtrip">proj_roundtrip</a>
               </li>
               <li class="nav-group-task">
@@ -5209,6 +5548,9 @@
                 <a href="../Structs.html#/c:@S@PJ_AREA">PJ_AREA</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/PJ_AXIS_DESCRIPTION.html">PJ_AXIS_DESCRIPTION</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/PJ_ELLPS.html">PJ_ELLPS</a>
               </li>
               <li class="nav-group-task">
@@ -5249,6 +5591,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PJ_OPK.html">PJ_OPK</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PJ_PARAM_DESCRIPTION.html">PJ_PARAM_DESCRIPTION</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PJ_PRIME_MERIDIANS.html">PJ_PRIME_MERIDIANS</a>
@@ -5336,7 +5681,7 @@
 See GPKGFeatureIndexManager for performing indexed queries.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L15-L1984">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L15-L1999">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -5372,7 +5717,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L20">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L20">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5407,7 +5752,42 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L25">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGManualFeatureQuery(py)geodesic"></a>
+                    <a name="//apple_ref/objc/Property/geodesic" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGManualFeatureQuery(py)geodesic">geodesic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Index geometries using geodesic lines</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">geodesic</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">geodesic</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5465,7 +5845,78 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>new manual feature query</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L34">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGManualFeatureQuery(im)initWithFeatureDao:andGeodesic:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithFeatureDao:andGeodesic:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGManualFeatureQuery(im)initWithFeatureDao:andGeodesic:">-initWithFeatureDao:<wbr>andGeodesic:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFeatureDao</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">featureDao</span>
+                       <span class="nf">andGeodesic</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">geodesic</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">featureDao</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andGeodesic</span> <span class="nv">geodesic</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>featureDao</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature DAO</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geodesic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>index using geodesic bounds</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new manual feature query</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5504,7 +5955,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L41">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5543,7 +5994,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L48">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L63">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5601,7 +6052,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L56">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5659,7 +6110,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L64">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5730,7 +6181,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L73">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5769,7 +6220,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L80">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5808,7 +6259,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L87">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5866,7 +6317,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L95">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5936,7 +6387,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L104">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5994,7 +6445,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L112">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L127">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6065,7 +6516,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L121">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6136,7 +6587,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L130">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L145">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6220,7 +6671,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L140">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L155">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6278,7 +6729,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L148">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6349,7 +6800,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L157">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L172">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6433,7 +6884,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L167">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L182">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6491,7 +6942,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L175">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6561,7 +7012,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L184">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6632,7 +7083,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L193">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L208">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6716,7 +7167,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L203">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L218">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6774,7 +7225,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L211">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L226">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6844,7 +7295,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L220">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6928,7 +7379,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L230">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6999,7 +7450,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L239">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L254">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7083,7 +7534,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L249">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L264">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7167,7 +7618,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L259">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L274">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7264,7 +7715,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L270">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L285">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7334,7 +7785,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L279">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L294">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7418,7 +7869,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L289">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L304">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7515,7 +7966,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L300">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L315">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7554,7 +8005,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L307">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L322">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7612,7 +8063,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L316">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L331">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7671,7 +8122,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L325">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L340">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7743,7 +8194,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L334">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L349">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7815,7 +8266,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L343">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L358">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7900,7 +8351,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L353">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L368">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7958,7 +8409,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L361">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L376">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8030,7 +8481,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L370">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L385">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8115,7 +8566,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L380">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L395">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8200,7 +8651,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L390">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L405">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8298,7 +8749,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L401">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L416">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8369,7 +8820,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L410">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L425">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8441,7 +8892,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L419">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L434">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8526,7 +8977,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L429">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L444">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8611,7 +9062,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L439">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L454">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8709,7 +9160,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L450">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L465">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8780,7 +9231,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L459">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L474">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8865,7 +9316,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L469">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L484">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8963,7 +9414,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L480">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L495">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9061,7 +9512,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L491">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L506">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9172,7 +9623,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L503">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L518">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9256,7 +9707,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L513">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L528">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9329,7 +9780,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L525">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L540">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9415,7 +9866,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L536">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L551">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9501,7 +9952,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L547">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L562">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9588,7 +10039,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L558">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L573">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9660,7 +10111,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L570">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L585">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9746,7 +10197,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L581">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L596">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9845,7 +10296,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L593">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L608">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9944,7 +10395,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L605">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L620">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10056,7 +10507,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L618">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L633">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10141,7 +10592,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L629">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L644">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10227,7 +10678,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L640">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L655">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10326,7 +10777,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L652">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L667">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10425,7 +10876,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L664">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L679">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10537,7 +10988,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L677">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L692">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10622,7 +11073,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L688">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L703">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10721,7 +11172,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L700">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L715">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10833,7 +11284,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L713">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L728">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10945,7 +11396,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L726">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L741">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11070,7 +11521,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L740">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L755">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11168,7 +11619,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L752">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L767">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11227,7 +11678,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L761">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L776">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11299,7 +11750,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L770">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L785">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11371,7 +11822,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L779">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L794">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11456,7 +11907,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L789">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L804">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11514,7 +11965,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L798">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L813">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11586,7 +12037,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L807">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L822">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11671,7 +12122,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L817">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L832">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11756,7 +12207,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L827">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L842">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11854,7 +12305,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L838">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L853">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11925,7 +12376,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L847">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L862">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11997,7 +12448,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L856">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L871">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12082,7 +12533,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L866">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L881">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12167,7 +12618,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L876">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L891">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12265,7 +12716,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L887">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L902">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12336,7 +12787,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L896">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L911">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12421,7 +12872,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L906">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L921">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12519,7 +12970,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L917">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L932">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12617,7 +13068,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L928">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L943">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12728,7 +13179,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L940">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L955">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12812,7 +13263,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L950">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L965">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -12909,7 +13360,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L965">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L980">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13019,7 +13470,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L977">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L992">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13130,7 +13581,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L989">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1004">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13254,7 +13705,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1002">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1017">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13351,7 +13802,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1017">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1032">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13462,7 +13913,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1029">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1044">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13586,7 +14037,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1042">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1057">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13710,7 +14161,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1055">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1070">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13847,7 +14298,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1069">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1084">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -13957,7 +14408,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1081">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1096">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14067,7 +14518,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1093">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14190,7 +14641,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1106">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1121">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14314,7 +14765,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1119">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1134">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14451,7 +14902,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1133">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14561,7 +15012,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1145">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1160">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14684,7 +15135,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1158">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14820,7 +15271,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1172">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1187">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -14957,7 +15408,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1186">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15107,7 +15558,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1201">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1216">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15230,7 +15681,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1214">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1229">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15289,7 +15740,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1223">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1238">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15360,7 +15811,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1233">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1248">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15432,7 +15883,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1243">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15517,7 +15968,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1254">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1269">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15588,7 +16039,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1264">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1279">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15673,7 +16124,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1275">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1290">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15758,7 +16209,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1286">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15856,7 +16307,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1298">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1313">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -15928,7 +16379,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1308">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1323">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16013,7 +16464,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1319">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1334">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16098,7 +16549,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1330">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1345">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16196,7 +16647,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1342">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1357">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16281,7 +16732,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1353">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1368">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16379,7 +16830,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1365">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1380">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16477,7 +16928,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1377">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1392">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16588,7 +17039,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1390">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1405">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16660,7 +17111,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1400">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1415">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16745,7 +17196,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1411">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1426">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16830,7 +17281,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1422">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1437">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -16928,7 +17379,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1434">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1449">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17013,7 +17464,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1445">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1460">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17111,7 +17562,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1457">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1472">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17209,7 +17660,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1469">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1484">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17320,7 +17771,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1482">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1497">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17405,7 +17856,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1493">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1508">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17503,7 +17954,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1505">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1520">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17601,7 +18052,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1517">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1532">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17712,7 +18163,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1530">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1545">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17810,7 +18261,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1542">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1557">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -17921,7 +18372,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1555">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1570">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18032,7 +18483,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1568">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1583">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18156,7 +18607,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1582">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1597">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18227,7 +18678,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1592">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1607">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18312,7 +18763,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1603">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1618">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18397,7 +18848,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1614">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1629">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18495,7 +18946,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1626">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1641">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18580,7 +19031,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1637">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1652">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18678,7 +19129,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1649">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1664">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18776,7 +19227,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1661">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1676">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18887,7 +19338,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1674">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1689">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -18972,7 +19423,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1685">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1700">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19070,7 +19521,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1697">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1712">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19168,7 +19619,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1709">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1724">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19279,7 +19730,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1722">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1737">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19377,7 +19828,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1734">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1749">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19488,7 +19939,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1747">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1762">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19599,7 +20050,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1760">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1775">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19723,7 +20174,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1774">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1789">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19808,7 +20259,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1785">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1800">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -19906,7 +20357,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1797">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1812">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20004,7 +20455,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1809">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1824">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20115,7 +20566,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1822">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1837">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20213,7 +20664,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1834">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1849">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20324,7 +20775,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1847">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1862">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20435,7 +20886,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1860">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1875">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20559,7 +21010,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1874">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1889">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20657,7 +21108,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1886">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1901">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20768,7 +21219,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1899">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1914">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -20879,7 +21330,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1912">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1927">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -21003,7 +21454,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1926">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1941">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -21140,7 +21591,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>feature results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1941">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1956">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -21294,7 +21745,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1960">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1975">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -21487,7 +21938,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
                         <p>results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.4/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1982">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/8.0.5/geopackage-ios/features/user/GPKGManualFeatureQuery.h#L1997">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -21497,7 +21948,7 @@ See GPKGFeatureIndexManager for performing indexed queries.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2023 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2023-11-27)</p>
+          <p>&copy; 2024 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2024-04-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

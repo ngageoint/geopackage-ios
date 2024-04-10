@@ -39,6 +39,16 @@
 -(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao;
 
 /**
+ *  Initialize
+ *
+ *  @param featureDao feature DAO
+ *  @param geodesic index using geodesic bounds
+ *
+ *  @return new feature indexer
+ */
+-(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic;
+
+/**
  * Get the primary key column name
  *
  * @return primary key column name
@@ -49,6 +59,21 @@
  *  Close the database connection in the feature indexer
  */
 -(void) close;
+
+/**
+ * Geometries indexed using geodesic lines
+ *
+ * @return geodesic flag
+ */
+-(BOOL) isGeodesic;
+
+/**
+ * Set the geodestic flag, true to index geodesic geometries
+ *
+ * @param geodesic
+ *            index geodesic geometries flag
+ */
+-(void) setGeodesic: (BOOL) geodesic;
 
 /**
  *  Index the feature table if needed

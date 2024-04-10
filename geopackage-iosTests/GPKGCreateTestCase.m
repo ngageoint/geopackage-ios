@@ -59,4 +59,10 @@
     
 }
 
+- (void) testUserDao {
+    
+    [GPKGGeoPackageTestUtils testUserDao:self.geoPackage];
+    
+}
+
 @end

@@ -88,4 +88,44 @@
  */
 +(GPKGBoundedOverlay *) linkedFeatureOverlayWithOverlay: (GPKGFeatureOverlay *) featureOverlay andGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ *  Get a Tile Overlay for the tile or feature table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile or feature table
+ *
+ *  @return tile overlay
+ */
++(MKTileOverlay *) tileOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) table;
+
+/**
+ *  Get a Bounded Overlay Tile Provider for the tile or feature table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile or feature table
+ *
+ *  @return tile overlay
+ */
++(GPKGBoundedOverlay *) boundedOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) table;
+
+/**
+ *  Get a Tile Overlay for the tile or feature DAO
+ *
+ *  @param geoPackage GeoPackage
+ *  @param userDao user DAO
+ *
+ *  @return tile overlay
+ */
++(MKTileOverlay *) tileOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andUserDao: (GPKGUserDao *) userDao;
+
+/**
+ *  Get a Bounded Overlay Tile Provider for the tile or feature DAO
+ *
+ *  @param geoPackage GeoPackage
+ *  @param userDao user DAO
+ *
+ *  @return tile overlay
+ */
++(GPKGBoundedOverlay *) boundedOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andUserDao: (GPKGUserDao *) userDao;
+
 @end

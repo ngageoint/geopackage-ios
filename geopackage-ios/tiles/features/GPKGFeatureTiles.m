@@ -16,6 +16,7 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
 #import "GPKGTileUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -30,38 +31,73 @@
 @implementation GPKGFeatureTiles
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao{
-    self = [self initWithGeoPackage:nil andFeatureDao:featureDao];
+    self = [self initWithFeatureDao:featureDao andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale{
-    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andScale:scale];
+    self = [self initWithFeatureDao:featureDao andScale:scale andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andGeodesic: (BOOL) geodesic{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andScale:scale andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
-    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andWidth:width andHeight:height];
+    self = [self initWithFeatureDao:featureDao andWidth:width andHeight:height andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andWidth:width andHeight:height andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
     float tileLength = [GPKGTileUtils tileLength];
-    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andWidth:tileLength andHeight:tileLength];
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andWidth:tileLength andHeight:tileLength andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale{
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:scale andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andGeodesic: (BOOL) geodesic{
     float tileLength = [GPKGTileUtils tileLengthWithScale:scale];
-    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:scale andWidth:tileLength andHeight:tileLength];
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:scale andWidth:tileLength andHeight:tileLength andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
-    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:[UIScreen mainScreen].nativeScale andWidth:width andHeight:height];
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andWidth:width andHeight:height andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic{
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:[UIScreen mainScreen].nativeScale andWidth:width andHeight:height andGeodesic:geodesic];
     return self;
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andWidth: (int) width andHeight: (int) height{
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:scale andWidth:width andHeight:height andGeodesic:NO];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andWidth: (int) width andHeight: (int) height andGeodesic: (BOOL) geodesic{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
@@ -79,6 +115,8 @@
         self.tileWidth = width;
         self.tileHeight = height;
         
+        self.geodesic = geodesic;
+        
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
         self.pointRadius = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
@@ -93,7 +131,7 @@
         
         if (geoPackage != nil) {
             
-            self.indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+            self.indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:geodesic];
             if(![self.indexManager isIndexed]){
                 [self.indexManager close];
                 self.indexManager = nil;
@@ -950,10 +988,21 @@
     
     GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
     
-    // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
-    if(self.simplifyGeometries){
+    // Simplify and geodesic geometry options
+    if(self.simplifyGeometries || self.geodesic){
+        
         double simplifyTolerance = [GPKGTileBoundingBoxUtils toleranceDistanceWithZoom:zoom andPixelWidth:self.tileWidth andPixelHeight:self.tileHeight];
-        [converter setSimplifyToleranceAsDouble:simplifyTolerance];
+        
+        // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
+        if(self.simplifyGeometries){
+            [converter setSimplifyToleranceAsDouble:simplifyTolerance];
+        }
+        
+        // Set the geodesic max distance for drawing geometries as geodesic lines
+        if(self.geodesic){
+            [converter setGeodesicMaxDistanceAsDouble:simplifyTolerance];
+        }
+        
     }
     
     return converter;

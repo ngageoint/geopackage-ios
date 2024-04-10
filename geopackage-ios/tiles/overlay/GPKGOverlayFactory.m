@@ -82,4 +82,46 @@
     return overlay;
 }
 
++(MKTileOverlay *) tileOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) table{
+    return [self boundedOverlayWithGeoPackage:geoPackage andTableName:table];
+}
+
++(GPKGBoundedOverlay *) boundedOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) table{
+    
+    GPKGBoundedOverlay *overlay = nil;
+    
+    if([geoPackage isTileTable:table]){
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        overlay = [self boundedOverlay:tileDao];
+    }else if([geoPackage isFeatureTable:table]){
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:table];
+        GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        overlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
+    }else{
+        [NSException raise:@"Table Type" format:@"Table is not a tile or feature type: %@", table];
+    }
+    
+    return overlay;
+}
+
++(MKTileOverlay *) tileOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andUserDao: (GPKGUserDao *) userDao{
+    return [self boundedOverlayWithGeoPackage:geoPackage andUserDao:userDao];
+}
+
++(GPKGBoundedOverlay *) boundedOverlayWithGeoPackage: (GPKGGeoPackage *) geoPackage andUserDao: (GPKGUserDao *) userDao{
+    
+    GPKGBoundedOverlay *overlay = nil;
+    
+    if([userDao isKindOfClass:[GPKGTileDao class]]){
+        overlay = [self boundedOverlay:(GPKGTileDao *) userDao];
+    }else if([userDao isKindOfClass:[GPKGFeatureDao class]]){
+        GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithGeoPackage:geoPackage andFeatureDao:(GPKGFeatureDao *) userDao];
+        overlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
+    }else{
+        [NSException raise:@"DAO Type" format:@"User DAO is not a tile or feature type: %@", userDao.tableName];
+    }
+    
+    return overlay;
+}
+
 @end

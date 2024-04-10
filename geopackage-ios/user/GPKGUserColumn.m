@@ -85,6 +85,9 @@
         _type = userColumn.type;
         _dataType = userColumn.dataType;
         _constraints = [userColumn.constraints mutableCopy];
+        if(userColumn.schema != nil){
+            _schema = [userColumn.schema mutableCopy];
+        }
     }
     return self;
 }
@@ -397,6 +400,10 @@
         sql = [constraint buildSql];
     }
     return sql;
+}
+
+-(BOOL) hasSchema{
+    return _schema != nil;
 }
 
 -(void) validateMax{

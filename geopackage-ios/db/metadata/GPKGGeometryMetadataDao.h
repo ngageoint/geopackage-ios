@@ -20,6 +20,16 @@
 @property (nonatomic) double tolerance;
 
 /**
+ * Index geometries using geodesic lines
+ */
+@property (nonatomic) BOOL geodesic;
+
+/**
+ * Features projection
+ */
+@property (nonatomic, strong) PROJProjection *projection;
+
+/**
  *  Initialize
  *
  *  @param database database connection
@@ -27,6 +37,17 @@
  *  @return new Geometry Metadata DAO
  */
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *  @param geodesic index geodesic geometries flag
+ *  @param projection feature projection
+ *
+ *  @return new Geometry Metadata DAO
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database andGeodesic: (BOOL) geodesic andProjection: (PROJProjection *) projection;
 
 /**
  *  Create geometry metadata

@@ -48,7 +48,7 @@
 }
 
 -(void) initHelperWithRetriever: (GPKGGeoPackageTileRetriever *) retriever{
-    self.retriever = retriever;
+    _retriever = retriever;
     SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox *boundingBox = [[retriever webMercatorBoundingBox] transform:transform];
     [transform destroy];
@@ -59,15 +59,19 @@
     //[self setMaximumZ:tileDao.maxZoom];
 }
 
+-(NSObject<GPKGTileRetriever> *) retriever{
+    return _retriever;
+}
+
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
-   return [self.retriever hasTileWithX:x andY:y andZoom:zoom];
+   return [_retriever hasTileWithX:x andY:y andZoom:zoom];
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData *tileData = nil;
     
-    GPKGGeoPackageTile *geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
+    GPKGGeoPackageTile *geoPackageTile = [_retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){
         tileData = geoPackageTile.data;
     }

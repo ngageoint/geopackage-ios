@@ -482,7 +482,7 @@ static BOOL maintainStackTraces = NO;
  */
 -(void) createFunction: (GPKGConnectionFunction *) function onConnection: (GPKGSqliteConnection *) connection{
 
-    int result = sqlite3_create_function([connection connection], [[function name] cStringUsingEncoding:NSUTF8StringEncoding], [function numArgs], SQLITE_ANY, NULL, [function function], NULL, NULL);
+    int result = sqlite3_create_function([connection connection], [[function name] cStringUsingEncoding:NSUTF8StringEncoding], [function numArgs], SQLITE_ANY, (__bridge void *)([function userData]), [function function], NULL, NULL);
     if(result != SQLITE_OK){
         NSLog(@"Failed to create SQL function: %@, SQLITE Error Code: %d", [function name], result);
     }

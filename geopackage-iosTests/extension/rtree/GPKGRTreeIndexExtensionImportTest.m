@@ -12,7 +12,11 @@
 @implementation GPKGRTreeIndexExtensionImportTest
 
 - (void)testRTree {
-    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage];
+    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage andGeodesic:NO];
+}
+
+- (void)testRTreeGeodesic {
+    [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage andGeodesic:YES];
 }
 
 @end

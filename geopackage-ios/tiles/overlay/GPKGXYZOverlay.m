@@ -20,7 +20,7 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
     self = [super init];
     if(self != nil){
-        self.retriever = [[GPKGXYZTileRetriever alloc] initWithTileDao:tileDao];
+        _retriever = [[GPKGXYZTileRetriever alloc] initWithTileDao:tileDao];
         
         [self setMinimumZ:tileDao.minZoom];
         [self setMaximumZ:tileDao.maxZoom];
@@ -44,15 +44,19 @@
     return self;
 }
 
+-(NSObject<GPKGTileRetriever> *) retriever{
+    return _retriever;
+}
+
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
-    return [self.retriever hasTileWithX:x andY:y andZoom:zoom];
+    return [_retriever hasTileWithX:x andY:y andZoom:zoom];
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData *tileData = nil;
     
-    GPKGGeoPackageTile *geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
+    GPKGGeoPackageTile *geoPackageTile = [_retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){
         tileData = geoPackageTile.data;
     }

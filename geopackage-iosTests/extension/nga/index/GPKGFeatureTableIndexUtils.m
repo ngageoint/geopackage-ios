@@ -14,17 +14,18 @@
 #import "PROJProjectionFactory.h"
 #import "GPKGExtensionManager.h"
 #import "GPKGNGAExtensions.h"
+#import "SFPProjectionGeometryUtils.h"
 
 @implementation GPKGFeatureTableIndexUtils
 
-+(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeodesic: (BOOL) geodesic{
     
     // Test indexing each feature table
     NSArray *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
-        GPKGFeatureTableIndex *featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        GPKGFeatureTableIndex *featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:geodesic];
         
         // Determine how many features have geometry envelopes or geometries
         int expectedCount = 0;
@@ -83,7 +84,7 @@
         GPKGResultSet *featureTableResults = [featureTableIndex query];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex *geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
-            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
+            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex andGeodesic:geodesic];
             resultCount++;
         }
         [featureTableResults close];
@@ -109,7 +110,7 @@
         featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex *geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
-            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
+            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex andGeodesic:geodesic];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = YES;
             }
@@ -142,7 +143,7 @@
         featureTableResults = [featureTableIndex queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex *geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
-            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
+            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex andGeodesic:geodesic];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = YES;
             }
@@ -171,7 +172,7 @@
         featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex *geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
-            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
+            [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex andGeodesic:geodesic];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = YES;
             }
@@ -294,12 +295,15 @@
 
 }
 
-+(void) validateGeometryIndexWithFeatureTableIndex: (GPKGFeatureTableIndex *) featureTableIndex andGeometryIndex: (GPKGGeometryIndex *) geometryIndex{
++(void) validateGeometryIndexWithFeatureTableIndex: (GPKGFeatureTableIndex *) featureTableIndex andGeometryIndex: (GPKGGeometryIndex *) geometryIndex andGeodesic: (BOOL) geodesic{
     GPKGFeatureRow *featureRow = [featureTableIndex featureRowWithGeometryIndex:geometryIndex];
     [GPKGTestUtils assertNotNil:featureRow];
     [GPKGTestUtils assertEqualWithValue:[featureTableIndex tableName] andValue2:geometryIndex.tableName];
     [GPKGTestUtils assertEqualIntWithValue:[geometryIndex.geomId intValue] andValue2:[featureRow idValue]];
     SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
+    if(geodesic){
+        envelope = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:[featureTableIndex projection]];
+    }
     
     [GPKGTestUtils assertNotNil:envelope];
     

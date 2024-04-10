@@ -93,6 +93,21 @@ struct GPKGBoundingBoxSize{
                       andMaxLatitudeDouble: (double) maxLatitude;
 
 /**
+ *  Initialize with double range
+ *
+ *  @param minLongitude minimum longitude
+ *  @param minLatitude  minimum latitude
+ *  @param maxLongitude maximum longitude
+ *  @param maxLatitude  maximum latitude
+ *
+ *  @return new bounding box
+ */
+-(instancetype) initWithMinLongitudeValue: (double) minLongitude
+                      andMinLatitudeValue: (double) minLatitude
+                     andMaxLongitudeValue: (double) maxLongitude
+                      andMaxLatitudeValue: (double) maxLatitude;
+
+/**
  *  Initialize with existing bounding box
  *
  *  @param boundingBox bounding box
@@ -118,6 +133,62 @@ struct GPKGBoundingBoxSize{
  *  @return new bounding box
  */
 -(instancetype) initWithGeometry: (SFGeometry *) geometry;
+
+/**
+ *  Get the min longitude double value
+ *
+ *  @return min longitude
+ */
+-(double) minLongitudeValue;
+
+/**
+ *  Set the min longitude double value
+ *
+ *  @param minLongitude min longitude
+ */
+-(void) setMinLongitudeValue: (double) minLongitude;
+
+/**
+ *  Get the min latitude double value
+ *
+ *  @return min latitude
+ */
+-(double) minLatitudeValue;
+
+/**
+ *  Set the min latitude double value
+ *
+ *  @param minLatitude min latitude
+ */
+-(void) setMinLatitudeValue: (double) minLatitude;
+
+/**
+ *  Get the max longitude double value
+ *
+ *  @return max longitude
+ */
+-(double) maxLongitudeValue;
+
+/**
+ *  Set the max longitude double value
+ *
+ *  @param maxLongitude max longitude
+ */
+-(void) setMaxLongitudeValue: (double) maxLongitude;
+
+/**
+ *  Get the max latitude double value
+ *
+ *  @return max latitude
+ */
+-(double) maxLatitudeValue;
+
+/**
+ *  Set the max latitude double value
+ *
+ *  @param maxLatitude max latitude
+ */
+-(void) setMaxLatitudeValue: (double) maxLatitude;
 
 /**
  * Get the longitude range

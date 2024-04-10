@@ -91,6 +91,49 @@ BEGIN
   DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id IN (OLD.&quot;&lt;i&gt;&quot;, NEW.&quot;&lt;i&gt;&quot;);
 END;</string>
 	</array>
+	<key>trigger.update5</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update5&quot; AFTER UPDATE ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update6</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update6&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;)) AND
+       (OLD.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(OLD.&quot;&lt;c&gt;&quot;))
+BEGIN
+  UPDATE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; SET
+    minx = ST_MinX(NEW.&quot;&lt;c&gt;&quot;),
+    maxx = ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    miny = ST_MinY(NEW.&quot;&lt;c&gt;&quot;),
+    maxy = ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  WHERE id = NEW.&quot;&lt;i&gt;&quot;;
+END;</string>
+	</array>
+	<key>trigger.update7</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update7&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;)) AND
+       (OLD.&quot;&lt;c&gt;&quot; ISNULL OR ST_IsEmpty(OLD.&quot;&lt;c&gt;&quot;))
+BEGIN
+  INSERT INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  );
+END;</string>
+	</array>
 	<key>trigger.delete</key>
 	<array>
 		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_delete&quot; AFTER DELETE ON &quot;&lt;t&gt;&quot;

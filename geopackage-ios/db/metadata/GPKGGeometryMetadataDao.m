@@ -10,12 +10,19 @@
 #import "GPKGGeoPackageMetadataDao.h"
 #import "GPKGUtils.h"
 #import "GPKGSqlUtils.h"
+#import "SFPProjectionGeometryUtils.h"
 
 @implementation GPKGGeometryMetadataDao
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
+    return [self initWithDatabase:database andGeodesic:NO andProjection:nil];
+}
+
+-(instancetype) initWithDatabase: (GPKGConnection *) database andGeodesic: (BOOL) geodesic andProjection: (PROJProjection *) projection{
     self = [super initWithDatabase:database];
     if(self != nil){
+        self. geodesic = geodesic;
+        self.projection = projection;
         self.tableName = GPKG_GPGM_TABLE_NAME;
         self.idColumns = @[GPKG_GPGM_COLUMN_PK1, GPKG_GPGM_COLUMN_PK2, GPKG_GPGM_COLUMN_PK3];
         self.columnNames = @[GPKG_GPGM_COLUMN_GEOPACKAGE_ID, GPKG_GPGM_COLUMN_TABLE_NAME, GPKG_GPGM_COLUMN_ID, GPKG_GPGM_COLUMN_MIN_X, GPKG_GPGM_COLUMN_MAX_X, GPKG_GPGM_COLUMN_MIN_Y, GPKG_GPGM_COLUMN_MAX_Y, GPKG_GPGM_COLUMN_MIN_Z, GPKG_GPGM_COLUMN_MAX_Z, GPKG_GPGM_COLUMN_MIN_M, GPKG_GPGM_COLUMN_MAX_M];
@@ -464,6 +471,10 @@
     NSMutableArray *whereArgs = [NSMutableArray array];
     
     BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
+    
+    if(_geodesic){
+        envelope = [SFPProjectionGeometryUtils geodesicEnvelope:envelope inProjection:_projection];
+    }
     
     NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:[envelope.minX doubleValue] - self.tolerance];
     NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxX doubleValue] + self.tolerance];

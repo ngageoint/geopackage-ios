@@ -331,6 +331,9 @@
     NSString *metadataPath  = [[[NSBundle bundleForClass:[GPKGDgiwgGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_DGIWG_METADATA_2];
     NSData *metadataData = [[NSFileManager defaultManager] contentsAtPath:metadataPath];
     NSString *metadata = [NSString stringWithUTF8String:[metadataData bytes]];
+    if(metadata == nil){
+        metadata = [[NSString alloc] initWithData:metadataData encoding:NSUTF8StringEncoding];
+    }
     return metadata;
 }
 

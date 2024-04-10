@@ -58,6 +58,16 @@
                       andMinLatitudeDouble: (double) minLatitude
                      andMaxLongitudeDouble: (double) maxLongitude
                       andMaxLatitudeDouble: (double) maxLatitude{
+    return [self initWithMinLongitudeValue:minLongitude
+                       andMinLatitudeValue:minLatitude
+                      andMaxLongitudeValue:maxLongitude
+                       andMaxLatitudeValue:maxLatitude];
+}
+
+-(instancetype) initWithMinLongitudeValue: (double) minLongitude
+                      andMinLatitudeValue: (double) minLatitude
+                     andMaxLongitudeValue: (double) maxLongitude
+                      andMaxLatitudeValue: (double) maxLatitude{
     return [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithDouble:minLongitude]
                        andMinLatitude:[[NSDecimalNumber alloc] initWithDouble:minLatitude]
                       andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
@@ -74,6 +84,38 @@
 
 -(instancetype) initWithGeometry: (SFGeometry *) geometry{
     return [self initWithEnvelope:[geometry envelope]];
+}
+
+-(double) minLongitudeValue{
+    return [self.minLongitude doubleValue];
+}
+
+-(void) setMinLongitudeValue: (double) minLongitude{
+    self.minLongitude = [[NSDecimalNumber alloc] initWithDouble:minLongitude];
+}
+
+-(double) minLatitudeValue{
+    return [self.minLatitude doubleValue];
+}
+
+-(void) setMinLatitudeValue: (double) minLatitude{
+    self.minLatitude = [[NSDecimalNumber alloc] initWithDouble:minLatitude];
+}
+
+-(double) maxLongitudeValue{
+    return [self.maxLongitude doubleValue];
+}
+
+-(void) setMaxLongitudeValue: (double) maxLongitude{
+    self.maxLongitude = [[NSDecimalNumber alloc] initWithDouble:maxLongitude];
+}
+
+-(double) maxLatitudeValue{
+    return [self.maxLatitude doubleValue];
+}
+
+-(void) setMaxLatitudeValue: (double) maxLatitude{
+    self.maxLatitude = [[NSDecimalNumber alloc] initWithDouble:maxLatitude];
 }
 
 -(NSDecimalNumber *) longitudeRange{

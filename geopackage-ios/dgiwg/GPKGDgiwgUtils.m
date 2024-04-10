@@ -51,6 +51,8 @@
 
     [[geoPackage tileMatrixSetDao] create:tileMatrixSet];
 
+    [geoPackage saveSchema:tileTable];
+    
     return tileMatrixSet;
 }
 
@@ -179,6 +181,8 @@
 
     [[geoPackage geometryColumnsDao] create:geometryColumns];
 
+    [geoPackage saveSchema:featureTable];
+    
     return geometryColumns;
 }
 

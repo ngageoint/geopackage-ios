@@ -14,30 +14,38 @@
 @implementation GPKGFeatureTilesTest
 
 -(void) testFeatureTiles{
-    [self testFeatureTilesWithUseIcon:NO];
+    [self testFeatureTilesWithUseIcon:NO andGeodesic:NO];
+}
+
+-(void) testFeatureTilesWithGeodesic{
+    [self testFeatureTilesWithUseIcon:NO andGeodesic:YES];
 }
     
 -(void) testFeatureTilesWithIcon{
-    [self testFeatureTilesWithUseIcon:YES];
+    [self testFeatureTilesWithUseIcon:YES andGeodesic:NO];
 }
 
--(void) testFeatureTilesWithUseIcon: (BOOL) useIcon{
+-(void) testFeatureTilesWithIconGeodesic{
+    [self testFeatureTilesWithUseIcon:YES andGeodesic:YES];
+}
+
+-(void) testFeatureTilesWithUseIcon: (BOOL) useIcon andGeodesic: (BOOL) geodesic{
     
     GPKGFeatureDao *featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
     
     int num = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
+    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon andGeodesic:geodesic];
     
     @try{
-        GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
+        GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao andGeodesic:geodesic];
         @try{
             [indexer index];
         }@finally{
             [indexer close];
         }
         
-        GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
+        GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:self.geoPackage andFeatureDao:featureDao andGeodesic:geodesic];
         [featureTiles setIndexManager:indexManager];
         
         [indexManager setIndexLocation:GPKG_FIT_GEOPACKAGE];

@@ -28,14 +28,23 @@
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
+    return [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:NO];
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable andGeodesic: (BOOL) geodesic{
+    return [self initWithGeoPackage:geoPackage andFeatureDao:[geoPackage featureDaoWithTableName:featureTable] andGeodesic:geodesic];
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andGeodesic: (BOOL) geodesic{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
-        self.featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
-        self.featureIndexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
-        GPKGRTreeIndexExtension *rTreeExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
+        _geodesic = geodesic;
+        self.featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao andGeodesic:geodesic];
+        self.featureIndexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao andGeodesic:geodesic];
+        GPKGRTreeIndexExtension *rTreeExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage andGeodesic:geodesic];
         self.rTreeIndexTableDao = [rTreeExtension tableDaoWithFeatureDao:featureDao];
-        self.manualFeatureQuery = [[GPKGManualFeatureQuery alloc] initWithFeatureDao:featureDao];
+        self.manualFeatureQuery = [[GPKGManualFeatureQuery alloc] initWithFeatureDao:featureDao andGeodesic:geodesic];
 
         self.indexLocation = GPKG_FIT_NONE;
         self.indexLocationQueryOrder = [NSMutableArray arrayWithObjects:
@@ -72,6 +81,14 @@
 
 -(NSArray *) indexLocationQueryOrder{
     return _indexLocationQueryOrder;
+}
+
+-(void) setGeodesic: (BOOL) geodesic{
+    _geodesic = geodesic;
+    [self.featureTableIndex setGeodesic:geodesic];
+    [self.featureIndexer setGeodesic:geodesic];
+    [[self.rTreeIndexTableDao rTreeIndexExtension] setGeodesic:geodesic];
+    [self.manualFeatureQuery setGeodesic:geodesic];
 }
 
 -(void) prioritizeQueryLocationWithType: (enum GPKGFeatureIndexType) featureIndexType{
