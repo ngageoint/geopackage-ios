@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'geopackage-ios'
-  s.version          = '8.0.6'
+  s.version          = '8.0.7'
   s.license          =  {:type => 'MIT', :file => 'LICENSE' }
   s.summary          = 'iOS SDK for GeoPackage'
   s.homepage         = 'https://github.com/ngageoint/geopackage-ios'
