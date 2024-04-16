@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 8.0.6 (04-16-2024)
+## [8.0.6](https://github.com/ngageoint/geopackage-ios/releases/tag/8.0.6) (04-16-2024)
 
 * podspec dependency fixes
 
